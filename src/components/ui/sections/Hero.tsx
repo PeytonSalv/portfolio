@@ -59,7 +59,7 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
           className="text-4xl md:text-6xl font-bold tracking-tight leading-tight mb-4"
         >
-          Hey, I’m{' '}
+          Hey, I&rsquo;m{' '}
           <span className="bg-gradient-to-r from-[#3B82F6] to-cyan-400 bg-clip-text text-transparent">
             Peyton
           </span>

@@ -18,7 +18,7 @@ export default function Recent() {
     }, 5000) // Change slide every 5 seconds
 
     return () => clearInterval(interval)
-  }, [])
+  }, [images.length])
 
   return (
     <section className="relative bg-[#0e0e0e] text-white px-6 py-24">

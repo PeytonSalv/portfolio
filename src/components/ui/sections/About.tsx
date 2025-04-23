@@ -51,7 +51,7 @@ export default function About() {
         className="text-gray-300 text-lg leading-relaxed space-y-4 mb-12 max-w-3xl mx-auto"
       >
         <p>
-          I'm a developer who loves building intuitive, performant web apps using tools like React, TypeScript, and TailwindCSS.
+          I&rsquo;m a developer who loves building intuitive, performant web apps using tools like React, TypeScript, and TailwindCSS.
           I care about clean code, great UI/UX, and solving meaningful problems.
         </p>
         <p>
