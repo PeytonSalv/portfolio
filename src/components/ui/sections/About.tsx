@@ -58,6 +58,9 @@ export default function About() {
           My projects range from IoT dashboards and AI tools to full-stack SaaS apps.
           I enjoy turning ideas into scalable, beautiful experiences that people actually want to use.
         </p>
+        <p>
+          When I&rsquo;m not coding, I&rsquo;m exploring emerging tech, designing better workflows, or helping startups bring ideas to life.
+        </p>
       </motion.div>
 
       <motion.div

@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { FaLinkedin } from 'react-icons/fa'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -25,7 +26,10 @@ export default function Navbar() {
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
         {/* 💫 Logo with gradient */}
-        <Link href="/" className="text-xl font-bold tracking-tight bg-gradient-to-r from-[#3B82F6] to-cyan-400 bg-clip-text text-transparent">
+        <Link
+          href="/"
+          className="text-xl font-bold tracking-tight bg-gradient-to-r from-[#3B82F6] to-cyan-400 bg-clip-text text-transparent"
+        >
           Peyton.dev
         </Link>
 
@@ -40,6 +44,17 @@ export default function Navbar() {
               {item.label}
             </Link>
           ))}
+
+          {/* 🔗 LinkedIn Icon */}
+          <a
+            href="https://linkedin.com/in/peytonsalvant"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            className="flex items-center text-gray-300 hover:text-[#3B82F6] transition-colors duration-200"
+          >
+            <FaLinkedin className="w-6 h-6" />
+          </a>
         </div>
 
         {/* 📱 Mobile Toggle */}
@@ -57,7 +72,7 @@ export default function Navbar() {
 
       {/* 📱 Mobile Dropdown */}
       {isOpen && (
-        <div className="md:hidden px-6 pb-4 bg-black/80 border-t border-white/10">
+        <div className="md:hidden px-6 pb-4 bg-black/80 border-t border-white/10 space-y-2">
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -68,6 +83,16 @@ export default function Navbar() {
               {item.label}
             </Link>
           ))}
+
+          {/* 🔗 LinkedIn for mobile */}
+          <a
+            href="https://linkedin.com/in/peytonsalvant"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block py-2 text-gray-300 hover:text-[#3B82F6] transition-colors"
+          >
+            LinkedIn
+          </a>
         </div>
       )}
     </motion.nav>
