@@ -1,10 +1,11 @@
 import Projects from '@/components/ui/sections/Projects'
-import Recent from '@/components/ui/sections/Recent'
+import Gallery from '@/components/ui/sections/Gallery'
+
 export default function ProjectsPage() {
   return (
     <main className="bg-[#0e0e0e] min-h-screen text-white">
       <Projects />
-      <Recent />
+      <Gallery />
     </main>
   )
 }
