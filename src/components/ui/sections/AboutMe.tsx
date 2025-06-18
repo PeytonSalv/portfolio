@@ -108,7 +108,7 @@ export default function AboutMe() {
               </div>
 
               <div>
-                <h4 className="text-lg font-medium text-white mb-2">Reaper's Harvest (E-commerce)</h4>
+                <h4 className="text-lg font-medium text-white mb-2">Reaper&apos;s Harvest (E-commerce)</h4>
                 <ul className="list-disc list-inside text-gray-300 space-y-1 ml-4">
                   <li>Built a custom Next.js storefront integrated with WooCommerce API and Stripe</li>
                   <li>Added animated UI components with Framer Motion and improved performance across the board</li>
@@ -161,7 +161,7 @@ export default function AboutMe() {
               </p>
               <ul className="list-disc list-inside text-gray-400 space-y-1">
                 <li>Utilizes Google Maps API and AWS Lambda to calculate travel time and optimize delivery efficiency</li>
-                <li>Integrated directly into Alljoy Bike's custom rental platform to streamline logistics in real-time</li>
+                <li>Integrated directly into Alljoy Bike&apos;s custom rental platform to streamline logistics in real-time</li>
               </ul>
             </div>
           </div>

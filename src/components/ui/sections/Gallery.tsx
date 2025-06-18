@@ -16,7 +16,7 @@ export default function Gallery() {
     },
     {
       src: "/projects/reapersharvest.png", 
-      title: "Reaper's Harvest",
+      title: "Reaper&apos;s Harvest",
       description: "E-commerce platform with seamless WooCommerce integration and Stripe payments"
     },
     {
