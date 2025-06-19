@@ -134,7 +134,7 @@ export default function Projects() {
             className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
           >
             A curated showcase of full-stack applications, AI-powered tools, and modern web experiences 
-            I've built for clients and personal exploration.
+            I&apos;ve built for clients and personal exploration.
           </motion.p>
         </motion.div>
 
