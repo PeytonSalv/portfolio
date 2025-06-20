@@ -144,7 +144,7 @@ export default function AboutMe() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-white mb-1">Reaper&apos;s Harvest E-Commerce Store — <span className="text-gray-400 italic font-normal">Next.js, WooCommerce, Stripe, Framer Motion</span></h3>
+              <h3 className="text-lg font-semibold text-white mb-1">Reaper's Harvest E-Commerce Store — <span className="text-gray-400 italic font-normal">Next.js, WooCommerce, Stripe, Framer Motion</span></h3>
               <p className="text-gray-300 mb-2">
                 Modern e-commerce experience built over a WooCommerce backend. Implemented real-time checkout via Stripe, with high-performance animation and UX optimization. Achieved:
               </p>
@@ -167,7 +167,7 @@ export default function AboutMe() {
             <div>
               <h3 className="text-lg font-semibold text-white mb-1">Alljoy Donuts Static Site — <span className="text-gray-400 italic font-normal">Next.js, Tailwind CSS, Framer Motion, Vercel</span></h3>
               <p className="text-gray-300">
-                Brand site for a local business showcasing artisanal donuts. Delivered a fast-loading, mobile-optimized static site that captured the shop&apos;s visual identity and boosted customer traffic.
+                Brand site for a local business showcasing artisanal donuts. Delivered a fast-loading, mobile-optimized static site that captured the shop's visual identity and boosted customer traffic.
               </p>
             </div>
 
@@ -188,7 +188,7 @@ export default function AboutMe() {
           <div>
             <h3 className="text-lg font-semibold text-white mb-1">Head Philanthropy Chair – Phi Kappa Psi</h3>
             <p className="text-gray-300">
-              Led a record-breaking fundraising campaign for Hunter&apos;s Pledge, multiplying previous donation levels by 20x.
+              Led a record-breaking fundraising campaign for Hunter's Pledge, multiplying previous donation levels by 20x.
             </p>
           </div>
         </motion.div>

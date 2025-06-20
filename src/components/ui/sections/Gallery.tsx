@@ -16,7 +16,7 @@ export default function Gallery() {
     },
     {
       src: "/projects/reapersharvest.png", 
-      title: "Reaper&apos;s Harvest",
+      title: "Reaper's Harvest",
       description: "E-commerce platform with seamless WooCommerce integration and Stripe payments"
     },
     {
@@ -75,7 +75,7 @@ export default function Gallery() {
         viewport={{ once: true }}
         className="text-center text-gray-400 max-w-2xl mx-auto mb-12"
       >
-        Take a visual tour through some of my recent work and see the interfaces I&apos;ve crafted.
+        Take a visual tour through some of my recent work and see the interfaces I've crafted.
       </motion.p>
 
       {/* Gallery Grid */}

@@ -15,7 +15,7 @@ const projects = [
     results: ['300% Increase in Online Bookings', '40k+ Lines of Custom Code', '85% Faster Checkout Process', '99.9% System Uptime']
   },
   {
-    title: 'Reaper&apos;s Harvest',
+    title: 'Reaper\'s Harvest',
     description: 'Custom Next.js e-commerce platform with seamless WooCommerce backend integration and Stripe payment processing. Implemented advanced animations, optimized performance, and created a fluid, modern shopping experience.',
     tags: ['Next.js', 'WooCommerce', 'Stripe', 'Framer Motion', 'TypeScript', 'GraphQL'],
     link: 'https://darkersideofhalloween.com',
@@ -134,7 +134,7 @@ export default function Projects() {
             className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
           >
             A curated showcase of full-stack applications, AI-powered tools, and modern web experiences 
-            I&apos;ve built for clients and personal exploration.
+            I've built for clients and personal exploration.
           </motion.p>
         </motion.div>
 
@@ -174,7 +174,7 @@ export default function Projects() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Let&apos;s Connect
+            Let's Connect
           </motion.a>
         </motion.div>
       </div>
