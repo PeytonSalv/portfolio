@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { GlassCard } from "./glass-card";
-import { Book, Code, Lightbulb, Rocket, Sparkles } from "lucide-react";
+import { Code, Rocket, Sparkles } from "lucide-react";
 
 interface CurrentlyItem {
   icon: React.ReactNode;
@@ -25,12 +25,6 @@ const currentlyItems: CurrentlyItem[] = [
     title: "Deep Diving into Go",
     description: "Mastering Go for high-performance microservices and exploring distributed systems patterns at scale.",
     gradient: "from-blue-500 via-cyan-500 to-teal-500",
-  },
-  {
-    icon: <Book size={28} />,
-    title: "Graduating May 2025",
-    description: "Wrapping up my B.S. in Computer Science with Math minor at University of Alabama—3.8 GPA while shipping production software.",
-    gradient: "from-green-500 via-emerald-500 to-teal-500",
   },
   {
     icon: <Sparkles size={28} />,
