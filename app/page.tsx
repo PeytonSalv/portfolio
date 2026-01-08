@@ -18,18 +18,14 @@ import { BackToTop } from "@/components/ui/back-to-top";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import { RippleButton } from "@/components/ui/ripple-button";
 import { Currently } from "@/components/ui/currently";
-import { Testimonials } from "@/components/ui/testimonials";
 import { motion } from "framer-motion";
 import {
-  Github,
   Linkedin,
   Mail,
   Code2,
   Briefcase,
   User,
   Award,
-  Coffee,
-  Zap,
   Target,
   FileText,
   Search,
@@ -106,8 +102,6 @@ const experienceData = [
 const statsData = [
   { value: 3, suffix: "+", label: "Years Experience", icon: <Award size={24} /> },
   { value: 5, suffix: "", label: "Production Apps", icon: <Target size={24} /> },
-  { value: 40, suffix: "K+", label: "Lines of Code", icon: <Code2 size={24} /> },
-  { value: 300, suffix: "%", label: "Avg Performance Boost", icon: <Zap size={24} /> },
 ];
 
 const projectsData: BentoGridItem[] = [
@@ -119,15 +113,6 @@ const projectsData: BentoGridItem[] = [
     image: "/projects/alljoybike.png",
     demo: "https://alljoybike.com",
     size: "large",
-  },
-  {
-    title: "Reaper's Harvest",
-    description: "Custom Next.js e-commerce platform with seamless WooCommerce backend integration and Stripe payment processing. Implemented advanced animations, optimized performance, and created a fluid, modern shopping experience. Achieved 250% conversion rate increase and 1.2s average load time.",
-    tech: ["Next.js", "WooCommerce", "Stripe", "Framer Motion", "TypeScript", "GraphQL"],
-    gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-    image: "/projects/reapersharvest.png",
-    demo: "https://darkersideofhalloween.com",
-    size: "medium",
   },
   {
     title: "Alljoy Donuts CO",
@@ -144,13 +129,6 @@ const projectsData: BentoGridItem[] = [
     tech: ["Next.js", "Content Management", "SEO Optimization", "Analytics", "Responsive Design"],
     gradient: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
     demo: "https://acadianplanthealth.com",
-    size: "small",
-  },
-  {
-    title: "FixMySEO",
-    description: "Cutting-edge AI-powered SEO intelligence platform that leverages advanced web scraping and machine learning to analyze competitor strategies. Provides users with actionable game plans to dominate their market through data-driven insights and automated competitive analysis.",
-    tech: ["Next.js", "AI/ML", "Web Scraping", "Supabase", "AWS", "OpenAI", "TypeScript"],
-    gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
     size: "small",
   },
 ];
@@ -217,15 +195,6 @@ export default function Home() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.8 }}
               >
-                <a
-                  href="https://github.com/peytonsalvant"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-neutral-900 dark:text-neutral-400 hover:text-primary transition-colors"
-                  aria-label="GitHub"
-                >
-                  <Github size={24} />
-                </a>
                 <a
                   href="https://linkedin.com/in/peytonsalvant"
                   target="_blank"
@@ -300,9 +269,6 @@ export default function Home() {
             <Timeline items={experienceData} />
           </div>
         </section>
-
-        {/* Testimonials Section */}
-        <Testimonials />
 
         {/* Skills Section */}
         <section id="skills" className="relative py-20 px-4">

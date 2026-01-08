@@ -49,7 +49,7 @@ export const StatsCounter = ({
   className?: string;
 }) => {
   return (
-    <div className={cn("grid grid-cols-2 md:grid-cols-4 gap-6", className)}>
+    <div className={cn("flex justify-center gap-6 flex-wrap", className)}>
       {stats.map((stat, idx) => (
         <motion.div
           key={idx}

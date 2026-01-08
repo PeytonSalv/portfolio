@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { GlassCard } from "./glass-card";
-import { Code, Rocket, Sparkles } from "lucide-react";
+import { Code } from "lucide-react";
 
 interface CurrentlyItem {
   icon: React.ReactNode;
@@ -14,23 +14,16 @@ interface CurrentlyItem {
 
 const currentlyItems: CurrentlyItem[] = [
   {
-    icon: <Rocket size={28} />,
-    title: "Shipping FixMySEO",
-    description: "Building an AI-powered SEO intelligence platform that analyzes competitors and generates data-driven optimization strategies.",
-    gradient: "from-purple-500 via-pink-500 to-rose-500",
-    pulse: true,
-  },
-  {
     icon: <Code size={28} />,
     title: "Deep Diving into Go",
     description: "Mastering Go for high-performance microservices and exploring distributed systems patterns at scale.",
     gradient: "from-blue-500 via-cyan-500 to-teal-500",
   },
   {
-    icon: <Sparkles size={28} />,
-    title: "Seeking New Grad Roles",
-    description: "Looking for Summer 2025 opportunities in AI/ML engineering, full-stack development, or cloud infrastructure—ready to build at scale.",
-    gradient: "from-orange-500 via-amber-500 to-yellow-500",
+    icon: <Code size={28} />,
+    title: "LLM Weighting & Guardrails",
+    description: "Researching techniques for fine-tuning model outputs, implementing safety guardrails, and optimizing prompt weighting strategies for production AI systems.",
+    gradient: "from-purple-500 via-pink-500 to-rose-500",
     pulse: true,
   },
 ];
