@@ -1,0 +1,133 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RailLayout from '../../components/RailLayout.astro';
+import Section from '../../components/Section.astro';
+import Prose from '../../components/Prose.astro';
+import Kicker from '../../components/Kicker.astro';
+import Figure from '../../components/Figure.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const research = await getCollection('research');
+  return research.map((post, index) => ({
+    params: { slug: post.id },
+    props: { post, number: index + 1 },
+  }));
+}
+
+const { post, number } = Astro.props;
+const { Content } = await render(post);
+
+function formatDate(dateString: string): string {
+  const d = new Date(dateString);
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+}
+
+const railItems = [
+  { id: 'header', label: `Research ${String(number).padStart(2, '0')}`, sublabel: post.data.status || formatDate(post.data.date) },
+];
+---
+
+<BaseLayout title={`${post.data.title} – Peyton Salvant`} description={post.data.summary}>
+  <RailLayout items={railItems}>
+    <article class="article">
+      <Section id="header">
+        <header class="article-header">
+          <div class="mobile-meta">
+            <Kicker number={String(number).padStart(2, '0')}>Research</Kicker>
+            <span class="mobile-status">{post.data.status || formatDate(post.data.date)}</span>
+          </div>
+          <h1>{post.data.title}</h1>
+          {post.data.tags && (
+            <p class="article-tags">
+              {post.data.tags.join(' · ')}
+            </p>
+          )}
+        </header>
+      </Section>
+
+      {post.data.heroFigure && (
+        <Figure
+          src={post.data.heroFigure}
+          alt={post.data.heroAlt || post.data.title}
+          number={1}
+          caption={post.data.heroAlt}
+        />
+      )}
+
+      <Prose>
+        <Content />
+      </Prose>
+
+      <footer class="article-footer">
+        <a href="/research" class="back-link">← All research</a>
+      </footer>
+    </article>
+  </RailLayout>
+</BaseLayout>
+
+<style>
+  .article {
+    max-width: var(--content-max);
+  }
+
+  .article-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .mobile-meta {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-meta {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: var(--space-3);
+    }
+
+    .mobile-status {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--muted);
+    }
+  }
+
+  .article-header h1 {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-3);
+  }
+
+  .article-tags {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    margin: 0;
+  }
+
+  .article-footer {
+    margin-top: var(--space-20);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--rule);
+  }
+
+  .back-link {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .back-link:hover {
+    color: var(--accent);
+  }
+</style>

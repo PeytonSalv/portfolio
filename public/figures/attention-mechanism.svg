@@ -1,0 +1,143 @@
+<svg viewBox="0 0 800 380" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <style>
+    .box { fill: #FAFAFA; stroke: #E6E8EB; stroke-width: 1.5; }
+    .box-accent { fill: rgba(31, 58, 138, 0.06); stroke: #1F3A8A; stroke-width: 1.5; stroke-dasharray: 4 2; }
+    .box-highlight { fill: rgba(31, 58, 138, 0.08); stroke: #1F3A8A; stroke-width: 1.5; }
+    .box-text { font-family: Inter, sans-serif; font-size: 11px; fill: #111111; font-weight: 500; }
+    .box-text-sm { font-family: Inter, sans-serif; font-size: 9px; fill: #5F6368; }
+    .arrow { stroke: #1F3A8A; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+    .arrow-bi { stroke: #1F3A8A; stroke-width: 1.5; fill: none; }
+    .arrow-dashed { stroke: #5F6368; stroke-width: 1; stroke-dasharray: 4 3; fill: none; marker-end: url(#arrowhead-gray); }
+    .label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; fill: #1F3A8A; }
+    .group-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #1F3A8A; font-weight: 500; letter-spacing: 0.05em; }
+    .muted { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #5F6368; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1F3A8A"/>
+    </marker>
+    <marker id="arrowhead-gray" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#5F6368"/>
+    </marker>
+  </defs>
+
+  <!-- UI Layer -->
+  <rect x="30" y="30" width="250" height="150" rx="4" class="box-accent"/>
+  <text x="45" y="50" class="group-label">UI COMPONENTS</text>
+
+  <rect x="50" y="65" width="70" height="28" rx="3" class="box"/>
+  <text x="85" y="83" text-anchor="middle" class="box-text-sm">PlayerCard</text>
+
+  <rect x="130" y="65" width="70" height="28" rx="3" class="box"/>
+  <text x="165" y="83" text-anchor="middle" class="box-text-sm">SearchFilter</text>
+
+  <rect x="210" y="65" width="55" height="28" rx="3" class="box"/>
+  <text x="237" y="83" text-anchor="middle" class="box-text-sm">Charts</text>
+
+  <rect x="50" y="103" width="70" height="28" rx="3" class="box"/>
+  <text x="85" y="121" text-anchor="middle" class="box-text-sm">Watchlist</text>
+
+  <rect x="130" y="103" width="70" height="28" rx="3" class="box"/>
+  <text x="165" y="121" text-anchor="middle" class="box-text-sm">Kanban</text>
+
+  <rect x="210" y="103" width="55" height="28" rx="3" class="box"/>
+  <text x="237" y="121" text-anchor="middle" class="box-text-sm">Reports</text>
+
+  <text x="155" y="160" text-anchor="middle" class="muted">112 components</text>
+
+  <!-- Features Layer -->
+  <rect x="30" y="200" width="250" height="100" rx="4" class="box-accent"/>
+  <text x="45" y="220" class="group-label">FEATURE MODULES</text>
+
+  <rect x="50" y="235" width="55" height="25" rx="3" class="box"/>
+  <text x="77" y="251" text-anchor="middle" class="box-text-sm">Search</text>
+
+  <rect x="115" y="235" width="55" height="25" rx="3" class="box"/>
+  <text x="142" y="251" text-anchor="middle" class="box-text-sm">Compare</text>
+
+  <rect x="180" y="235" width="55" height="25" rx="3" class="box"/>
+  <text x="207" y="251" text-anchor="middle" class="box-text-sm">Similar</text>
+
+  <rect x="75" y="268" width="65" height="25" rx="3" class="box"/>
+  <text x="107" y="284" text-anchor="middle" class="box-text-sm">Shadow</text>
+
+  <rect x="150" y="268" width="65" height="25" rx="3" class="box"/>
+  <text x="182" y="284" text-anchor="middle" class="box-text-sm">Graph</text>
+
+  <!-- State Layer -->
+  <rect x="320" y="30" width="180" height="150" rx="4" class="box-accent"/>
+  <text x="335" y="50" class="group-label">STATE MANAGEMENT</text>
+
+  <rect x="340" y="65" width="140" height="35" rx="3" class="box-highlight"/>
+  <text x="410" y="82" text-anchor="middle" class="box-text">Apollo Client</text>
+  <text x="410" y="94" text-anchor="middle" class="box-text-sm">GraphQL Cache</text>
+
+  <rect x="340" y="110" width="140" height="35" rx="3" class="box"/>
+  <text x="410" y="127" text-anchor="middle" class="box-text">Zustand</text>
+  <text x="410" y="139" text-anchor="middle" class="box-text-sm">Local UI State</text>
+
+  <text x="410" y="165" text-anchor="middle" class="muted">filterValues, player, shadowTeam</text>
+
+  <!-- Hooks Layer -->
+  <rect x="320" y="200" width="180" height="100" rx="4" class="box-accent"/>
+  <text x="335" y="220" class="group-label">CUSTOM HOOKS</text>
+
+  <rect x="340" y="238" width="65" height="22" rx="3" class="box"/>
+  <text x="372" y="253" text-anchor="middle" class="box-text-sm">useSearch</text>
+
+  <rect x="415" y="238" width="65" height="22" rx="3" class="box"/>
+  <text x="447" y="253" text-anchor="middle" class="box-text-sm">usePlayer</text>
+
+  <rect x="340" y="268" width="65" height="22" rx="3" class="box"/>
+  <text x="372" y="283" text-anchor="middle" class="box-text-sm">useFilters</text>
+
+  <rect x="415" y="268" width="65" height="22" rx="3" class="box"/>
+  <text x="447" y="283" text-anchor="middle" class="box-text-sm">useDebounce</text>
+
+  <!-- Data Flow -->
+  <rect x="540" y="30" width="120" height="150" rx="4" class="box-accent"/>
+  <text x="555" y="50" class="group-label">DATA FLOW</text>
+
+  <rect x="555" y="65" width="90" height="28" rx="3" class="box"/>
+  <text x="600" y="83" text-anchor="middle" class="box-text-sm">Queries</text>
+
+  <rect x="555" y="103" width="90" height="28" rx="3" class="box"/>
+  <text x="600" y="121" text-anchor="middle" class="box-text-sm">Mutations</text>
+
+  <rect x="555" y="141" width="90" height="28" rx="3" class="box"/>
+  <text x="600" y="159" text-anchor="middle" class="box-text-sm">Subscriptions</text>
+
+  <!-- Navigation -->
+  <rect x="540" y="200" width="120" height="100" rx="4" class="box-accent"/>
+  <text x="555" y="220" class="group-label">NAVIGATION</text>
+
+  <rect x="555" y="238" width="90" height="25" rx="3" class="box-highlight"/>
+  <text x="600" y="254" text-anchor="middle" class="box-text-sm">Expo Router</text>
+
+  <rect x="555" y="270" width="90" height="25" rx="3" class="box"/>
+  <text x="600" y="286" text-anchor="middle" class="box-text-sm">Tab Navigator</text>
+
+  <!-- Backend -->
+  <rect x="700" y="90" width="80" height="120" rx="4" class="box"/>
+  <text x="740" y="120" text-anchor="middle" class="box-text">GraphQL</text>
+  <text x="740" y="135" text-anchor="middle" class="box-text">API</text>
+  <text x="740" y="165" text-anchor="middle" class="box-text-sm">NestJS</text>
+  <text x="740" y="180" text-anchor="middle" class="box-text-sm">Lambda</text>
+
+  <!-- Arrows -->
+  <path d="M 280 120 L 332 95" class="arrow"/>
+  <path d="M 280 250 L 332 250" class="arrow"/>
+  <path d="M 500 95 L 532 95" class="arrow"/>
+  <path d="M 660 150 L 692 150" class="arrow"/>
+  <path d="M 410 145 L 410 192" class="arrow-dashed"/>
+
+  <!-- Labels -->
+  <text x="305" y="100" class="label">props</text>
+  <text x="305" y="245" class="label">hooks</text>
+  <text x="515" y="85" class="label">fetch</text>
+  <text x="675" y="140" class="label">HTTP</text>
+
+  <!-- Footer -->
+  <text x="400" y="340" text-anchor="middle" class="muted">React Native + Expo · File-based routing · Type-safe GraphQL</text>
+</svg>

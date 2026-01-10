@@ -1,0 +1,157 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <style>
+    .box { fill: #FAFAFA; stroke: #E6E8EB; stroke-width: 1.5; }
+    .box-accent { fill: rgba(31, 58, 138, 0.06); stroke: #1F3A8A; stroke-width: 1.5; stroke-dasharray: 4 2; }
+    .box-highlight { fill: rgba(31, 58, 138, 0.1); stroke: #1F3A8A; stroke-width: 2; }
+    .box-dark { fill: #1F3A8A; stroke: #1F3A8A; stroke-width: 1.5; }
+    .box-text { font-family: Inter, sans-serif; font-size: 10px; fill: #111111; font-weight: 500; }
+    .box-text-light { font-family: Inter, sans-serif; font-size: 10px; fill: #FFFFFF; font-weight: 500; }
+    .box-text-sm { font-family: Inter, sans-serif; font-size: 8px; fill: #5F6368; }
+    .arrow { stroke: #1F3A8A; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+    .arrow-dashed { stroke: #5F6368; stroke-width: 1; fill: none; stroke-dasharray: 4 3; marker-end: url(#arrowhead-gray); }
+    .label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; fill: #1F3A8A; font-weight: 500; }
+    .group-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #1F3A8A; font-weight: 600; letter-spacing: 0.08em; }
+    .muted { font-family: 'IBM Plex Mono', monospace; font-size: 8px; fill: #5F6368; }
+    .fig-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; fill: #5F6368; font-weight: 500; }
+    .phase { font-family: 'IBM Plex Mono', monospace; font-size: 8px; fill: #FFFFFF; font-weight: 600; }
+    .phase-bg { fill: #1F3A8A; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1F3A8A"/>
+    </marker>
+    <marker id="arrowhead-gray" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#5F6368"/>
+    </marker>
+  </defs>
+
+  <!-- Figure label -->
+  <text x="400" y="25" text-anchor="middle" class="fig-label">FIG 1 — EVENT-DRIVEN EARNINGS CALL NLP PIPELINE</text>
+
+  <!-- Phase 1: Discovery -->
+  <rect x="20" y="50" width="8" height="180" rx="2" class="phase-bg"/>
+  <text x="24" y="145" class="phase" transform="rotate(-90, 24, 145)">DISCOVERY</text>
+
+  <rect x="40" y="55" width="150" height="170" rx="4" class="box-accent"/>
+
+  <rect x="55" y="75" width="120" height="40" rx="3" class="box-dark"/>
+  <text x="115" y="92" text-anchor="middle" class="box-text-light">SEC EDGAR</text>
+  <text x="115" y="105" text-anchor="middle" class="box-text-light">Scraper</text>
+
+  <rect x="55" y="130" width="120" height="40" rx="3" class="box"/>
+  <text x="115" y="147" text-anchor="middle" class="box-text">PDF Parsing</text>
+  <text x="115" y="160" text-anchor="middle" class="box-text-sm">+ NLP Preprocessing</text>
+
+  <rect x="55" y="185" width="120" height="30" rx="3" class="box"/>
+  <text x="115" y="204" text-anchor="middle" class="box-text">Event Scheduler</text>
+
+  <!-- Phase 2: Capture -->
+  <rect x="210" y="50" width="8" height="180" rx="2" class="phase-bg"/>
+  <text x="214" y="145" class="phase" transform="rotate(-90, 214, 145)">CAPTURE</text>
+
+  <rect x="230" y="55" width="140" height="170" rx="4" class="box-accent"/>
+
+  <rect x="245" y="75" width="110" height="45" rx="3" class="box-highlight"/>
+  <text x="300" y="93" text-anchor="middle" class="box-text">Live Call Bot</text>
+  <text x="300" y="107" text-anchor="middle" class="box-text-sm">Zoom / Webcast</text>
+
+  <rect x="245" y="135" width="110" height="40" rx="3" class="box"/>
+  <text x="300" y="152" text-anchor="middle" class="box-text">Streaming</text>
+  <text x="300" y="165" text-anchor="middle" class="box-text-sm">Speech-to-Text</text>
+
+  <rect x="245" y="190" width="110" height="25" rx="3" class="box"/>
+  <text x="300" y="207" text-anchor="middle" class="box-text-sm">Audio Buffer</text>
+
+  <!-- Phase 3: Analysis -->
+  <rect x="390" y="50" width="8" height="180" rx="2" class="phase-bg"/>
+  <text x="394" y="145" class="phase" transform="rotate(-90, 394, 145)">ANALYSIS</text>
+
+  <rect x="410" y="55" width="150" height="170" rx="4" class="box-accent"/>
+
+  <rect x="425" y="75" width="120" height="45" rx="3" class="box-highlight"/>
+  <text x="485" y="93" text-anchor="middle" class="box-text">Real-Time NLP</text>
+  <text x="485" y="107" text-anchor="middle" class="box-text-sm">Analyzer</text>
+
+  <rect x="425" y="135" width="120" height="40" rx="3" class="box"/>
+  <text x="485" y="152" text-anchor="middle" class="box-text">Sentiment</text>
+  <text x="485" y="165" text-anchor="middle" class="box-text-sm">Classification</text>
+
+  <rect x="425" y="190" width="120" height="25" rx="3" class="box"/>
+  <text x="485" y="207" text-anchor="middle" class="box-text-sm">Topic Extraction</text>
+
+  <!-- Phase 4: Alignment -->
+  <rect x="580" y="50" width="8" height="180" rx="2" class="phase-bg"/>
+  <text x="584" y="145" class="phase" transform="rotate(-90, 584, 145)">ALIGNMENT</text>
+
+  <rect x="600" y="55" width="170" height="170" rx="4" class="box-accent"/>
+
+  <rect x="615" y="75" width="140" height="45" rx="3" class="box-highlight"/>
+  <text x="685" y="93" text-anchor="middle" class="box-text">Historical</text>
+  <text x="685" y="107" text-anchor="middle" class="box-text-sm">Alignment Engine</text>
+
+  <rect x="615" y="135" width="65" height="35" rx="3" class="box"/>
+  <text x="647" y="150" text-anchor="middle" class="box-text-sm">Prior</text>
+  <text x="647" y="162" text-anchor="middle" class="box-text-sm">Calls</text>
+
+  <rect x="690" y="135" width="65" height="35" rx="3" class="box"/>
+  <text x="722" y="150" text-anchor="middle" class="box-text-sm">Market</text>
+  <text x="722" y="162" text-anchor="middle" class="box-text-sm">Data</text>
+
+  <rect x="615" y="185" width="140" height="30" rx="3" class="box-dark"/>
+  <text x="685" y="204" text-anchor="middle" class="box-text-light">Signal Storage</text>
+
+  <!-- Arrows between phases -->
+  <path d="M 175 120 L 237 120" class="arrow"/>
+  <path d="M 370 120 L 402 120" class="arrow"/>
+  <path d="M 560 120 L 592 120" class="arrow"/>
+
+  <!-- Internal arrows -->
+  <path d="M 115 115 L 115 122" class="arrow"/>
+  <path d="M 115 170 L 115 177" class="arrow"/>
+  <path d="M 300 120 L 300 127" class="arrow"/>
+  <path d="M 300 175 L 300 182" class="arrow"/>
+  <path d="M 485 120 L 485 127" class="arrow"/>
+  <path d="M 485 175 L 485 182" class="arrow"/>
+  <path d="M 685 120 L 685 127" class="arrow"/>
+
+  <!-- Labels -->
+  <text x="205" y="110" class="label">schedule</text>
+  <text x="385" y="110" class="label">transcript</text>
+  <text x="575" y="110" class="label">signals</text>
+
+  <!-- Data flow annotations -->
+  <rect x="40" y="260" width="730" height="90" rx="4" class="box"/>
+
+  <text x="60" y="285" class="group-label">DATA FLOW</text>
+
+  <text x="60" y="310" class="muted">8-K Filing</text>
+  <text x="60" y="325" class="muted">(SEC EDGAR)</text>
+
+  <path d="M 130 315 L 180 315" class="arrow"/>
+
+  <text x="195" y="310" class="muted">Parsed Event</text>
+  <text x="195" y="325" class="muted">(date, time, URL)</text>
+
+  <path d="M 280 315 L 330 315" class="arrow"/>
+
+  <text x="345" y="310" class="muted">Audio Stream</text>
+  <text x="345" y="325" class="muted">(live capture)</text>
+
+  <path d="M 425 315 L 475 315" class="arrow"/>
+
+  <text x="490" y="310" class="muted">Transcript</text>
+  <text x="490" y="325" class="muted">(time-aligned)</text>
+
+  <path d="M 565 315 L 615 315" class="arrow"/>
+
+  <text x="630" y="310" class="muted">Sentiment</text>
+  <text x="630" y="325" class="muted">(scored segments)</text>
+
+  <path d="M 710 315 L 755 315" class="arrow"/>
+
+  <text x="760" y="318" class="muted">→</text>
+
+  <!-- Footer -->
+  <text x="400" y="380" text-anchor="middle" class="muted">Experimental prototype — Event-driven architecture for real-time earnings call analysis</text>
+</svg>

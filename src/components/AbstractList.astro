@@ -1,0 +1,33 @@
+---
+import AbstractEntry from './AbstractEntry.astro';
+
+interface Entry {
+  href: string;
+  kicker: string;
+  title: string;
+  outcome: string;
+  date?: string;
+  status?: string;
+}
+
+interface Props {
+  entries: Entry[];
+  class?: string;
+}
+
+const { entries, class: className = '' } = Astro.props;
+---
+
+<div class:list={['abstract-list', className]}>
+  {entries.map((entry) => (
+    <AbstractEntry {...entry} />
+  ))}
+</div>
+
+<style>
+  .abstract-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+  }
+</style>

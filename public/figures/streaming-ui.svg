@@ -1,0 +1,131 @@
+<svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <style>
+    .box { fill: #FAFAFA; stroke: #E6E8EB; stroke-width: 1.5; }
+    .box-accent { fill: rgba(31, 58, 138, 0.06); stroke: #1F3A8A; stroke-width: 1.5; stroke-dasharray: 4 2; }
+    .box-highlight { fill: rgba(31, 58, 138, 0.1); stroke: #1F3A8A; stroke-width: 2; }
+    .box-dark { fill: #1F3A8A; stroke: #1F3A8A; stroke-width: 1.5; }
+    .box-text { font-family: Inter, sans-serif; font-size: 11px; fill: #111111; font-weight: 500; }
+    .box-text-light { font-family: Inter, sans-serif; font-size: 11px; fill: #FFFFFF; font-weight: 500; }
+    .box-text-sm { font-family: Inter, sans-serif; font-size: 9px; fill: #5F6368; }
+    .arrow { stroke: #1F3A8A; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+    .arrow-stream { stroke: #1F3A8A; stroke-width: 2; fill: none; marker-end: url(#arrowhead); stroke-dasharray: 8 4; }
+    .arrow-thin { stroke: #5F6368; stroke-width: 1; fill: none; marker-end: url(#arrowhead-gray); }
+    .label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #1F3A8A; font-weight: 500; }
+    .group-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; fill: #1F3A8A; font-weight: 600; letter-spacing: 0.08em; }
+    .muted { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #5F6368; }
+    .metric { font-family: 'IBM Plex Mono', monospace; font-size: 18px; fill: #1F3A8A; font-weight: 600; }
+    .metric-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; fill: #5F6368; }
+    .data-dot { fill: #1F3A8A; }
+    .data-dot-fade { fill: rgba(31, 58, 138, 0.3); }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#1F3A8A"/>
+    </marker>
+    <marker id="arrowhead-gray" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <polygon points="0 0, 8 2.5, 0 5" fill="#5F6368"/>
+    </marker>
+  </defs>
+
+  <!-- Data Source -->
+  <rect x="30" y="140" width="100" height="120" rx="4" class="box-dark"/>
+  <text x="80" y="175" text-anchor="middle" class="box-text-light">WebSocket</text>
+  <text x="80" y="195" text-anchor="middle" class="box-text-light">Stream</text>
+
+  <!-- Animated data dots -->
+  <circle cx="80" cy="220" r="3" class="data-dot"/>
+  <circle cx="80" cy="232" r="3" class="data-dot-fade"/>
+  <circle cx="80" cy="244" r="3" class="data-dot-fade"/>
+
+  <text x="80" y="275" text-anchor="middle" class="muted">1000+ msg/s</text>
+
+  <!-- Update Buffer -->
+  <rect x="180" y="120" width="120" height="160" rx="4" class="box-accent"/>
+  <text x="240" y="145" text-anchor="middle" class="group-label">BUFFER</text>
+
+  <rect x="195" y="160" width="90" height="30" rx="3" class="box"/>
+  <text x="240" y="179" text-anchor="middle" class="box-text-sm">Pending[]</text>
+
+  <rect x="195" y="200" width="90" height="30" rx="3" class="box-highlight"/>
+  <text x="240" y="219" text-anchor="middle" class="box-text-sm">Batch (16ms)</text>
+
+  <rect x="195" y="240" width="90" height="30" rx="3" class="box"/>
+  <text x="240" y="259" text-anchor="middle" class="box-text-sm">Dedupe</text>
+
+  <!-- State Layer -->
+  <rect x="350" y="120" width="130" height="160" rx="4" class="box-accent"/>
+  <text x="415" y="145" text-anchor="middle" class="group-label">STATE</text>
+
+  <rect x="365" y="160" width="100" height="35" rx="3" class="box-highlight"/>
+  <text x="415" y="180" text-anchor="middle" class="box-text">Apollo Cache</text>
+
+  <rect x="365" y="205" width="100" height="30" rx="3" class="box"/>
+  <text x="415" y="224" text-anchor="middle" class="box-text-sm">Normalized</text>
+
+  <rect x="365" y="245" width="100" height="25" rx="3" class="box"/>
+  <text x="415" y="261" text-anchor="middle" class="box-text-sm">Immutable</text>
+
+  <!-- Virtual Renderer -->
+  <rect x="530" y="80" width="140" height="240" rx="4" class="box-accent"/>
+  <text x="600" y="105" text-anchor="middle" class="group-label">VIRTUAL DOM</text>
+
+  <!-- Viewport window -->
+  <rect x="545" y="125" width="110" height="100" rx="3" class="box-highlight"/>
+  <text x="600" y="145" text-anchor="middle" class="box-text-sm">Viewport</text>
+
+  <!-- Visible rows -->
+  <rect x="555" y="155" width="90" height="12" rx="2" class="box"/>
+  <rect x="555" y="171" width="90" height="12" rx="2" class="box"/>
+  <rect x="555" y="187" width="90" height="12" rx="2" class="box"/>
+  <rect x="555" y="203" width="90" height="12" rx="2" class="box"/>
+
+  <!-- Hidden rows indicator -->
+  <text x="600" y="245" text-anchor="middle" class="muted">↑ 50 visible</text>
+  <text x="600" y="260" text-anchor="middle" class="muted">10,000 total ↓</text>
+
+  <!-- Scroll indicator -->
+  <rect x="655" y="125" width="8" height="100" rx="2" fill="#E6E8EB"/>
+  <rect x="655" y="130" width="8" height="25" rx="2" fill="#1F3A8A"/>
+
+  <!-- Screen Output -->
+  <rect x="720" y="140" width="60" height="120" rx="4" class="box-dark"/>
+  <text x="750" y="185" text-anchor="middle" class="box-text-light">60fps</text>
+  <text x="750" y="205" text-anchor="middle" class="box-text-light">Render</text>
+  <text x="750" y="245" text-anchor="middle" class="muted" style="fill: rgba(255,255,255,0.7)">16.6ms</text>
+
+  <!-- Main flow arrows -->
+  <path d="M 130 200 L 172 200" class="arrow-stream"/>
+  <path d="M 300 200 L 342 200" class="arrow"/>
+  <path d="M 480 200 L 522 200" class="arrow"/>
+  <path d="M 670 200 L 712 200" class="arrow"/>
+
+  <!-- Labels on arrows -->
+  <text x="150" y="188" class="label">stream</text>
+  <text x="318" y="188" class="label">batch</text>
+  <text x="498" y="188" class="label">diff</text>
+  <text x="688" y="188" class="label">paint</text>
+
+  <!-- Backpressure feedback loop -->
+  <path d="M 720 270 L 720 320 L 240 320 L 240 288" class="arrow-thin"/>
+  <text x="480" y="335" text-anchor="middle" class="muted">backpressure: drop stale updates when buffer full</text>
+
+  <!-- Metrics bar at bottom -->
+  <rect x="30" y="370" width="740" height="60" rx="4" class="box"/>
+
+  <text x="120" y="395" text-anchor="middle" class="metric">60</text>
+  <text x="120" y="415" text-anchor="middle" class="metric-label">FPS SUSTAINED</text>
+
+  <text x="300" y="395" text-anchor="middle" class="metric">&lt;16ms</text>
+  <text x="300" y="415" text-anchor="middle" class="metric-label">FRAME BUDGET</text>
+
+  <text x="500" y="395" text-anchor="middle" class="metric">50K+</text>
+  <text x="500" y="415" text-anchor="middle" class="metric-label">ROWS VIRTUALIZED</text>
+
+  <text x="680" y="395" text-anchor="middle" class="metric">0</text>
+  <text x="680" y="415" text-anchor="middle" class="metric-label">MEMORY LEAKS</text>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" class="group-label" style="font-size: 12px;">STREAMING UI ARCHITECTURE</text>
+  <text x="400" y="55" text-anchor="middle" class="muted">High-throughput data → Responsive interface</text>
+</svg>

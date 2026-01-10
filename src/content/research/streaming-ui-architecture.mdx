@@ -1,0 +1,152 @@
+---
+title: "Streaming UI Architecture for Data-Intensive Products"
+date: "2025-09-01"
+summary: "Patterns for building real-time, streaming-first interfaces that handle high-throughput data without degrading UX."
+tags: ["Frontend", "Streaming", "Performance", "React"]
+status: "Published"
+featured: true
+heroFigure: "/figures/streaming-ui.svg"
+heroAlt: "Streaming UI architecture diagram"
+---
+
+## TL;DR
+
+- **Problem**: Data-intensive products require interfaces that update in real-time without scroll jank, memory leaks, or state inconsistency.
+- **Solution**: Streaming-first architecture with virtualized rendering, optimistic updates, and backpressure handling.
+- **Result**: Patterns applied to production dashboards handling thousands of real-time updates per second.
+
+## Context
+
+Building interfaces for data-intensive products—analytics dashboards, trading platforms, monitoring systems—requires handling continuous data streams while maintaining responsive UX. Standard React patterns break down when updates arrive faster than frames render.
+
+This note documents patterns developed while building data-dense dashboards at Gemini Sports AI, where interfaces render thousands of player records with real-time updates to contracts, valuations, and performance metrics.
+
+## Problem
+
+Traditional UI architectures assume data is fetched, rendered, then occasionally refreshed. Streaming-first products invert this: data arrives continuously, and the UI must keep pace without:
+
+1. **Scroll jank**: New data shouldn't interrupt user interactions
+2. **Memory pressure**: Unbounded data accumulation crashes browsers
+3. **State inconsistency**: Partial updates shouldn't leave the UI in broken states
+4. **Backpressure**: UI can't render faster than 60fps regardless of data velocity
+
+## Architecture
+
+### Virtualized Rendering
+
+Only render visible rows. For a table with 10,000 records, render ~50 visible rows plus buffer. Implementation:
+
+```typescript
+// Windowed list with stable scroll position during updates
+const VirtualList = ({ items, rowHeight, containerHeight }) => {
+  const [scrollTop, setScrollTop] = useState(0);
+  const startIndex = Math.floor(scrollTop / rowHeight);
+  const endIndex = Math.min(
+    startIndex + Math.ceil(containerHeight / rowHeight) + 1,
+    items.length
+  );
+
+  const visibleItems = items.slice(startIndex, endIndex);
+
+  return (
+    <div style={{ height: items.length * rowHeight }}>
+      <div style={{ transform: `translateY(${startIndex * rowHeight}px)` }}>
+        {visibleItems.map(item => <Row key={item.id} data={item} />)}
+      </div>
+    </div>
+  );
+};
+```
+
+### Update Batching
+
+Batch incoming updates to match frame budget. Don't re-render on every websocket message:
+
+```typescript
+const useBatchedUpdates = (socket, batchInterval = 16) => {
+  const pending = useRef([]);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const flush = () => {
+      if (pending.current.length > 0) {
+        setData(current => applyUpdates(current, pending.current));
+        pending.current = [];
+      }
+      requestAnimationFrame(flush);
+    };
+
+    socket.on('update', update => pending.current.push(update));
+    requestAnimationFrame(flush);
+  }, [socket]);
+
+  return data;
+};
+```
+
+### Stable Keys and Memoization
+
+Prevent unnecessary re-renders with stable references:
+
+```typescript
+// Memoize row components with shallow comparison
+const Row = memo(({ data }) => (
+  <tr>
+    <td>{data.name}</td>
+    <td>{data.value}</td>
+  </tr>
+), (prev, next) => prev.data.version === next.data.version);
+```
+
+### Backpressure Handling
+
+When updates arrive faster than rendering, drop stale data:
+
+```typescript
+const useLatestValue = (stream) => {
+  const [value, setValue] = useState(null);
+  const pending = useRef(null);
+  const frameId = useRef(null);
+
+  useEffect(() => {
+    stream.subscribe(v => {
+      pending.current = v;
+      if (!frameId.current) {
+        frameId.current = requestAnimationFrame(() => {
+          setValue(pending.current);
+          frameId.current = null;
+        });
+      }
+    });
+  }, [stream]);
+
+  return value;
+};
+```
+
+## Results
+
+These patterns applied to production dashboards at Gemini Sports AI:
+
+- **Render performance**: Sustained 60fps with 10,000+ row tables
+- **Memory stability**: No growth over 24-hour sessions
+- **Update latency**: Sub-frame latency from websocket to screen
+- **User experience**: Smooth scrolling during continuous updates
+
+## Tradeoffs
+
+**Complexity**: Streaming-first architecture requires more upfront design than fetch-render-refresh patterns.
+
+**Testing**: Continuous data streams are harder to test than static snapshots. Requires timeline-based testing approaches.
+
+**Debugging**: State issues are harder to reproduce when caused by specific update sequences.
+
+## When to Apply
+
+Use streaming-first architecture when:
+
+- Data updates arrive continuously (websockets, SSE, polling < 1s)
+- Dataset size exceeds comfortable DOM capacity (> 1,000 rows)
+- User interactions must remain smooth during updates
+
+For static or infrequently-updated data, standard patterns work fine.

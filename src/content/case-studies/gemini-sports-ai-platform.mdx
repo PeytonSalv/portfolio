@@ -1,0 +1,113 @@
+---
+title: "Gemini Sports AI Platform"
+date: "2025-07-01"
+summary: "Sole frontend engineer owning architecture, performance, and delivery for a production platform used by 120+ professional soccer teams."
+tags: ["React Native", "GraphQL", "Expo", "TypeScript"]
+status: "Active"
+featured: true
+heroFigure: "/figures/system-architecture.svg"
+heroAlt: "Platform architecture diagram"
+---
+
+## Outcome
+
+**Owned end-to-end frontend architecture for a production platform serving 120+ professional soccer teams.** Built and scaled data-dense interfaces over a global dataset of 50,000+ professional players including contracts, valuations, and proprietary performance metrics.
+
+## Context
+
+Gemini Sports AI is an early-stage sports analytics startup building real-time scouting and roster intelligence platforms. The company needed a sole frontend engineer capable of owning the entire frontend surface—architecture decisions, performance optimization, and shipping customer-facing features across web, iOS, and Android.
+
+## Ownership
+
+- Sole frontend engineer responsible for platform architecture, performance, and production delivery
+- Owned the frontend platform layer across web, iOS, and Android
+- Led frontend implementation for player comparison, watchlists, and scouting workflows
+- Owned the interface layer over a global professional player dataset
+- Integrated backend AI workflows for natural language player lookup and report synthesis
+
+## Constraints
+
+- **Data density**: Interfaces must render 50,000+ player records with stats, contracts, and performance metrics without degrading UX
+- **Cross-platform**: Single codebase targeting web, iOS, and Android
+- **Startup velocity**: Features needed to ship fast for client demos and daily workflows
+- **Team size**: Single frontend engineer—no delegation, full ownership required
+- **AI integration**: Natural language player lookup via SMS required OpenAI integration
+
+## Architecture
+
+### Frontend Stack
+
+| Layer | Technology |
+|-------|------------|
+| Framework | React Native + Expo v54 |
+| Routing | Expo Router (file-based, Next.js-style) |
+| State | Apollo Client (GraphQL) + Zustand (local UI) |
+| Styling | NativeWind (Tailwind CSS for React Native) |
+| UI Components | Gluestack UI + 112 custom components |
+| Charts | Victory Native for data visualization |
+| Forms | React Hook Form + Yup validation |
+
+### Backend Integration
+
+| Layer | Technology |
+|-------|------------|
+| API | GraphQL via Apollo Client |
+| Auth | AWS Cognito with JWT token refresh |
+| Real-time | Push notifications, activity feeds |
+| Error Tracking | Sentry integration |
+
+### Key Patterns
+
+**Apollo Client link chain** with proactive token refresh (5-minute buffer), global error handling, and Relay-style pagination for infinite scroll.
+
+**Zustand stores** for local UI state: filter selections, player comparisons, shadow team composition, knowledge graph interactions.
+
+**Feature-based architecture**: Each feature (player-search, watchlist, scout-reports, similar-players) contains its own components, hooks, and business logic.
+
+```
+features/
+├── player-search/      # Multi-filter search with suggestions
+├── player-detail/      # Comprehensive player views
+├── compare-players/    # Side-by-side stat comparison
+├── similar-players/    # AI-powered recommendations
+├── watchlist/          # Personal player tracking
+├── scout-reports/      # FormIO report submission
+├── shadow-team/        # Virtual squad builder
+├── player-kanban/      # Drag-and-drop organization
+└── knowledge-graph/    # Visual relationship mapping
+```
+
+### Performance Optimizations
+
+- **Virtualized lists** for rendering 50K+ player rows without scroll jank
+- **Memoization** with useMemo/useCallback for expensive computations
+- **Apollo cache normalization** for efficient GraphQL response caching
+- **Platform-specific code** via `.native.tsx` and `.web.tsx` extensions
+
+## Features Shipped
+
+1. **Player Search**: Multi-filter search across 50,000+ players by position, team, league, nationality
+2. **Player Comparison**: Side-by-side stat comparison with custom metric selection
+3. **Similar Players**: AI-powered recommendations based on statistical similarity
+4. **Watchlists**: Personal player tracking with organization sharing
+5. **Scout Reports**: FormIO integration for structured report submission
+6. **Shadow Teams**: Drag-and-drop virtual squad builder
+7. **Player Kanban**: Status-based player organization with custom tags
+8. **Knowledge Graph**: Visual player relationship mapping
+9. **Activity Feed**: Real-time updates on player movements and reports
+
+## Results
+
+- Platform now core to daily workflows and client demos for 120+ professional soccer teams
+- Cross-platform delivery: single codebase serving web, iOS, and Android
+- Shipped 9 major features as sole frontend engineer
+- Sub-second search across 50,000+ player dataset
+- Zero-downtime deployments via Expo EAS
+
+## What I'd Do Differently
+
+**Earlier investment in design system**: Formalizing the component library earlier would have accelerated feature development. With 112 components now, a proper design system would reduce inconsistency.
+
+**More aggressive code splitting**: Initial bundle size grew faster than expected. Establishing lazy loading patterns from day one would have improved initial load times.
+
+**GraphQL fragment colocation**: Colocating GraphQL fragments with components earlier would have made data requirements clearer and reduced over-fetching.

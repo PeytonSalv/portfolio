@@ -1,0 +1,153 @@
+<svg viewBox="0 0 800 380" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <style>
+    .box { fill: #FAFAFA; stroke: #E6E8EB; stroke-width: 1.5; }
+    .box-accent { fill: rgba(31, 58, 138, 0.06); stroke: #1F3A8A; stroke-width: 1.5; stroke-dasharray: 4 2; }
+    .box-highlight { fill: rgba(31, 58, 138, 0.1); stroke: #1F3A8A; stroke-width: 2; }
+    .box-dark { fill: #1F3A8A; stroke: #1F3A8A; stroke-width: 1.5; }
+    .box-text { font-family: Inter, sans-serif; font-size: 10px; fill: #111111; font-weight: 500; }
+    .box-text-light { font-family: Inter, sans-serif; font-size: 10px; fill: #FFFFFF; font-weight: 500; }
+    .box-text-sm { font-family: Inter, sans-serif; font-size: 8px; fill: #5F6368; }
+    .arrow { stroke: #1F3A8A; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+    .arrow-dashed { stroke: #5F6368; stroke-width: 1; fill: none; stroke-dasharray: 4 3; marker-end: url(#arrowhead-gray); }
+    .label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; fill: #1F3A8A; font-weight: 500; }
+    .group-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #1F3A8A; font-weight: 600; letter-spacing: 0.08em; }
+    .muted { font-family: 'IBM Plex Mono', monospace; font-size: 8px; fill: #5F6368; }
+    .fig-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; fill: #5F6368; font-weight: 500; }
+    .chart-line { stroke: #1F3A8A; stroke-width: 2; fill: none; }
+    .chart-area { fill: rgba(31, 58, 138, 0.1); }
+    .chart-dot { fill: #1F3A8A; }
+    .chart-grid { stroke: #E6E8EB; stroke-width: 1; }
+    .axis-label { font-family: 'IBM Plex Mono', monospace; font-size: 7px; fill: #5F6368; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1F3A8A"/>
+    </marker>
+    <marker id="arrowhead-gray" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#5F6368"/>
+    </marker>
+  </defs>
+
+  <!-- Figure label -->
+  <text x="400" y="25" text-anchor="middle" class="fig-label">FIG 2 — STREAMING NLP ANALYSIS FLOW</text>
+
+  <!-- Input: Transcript segments -->
+  <rect x="30" y="50" width="140" height="140" rx="4" class="box-accent"/>
+  <text x="100" y="70" text-anchor="middle" class="group-label">TRANSCRIPT STREAM</text>
+
+  <rect x="45" y="85" width="110" height="22" rx="2" class="box"/>
+  <text x="50" y="99" class="box-text-sm">t=0:42 "revenue exceeded..."</text>
+
+  <rect x="45" y="112" width="110" height="22" rx="2" class="box-highlight"/>
+  <text x="50" y="126" class="box-text-sm">t=0:45 "however, margins..."</text>
+
+  <rect x="45" y="139" width="110" height="22" rx="2" class="box"/>
+  <text x="50" y="153" class="box-text-sm">t=0:48 "guidance for Q4..."</text>
+
+  <text x="100" y="178" text-anchor="middle" class="muted">sliding window</text>
+
+  <!-- Processing pipeline -->
+  <rect x="200" y="50" width="120" height="140" rx="4" class="box-accent"/>
+  <text x="260" y="70" text-anchor="middle" class="group-label">PROCESSING</text>
+
+  <rect x="215" y="85" width="90" height="28" rx="3" class="box"/>
+  <text x="260" y="103" text-anchor="middle" class="box-text-sm">Tokenization</text>
+
+  <rect x="215" y="120" width="90" height="28" rx="3" class="box-highlight"/>
+  <text x="260" y="138" text-anchor="middle" class="box-text-sm">Embedding</text>
+
+  <rect x="215" y="155" width="90" height="28" rx="3" class="box"/>
+  <text x="260" y="173" text-anchor="middle" class="box-text-sm">Classification</text>
+
+  <!-- Classification outputs -->
+  <rect x="350" y="50" width="130" height="140" rx="4" class="box-accent"/>
+  <text x="415" y="70" text-anchor="middle" class="group-label">CLASSIFICATION</text>
+
+  <rect x="365" y="85" width="100" height="30" rx="3" class="box"/>
+  <text x="415" y="100" text-anchor="middle" class="box-text">Sentiment</text>
+  <text x="415" y="112" text-anchor="middle" class="box-text-sm">+0.72 → −0.34</text>
+
+  <rect x="365" y="122" width="100" height="30" rx="3" class="box"/>
+  <text x="415" y="137" text-anchor="middle" class="box-text">Topics</text>
+  <text x="415" y="149" text-anchor="middle" class="box-text-sm">margins, guidance</text>
+
+  <rect x="365" y="159" width="100" height="28" rx="3" class="box-dark"/>
+  <text x="415" y="177" text-anchor="middle" class="box-text-light">Shift Detected</text>
+
+  <!-- Time-series visualization -->
+  <rect x="510" y="50" width="260" height="140" rx="4" class="box-accent"/>
+  <text x="640" y="70" text-anchor="middle" class="group-label">SENTIMENT CURVE (LIVE)</text>
+
+  <!-- Chart area -->
+  <rect x="530" y="85" width="220" height="90" rx="2" class="box"/>
+
+  <!-- Grid lines -->
+  <line x1="530" y1="107" x2="750" y2="107" class="chart-grid"/>
+  <line x1="530" y1="130" x2="750" y2="130" class="chart-grid"/>
+  <line x1="530" y1="153" x2="750" y2="153" class="chart-grid"/>
+
+  <!-- Axis labels -->
+  <text x="525" y="92" text-anchor="end" class="axis-label">+1</text>
+  <text x="525" y="133" text-anchor="end" class="axis-label">0</text>
+  <text x="525" y="173" text-anchor="end" class="axis-label">−1</text>
+
+  <text x="540" y="182" class="axis-label">0:00</text>
+  <text x="635" y="182" class="axis-label">0:30</text>
+  <text x="730" y="182" class="axis-label">1:00</text>
+
+  <!-- Sentiment line (showing shift) -->
+  <path d="M 540 115
+           L 560 112
+           L 580 108
+           L 600 110
+           L 620 105
+           L 640 118
+           L 660 135
+           L 680 148
+           L 700 155
+           L 720 150" class="chart-line"/>
+
+  <!-- Highlight shift point -->
+  <circle cx="640" cy="118" r="4" class="chart-dot"/>
+  <text x="640" y="100" text-anchor="middle" class="label">shift</text>
+
+  <!-- Area under curve before shift -->
+  <path d="M 540 130 L 540 115 L 560 112 L 580 108 L 600 110 L 620 105 L 640 118 L 640 130 Z" class="chart-area"/>
+
+  <!-- Arrows -->
+  <path d="M 170 120 L 192 120" class="arrow"/>
+  <path d="M 320 120 L 342 120" class="arrow"/>
+  <path d="M 480 120 L 502 120" class="arrow"/>
+
+  <!-- Labels -->
+  <text x="180" y="110" class="label">segment</text>
+  <text x="330" y="110" class="label">embed</text>
+  <text x="490" y="110" class="label">score</text>
+
+  <!-- Historical comparison layer -->
+  <rect x="30" y="210" width="740" height="100" rx="4" class="box-accent"/>
+  <text x="50" y="230" class="group-label">HISTORICAL COMPARISON LAYER</text>
+
+  <rect x="50" y="245" width="150" height="50" rx="3" class="box"/>
+  <text x="125" y="265" text-anchor="middle" class="box-text">Prior Earnings Calls</text>
+  <text x="125" y="280" text-anchor="middle" class="box-text-sm">Same company, sector</text>
+
+  <rect x="230" y="245" width="150" height="50" rx="3" class="box"/>
+  <text x="305" y="265" text-anchor="middle" class="box-text">Language Baselines</text>
+  <text x="305" y="280" text-anchor="middle" class="box-text-sm">Typical phrasing patterns</text>
+
+  <rect x="410" y="245" width="150" height="50" rx="3" class="box"/>
+  <text x="485" y="265" text-anchor="middle" class="box-text">Market Reactions</text>
+  <text x="485" y="280" text-anchor="middle" class="box-text-sm">Post-call price movement</text>
+
+  <rect x="590" y="245" width="160" height="50" rx="3" class="box-highlight"/>
+  <text x="670" y="265" text-anchor="middle" class="box-text">Correlation Analysis</text>
+  <text x="670" y="280" text-anchor="middle" class="box-text-sm">Language ↔ Movement</text>
+
+  <!-- Connection arrows from live to historical -->
+  <path d="M 640 175 L 640 195 L 670 195 L 670 237" class="arrow-dashed"/>
+
+  <!-- Note -->
+  <text x="400" y="340" text-anchor="middle" class="muted">Analysis occurs incrementally during the call — sentiment shifts are first-class signals</text>
+</svg>

@@ -1,0 +1,22 @@
+---
+interface Props {
+  id: string;
+  class?: string;
+}
+
+const { id, class: className = '' } = Astro.props;
+---
+
+<section id={id} data-section-target={id} class:list={['section', className]}>
+  <slot />
+</section>
+
+<style>
+  .section {
+    scroll-margin-top: var(--space-8);
+  }
+
+  .section + .section {
+    margin-top: var(--space-16);
+  }
+</style>

@@ -1,0 +1,151 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RailLayout from '../components/RailLayout.astro';
+import Section from '../components/Section.astro';
+import Kicker from '../components/Kicker.astro';
+
+const railItems = [
+  { id: 'contact', label: 'Contact' },
+  { id: 'availability', label: 'Status' },
+];
+---
+
+<BaseLayout title="Contact – Peyton Salvant" description="Get in touch for AI-native systems, data pipelines, and production-critical platforms.">
+  <RailLayout items={railItems}>
+    <Section id="contact">
+      <header class="page-header">
+        <Kicker>Contact</Kicker>
+        <h1>Get in Touch</h1>
+        <p class="page-intro">
+          Open to roles focused on AI-native systems, data pipelines, and production-critical platforms.
+        </p>
+      </header>
+
+      <div class="contact-methods">
+        <div class="contact-method">
+          <div class="contact-accent"></div>
+          <div class="contact-content">
+            <h2 class="contact-label">Email</h2>
+            <a href="mailto:peytonsalvant5461@outlook.com" class="contact-value">peytonsalvant5461@outlook.com</a>
+          </div>
+        </div>
+
+        <div class="contact-method">
+          <div class="contact-accent"></div>
+          <div class="contact-content">
+            <h2 class="contact-label">Phone</h2>
+            <a href="tel:+12253284200" class="contact-value">+1 (225) 328-4200</a>
+          </div>
+        </div>
+
+        <div class="contact-method">
+          <div class="contact-accent"></div>
+          <div class="contact-content">
+            <h2 class="contact-label">LinkedIn</h2>
+            <a href="https://linkedin.com/in/peytonsalvant" target="_blank" rel="noopener noreferrer" class="contact-value">linkedin.com/in/peytonsalvant</a>
+          </div>
+        </div>
+      </div>
+    </Section>
+
+    <Section id="availability">
+      <Kicker>Location</Kicker>
+      <h2 class="section-title">Panama City Beach, FL</h2>
+      <p class="status-text">
+        Available for remote roles and open to relocation for the right opportunity.
+      </p>
+    </Section>
+  </RailLayout>
+</BaseLayout>
+
+<style>
+  .page-header {
+    max-width: var(--content-max);
+    margin-bottom: var(--space-12);
+  }
+
+  .page-header h1 {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    margin-top: var(--space-1);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-intro {
+    font-size: var(--text-lg);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+    max-width: 52ch;
+  }
+
+  .contact-methods {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .contact-method {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .contact-accent {
+    flex-shrink: 0;
+    width: 2px;
+    background-color: var(--rule);
+    transition: background-color var(--transition-fast);
+  }
+
+  .contact-method:hover .contact-accent {
+    background-color: var(--accent);
+  }
+
+  .contact-content {
+    flex: 1;
+    padding: var(--space-1) 0;
+  }
+
+  .contact-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--accent);
+    margin: 0 0 var(--space-2);
+  }
+
+  .contact-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .contact-value:hover {
+    color: var(--accent);
+  }
+
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    margin-top: var(--space-1);
+    margin-bottom: var(--space-6);
+  }
+
+  .status-text {
+    color: var(--text-secondary);
+    line-height: var(--leading-normal);
+    max-width: 52ch;
+  }
+
+  .status-text:last-child {
+    margin-bottom: 0;
+  }
+</style>

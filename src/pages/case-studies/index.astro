@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RailLayout from '../../components/RailLayout.astro';
+import Kicker from '../../components/Kicker.astro';
+import AbstractList from '../../components/AbstractList.astro';
+import { getCollection } from 'astro:content';
+
+const caseStudies = await getCollection('case-studies');
+const sortedPosts = caseStudies
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .map((post, i) => ({
+    href: `/case-studies/${post.id}`,
+    kicker: `Case Study ${String(i + 1).padStart(2, '0')}`,
+    title: post.data.title,
+    outcome: post.data.summary,
+    date: post.data.date,
+    status: post.data.status,
+  }));
+---
+
+<BaseLayout title="Case Studies – Peyton Salvant" description="Production systems I've owned end-to-end: AI pipelines, data platforms, and high-stakes workflows.">
+  <RailLayout>
+    <header class="page-header">
+      <Kicker>Case Studies</Kicker>
+      <h1>Production Systems</h1>
+      <p class="page-intro">
+        Systems I owned end-to-end. Each entry covers what I built, the constraints I faced, and measurable outcomes.
+      </p>
+    </header>
+
+    <section class="content">
+      {sortedPosts.length > 0 ? (
+        <AbstractList entries={sortedPosts} />
+      ) : (
+        <p class="empty-state">Case studies coming soon.</p>
+      )}
+    </section>
+  </RailLayout>
+</BaseLayout>
+
+<style>
+  .page-header {
+    max-width: var(--content-max);
+    margin-bottom: var(--space-16);
+  }
+
+  .page-header h1 {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    margin-top: var(--space-1);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-intro {
+    font-size: var(--text-lg);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+    max-width: 52ch;
+  }
+
+  .content {
+    max-width: var(--content-max);
+  }
+
+  .empty-state {
+    color: var(--muted);
+    font-style: italic;
+  }
+</style>

@@ -1,0 +1,109 @@
+<svg viewBox="0 0 800 340" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <style>
+    .box { fill: #FAFAFA; stroke: #E6E8EB; stroke-width: 1.5; }
+    .box-accent { fill: rgba(31, 58, 138, 0.06); stroke: #1F3A8A; stroke-width: 1.5; }
+    .box-text { font-family: Inter, sans-serif; font-size: 12px; fill: #111111; font-weight: 500; }
+    .box-text-sm { font-family: Inter, sans-serif; font-size: 10px; fill: #5F6368; }
+    .arrow { stroke: #1F3A8A; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+    .arrow-return { stroke: #5F6368; stroke-width: 1; stroke-dasharray: 4 3; fill: none; marker-end: url(#arrowhead-gray); }
+    .label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #1F3A8A; }
+    .step { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #FFFFFF; }
+    .step-bg { fill: #1F3A8A; }
+    .muted { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #5F6368; }
+    .group-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; fill: #1F3A8A; font-weight: 500; letter-spacing: 0.05em; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1F3A8A"/>
+    </marker>
+    <marker id="arrowhead-gray" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#5F6368"/>
+    </marker>
+  </defs>
+
+  <!-- Step 1: SMS Input -->
+  <circle cx="60" cy="100" r="12" class="step-bg"/>
+  <text x="60" y="104" text-anchor="middle" class="step">1</text>
+
+  <rect x="30" y="130" width="80" height="50" rx="4" class="box"/>
+  <text x="70" y="152" text-anchor="middle" class="box-text">SMS</text>
+  <text x="70" y="168" text-anchor="middle" class="box-text-sm">Inbound</text>
+
+  <!-- Step 2: SQS Queue -->
+  <circle cx="170" cy="100" r="12" class="step-bg"/>
+  <text x="170" y="104" text-anchor="middle" class="step">2</text>
+
+  <rect x="140" y="130" width="80" height="50" rx="4" class="box"/>
+  <text x="180" y="152" text-anchor="middle" class="box-text">SQS</text>
+  <text x="180" y="168" text-anchor="middle" class="box-text-sm">Queue</text>
+
+  <!-- Step 3: Lambda Worker -->
+  <circle cx="280" cy="100" r="12" class="step-bg"/>
+  <text x="280" y="104" text-anchor="middle" class="step">3</text>
+
+  <rect x="250" y="130" width="80" height="50" rx="4" class="box"/>
+  <text x="290" y="152" text-anchor="middle" class="box-text">Lambda</text>
+  <text x="290" y="168" text-anchor="middle" class="box-text-sm">Worker</text>
+
+  <!-- Step 4: Thread Lookup -->
+  <circle cx="390" cy="100" r="12" class="step-bg"/>
+  <text x="390" y="104" text-anchor="middle" class="step">4</text>
+
+  <rect x="360" y="130" width="80" height="50" rx="4" class="box"/>
+  <text x="400" y="152" text-anchor="middle" class="box-text">Thread</text>
+  <text x="400" y="168" text-anchor="middle" class="box-text-sm">Lookup</text>
+
+  <!-- Step 5: OpenAI Assistant -->
+  <circle cx="500" cy="100" r="12" class="step-bg"/>
+  <text x="500" y="104" text-anchor="middle" class="step">5</text>
+
+  <rect x="460" y="130" width="100" height="50" rx="4" class="box-accent"/>
+  <text x="510" y="152" text-anchor="middle" class="box-text">OpenAI</text>
+  <text x="510" y="168" text-anchor="middle" class="box-text-sm">Assistants API</text>
+
+  <!-- Step 6: Tool Call -->
+  <circle cx="620" cy="100" r="12" class="step-bg"/>
+  <text x="620" y="104" text-anchor="middle" class="step">6</text>
+
+  <rect x="580" y="130" width="100" height="50" rx="4" class="box"/>
+  <text x="630" y="152" text-anchor="middle" class="box-text">Tool Call</text>
+  <text x="630" y="168" text-anchor="middle" class="box-text-sm">search_players</text>
+
+  <!-- Step 7: Response -->
+  <circle cx="730" cy="100" r="12" class="step-bg"/>
+  <text x="730" y="104" text-anchor="middle" class="step">7</text>
+
+  <rect x="700" y="130" width="70" height="50" rx="4" class="box"/>
+  <text x="735" y="152" text-anchor="middle" class="box-text">SMS</text>
+  <text x="735" y="168" text-anchor="middle" class="box-text-sm">Response</text>
+
+  <!-- Arrows between steps -->
+  <path d="M 110 155 L 132 155" class="arrow"/>
+  <path d="M 220 155 L 242 155" class="arrow"/>
+  <path d="M 330 155 L 352 155" class="arrow"/>
+  <path d="M 440 155 L 452 155" class="arrow"/>
+  <path d="M 560 155 L 572 155" class="arrow"/>
+  <path d="M 680 155 L 692 155" class="arrow"/>
+
+  <!-- Database lookup from Tool Call -->
+  <rect x="580" y="220" width="100" height="40" rx="4" class="box"/>
+  <text x="630" y="244" text-anchor="middle" class="box-text-sm">PostgreSQL</text>
+
+  <path d="M 630 180 L 630 212" class="arrow"/>
+  <path d="M 630 260 L 630 280 L 510 280 L 510 188" class="arrow-return"/>
+
+  <!-- S3 for config -->
+  <rect x="360" y="220" width="80" height="40" rx="4" class="box"/>
+  <text x="400" y="244" text-anchor="middle" class="box-text-sm">S3 Config</text>
+
+  <path d="M 400 180 L 400 212" class="arrow-dashed"/>
+
+  <!-- Labels -->
+  <text x="125" y="145" class="label">async</text>
+  <text x="600" y="200" class="label">query</text>
+  <text x="545" y="270" class="label">results</text>
+
+  <!-- Footer annotations -->
+  <text x="400" y="320" text-anchor="middle" class="muted">Multi-turn conversations · GPT-4o-mini · Zod validation · Sub-3s response</text>
+</svg>

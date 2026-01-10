@@ -1,0 +1,163 @@
+---
+const navLinks = [
+  { href: '/case-studies', label: 'Work' },
+  { href: '/research', label: 'Research' },
+  { href: '/resume', label: 'Resume' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="header">
+  <nav class="nav" aria-label="Main navigation">
+    <a href="/" class="nav-logo">Peyton Salvant</a>
+    <ul class="nav-links">
+      {navLinks.map(({ href, label }) => (
+        <li>
+          <a
+            href={href}
+            class:list={['nav-link', { active: currentPath === href || (href !== '/' && currentPath.startsWith(href)) }]}
+            aria-current={currentPath === href ? 'page' : undefined}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="nav-toggle-line"></span>
+      <span class="nav-toggle-line"></span>
+    </button>
+  </nav>
+</header>
+
+<style>
+  .header {
+    padding: var(--space-6) var(--container-padding);
+    max-width: var(--container-max);
+    margin: 0 auto;
+  }
+
+  .nav {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-8);
+  }
+
+  .nav-logo {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    text-decoration: none;
+    color: var(--text);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: var(--space-6);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-link {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 400;
+    color: var(--muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    transition: color var(--transition-fast);
+  }
+
+  .nav-link:hover {
+    color: var(--text);
+  }
+
+  .nav-link.active {
+    color: var(--accent);
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: var(--space-2);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .nav-toggle-line {
+    display: block;
+    width: 18px;
+    height: 1px;
+    background-color: var(--text);
+    transition: transform var(--transition-fast), opacity var(--transition-fast);
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: var(--space-8);
+      padding: var(--container-padding);
+      background: var(--bg);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity var(--transition-base), visibility var(--transition-base);
+      z-index: 50;
+    }
+
+    .nav-links.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .nav-links.open .nav-link {
+      font-size: var(--text-sm);
+    }
+
+    .nav-toggle {
+      display: flex;
+      position: relative;
+      z-index: 60;
+    }
+
+    .nav-toggle[aria-expanded="true"] .nav-toggle-line:first-child {
+      transform: rotate(45deg) translate(2px, 2px);
+    }
+
+    .nav-toggle[aria-expanded="true"] .nav-toggle-line:last-child {
+      transform: rotate(-45deg) translate(2px, -2px);
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector('.nav-toggle');
+  const links = document.querySelector('.nav-links');
+
+  toggle?.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', (!expanded).toString());
+    links?.classList.toggle('open');
+  });
+
+  links?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      toggle?.setAttribute('aria-expanded', 'false');
+      links.classList.remove('open');
+    });
+  });
+</script>

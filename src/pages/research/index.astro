@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RailLayout from '../../components/RailLayout.astro';
+import Kicker from '../../components/Kicker.astro';
+import AbstractList from '../../components/AbstractList.astro';
+import { getCollection } from 'astro:content';
+
+const research = await getCollection('research');
+const sortedPosts = research
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .map((post, i) => ({
+    href: `/research/${post.id}`,
+    kicker: `Research ${String(i + 1).padStart(2, '0')}`,
+    title: post.data.title,
+    outcome: post.data.summary,
+    date: post.data.date,
+    status: post.data.status,
+  }));
+---
+
+<BaseLayout title="Research – Peyton Salvant" description="Technical notes on production AI systems, streaming architectures, and data pipelines.">
+  <RailLayout>
+    <header class="page-header">
+      <Kicker>Technical Writing</Kicker>
+      <h1>Production AI & Data Systems</h1>
+      <p class="page-intro">
+        Technical notes on AI-native workflows, RAG pipelines, streaming systems, and performance patterns. Written from production experience.
+      </p>
+    </header>
+
+    <section class="content">
+      {sortedPosts.length > 0 ? (
+        <AbstractList entries={sortedPosts} />
+      ) : (
+        <p class="empty-state">Research notes coming soon.</p>
+      )}
+    </section>
+  </RailLayout>
+</BaseLayout>
+
+<style>
+  .page-header {
+    max-width: var(--content-max);
+    margin-bottom: var(--space-16);
+  }
+
+  .page-header h1 {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    margin-top: var(--space-1);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-intro {
+    font-size: var(--text-lg);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+    max-width: 52ch;
+  }
+
+  .content {
+    max-width: var(--content-max);
+  }
+
+  .empty-state {
+    color: var(--muted);
+    font-style: italic;
+  }
+</style>

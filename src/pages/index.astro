@@ -1,0 +1,252 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RailLayout from '../components/RailLayout.astro';
+import Section from '../components/Section.astro';
+import Kicker from '../components/Kicker.astro';
+import AbstractList from '../components/AbstractList.astro';
+import { getCollection } from 'astro:content';
+
+const caseStudies = await getCollection('case-studies');
+const research = await getCollection('research');
+
+const featuredCaseStudies = caseStudies
+  .filter(post => post.data.featured)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3)
+  .map((post, i) => ({
+    href: `/case-studies/${post.id}`,
+    kicker: `Case Study ${String(i + 1).padStart(2, '0')}`,
+    title: post.data.title,
+    outcome: post.data.summary,
+    date: post.data.date,
+  }));
+
+const featuredResearch = research
+  .filter(post => post.data.featured)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3)
+  .map((post, i) => ({
+    href: `/research/${post.id}`,
+    kicker: `Research ${String(i + 1).padStart(2, '0')}`,
+    title: post.data.title,
+    outcome: post.data.summary,
+    date: post.data.date,
+    status: post.data.status,
+  }));
+
+const railItems = [
+  { id: 'intro', label: 'Intro' },
+  { id: 'work', label: 'Work' },
+  { id: 'research', label: 'Research' },
+  { id: 'contact', label: 'Contact' },
+];
+---
+
+<BaseLayout title="Peyton Salvant" description="Founding-minded full-stack engineer focused on AI-driven systems, data pipelines, and production-critical workflows.">
+  <RailLayout items={railItems}>
+    <Section id="intro">
+      <div class="intro">
+        <h1>Peyton Salvant</h1>
+        <p class="intro-text">
+          Founding-minded full-stack engineer focused on data pipelines, AI-driven systems, and high-stakes user workflows. Experienced owning ambiguous, production-critical platforms end-to-end.
+        </p>
+      </div>
+    </Section>
+
+    <Section id="work">
+      <Kicker>Selected Work</Kicker>
+      <h2 class="section-title">Production Systems</h2>
+
+      <div class="work-entries">
+        <article class="work-entry">
+          <div class="work-accent"></div>
+          <div class="work-content">
+            <h3 class="work-title">Gemini Sports AI Platform</h3>
+            <p class="work-outcome"><strong>Sole frontend engineer owning platform architecture, performance, and production delivery for a platform used by 120+ professional soccer teams.</strong></p>
+            <p class="work-context">Owned the frontend platform layer across web, iOS, and Android. Led frontend implementation for player comparison, watchlists, and scouting workflows over a global player dataset.</p>
+            <span class="work-date">July 2025 – Present</span>
+          </div>
+        </article>
+
+        <article class="work-entry">
+          <div class="work-accent"></div>
+          <div class="work-content">
+            <h3 class="work-title">OpenAI Assistants for Player Lookup</h3>
+            <p class="work-outcome"><strong>Built natural language player identification system using OpenAI Assistants API, enabling SMS-based search across 50,000+ players.</strong></p>
+            <p class="work-context">Implemented custom function tools, multi-turn conversation handling with thread management, and Zod schema validation for reliable responses.</p>
+            <span class="work-date">2025</span>
+          </div>
+        </article>
+
+        <article class="work-entry">
+          <div class="work-accent"></div>
+          <div class="work-content">
+            <h3 class="work-title">Cascade Core Solutions</h3>
+            <p class="work-outcome"><strong>Founded consulting studio delivering custom software and automation for small and mid-sized businesses.</strong></p>
+            <p class="work-context">Owned system architecture, frontend, backend, and deployment workflows end-to-end. Delivered production web platforms using React, Next.js, AWS Lambda, and Stripe.</p>
+            <span class="work-date">Aug 2023 – Present</span>
+          </div>
+        </article>
+      </div>
+
+      <a href="/case-studies" class="section-link">View all work</a>
+    </Section>
+
+    <Section id="research">
+      <Kicker>Technical Writing</Kicker>
+      <h2 class="section-title">Production AI & Data Systems</h2>
+      {featuredResearch.length > 0 ? (
+        <AbstractList entries={featuredResearch} />
+      ) : (
+        <p class="empty-state">Technical notes coming soon.</p>
+      )}
+      <a href="/research" class="section-link">View all writing</a>
+    </Section>
+
+    <Section id="contact">
+      <Kicker>Contact</Kicker>
+      <h2 class="section-title">Get in Touch</h2>
+      <p class="contact-text">
+        Open to roles focused on AI-native systems, data pipelines, and production-critical platforms.
+      </p>
+      <a href="/contact" class="contact-link">Contact</a>
+    </Section>
+  </RailLayout>
+</BaseLayout>
+
+<style>
+  .intro {
+    max-width: var(--content-max);
+  }
+
+  .intro h1 {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-4);
+  }
+
+  .intro-text {
+    font-size: var(--text-lg);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+    max-width: 52ch;
+  }
+
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    margin-top: var(--space-1);
+    margin-bottom: var(--space-8);
+  }
+
+  .section-link {
+    display: inline-block;
+    margin-top: var(--space-8);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .section-link:hover {
+    color: var(--accent);
+  }
+
+  .section-link::after {
+    content: ' →';
+  }
+
+  .empty-state {
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* Work entries */
+  .work-entries {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+  }
+
+  .work-entry {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .work-accent {
+    flex-shrink: 0;
+    width: 2px;
+    background-color: var(--rule);
+    transition: background-color var(--transition-fast);
+  }
+
+  .work-entry:hover .work-accent {
+    background-color: var(--accent);
+  }
+
+  .work-content {
+    flex: 1;
+    padding: var(--space-1) 0;
+  }
+
+  .work-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-tight);
+    color: var(--text);
+    margin: 0 0 var(--space-2);
+  }
+
+  .work-outcome {
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    color: var(--text);
+    margin: 0 0 var(--space-2);
+    line-height: var(--leading-tight);
+  }
+
+  .work-context {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-3);
+    line-height: var(--leading-normal);
+  }
+
+  .work-date {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+  }
+
+  .contact-text {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-6);
+    max-width: 48ch;
+  }
+
+  .contact-link {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: none;
+    padding: var(--space-3) var(--space-6);
+    border: 1px solid var(--text);
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .contact-link:hover {
+    background-color: var(--text);
+    color: var(--bg);
+  }
+</style>

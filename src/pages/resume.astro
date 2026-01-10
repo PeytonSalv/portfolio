@@ -1,0 +1,358 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RailLayout from '../components/RailLayout.astro';
+import Section from '../components/Section.astro';
+import Kicker from '../components/Kicker.astro';
+
+const railItems = [
+  { id: 'intro', label: 'Resume' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'education', label: 'Education' },
+];
+---
+
+<BaseLayout title="Resume – Peyton Salvant" description="Founding-minded full-stack engineer focused on data pipelines, AI-driven systems, and production-critical workflows.">
+  <RailLayout items={railItems}>
+    <Section id="intro">
+      <header class="page-header">
+        <Kicker>Resume</Kicker>
+        <h1>Peyton Salvant</h1>
+        <p class="page-intro">
+          Founding-minded full-stack engineer focused on data pipelines, AI-driven systems, and high-stakes user workflows. Experienced owning ambiguous, production-critical platforms end-to-end.
+        </p>
+        <div class="contact-info">
+          <span>Panama City Beach, FL</span>
+          <span>peytonsalvant5461@outlook.com</span>
+          <span>+1 (225) 328-4200</span>
+        </div>
+      </header>
+    </Section>
+
+    <Section id="experience">
+      <Kicker>Experience</Kicker>
+      <h2 class="section-title">Work History</h2>
+
+      <div class="timeline">
+        <article class="timeline-item">
+          <div class="timeline-accent"></div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <h3 class="timeline-title">Frontend / Full-Stack Engineer</h3>
+              <p class="timeline-meta">Gemini Sports AI · July 2025 – Present</p>
+            </div>
+            <p class="timeline-outcome">Early-stage sports analytics startup building real-time scouting and roster intelligence platforms.</p>
+            <ul>
+              <li>Sole frontend engineer responsible for platform architecture, performance, and production delivery for a platform used by 120+ professional soccer teams</li>
+              <li>Owned the frontend platform layer across web, iOS, and Android over a global professional player dataset</li>
+              <li>Led frontend implementation for player comparison, watchlists, and scouting workflows</li>
+              <li>Owned the interface layer over a global professional player dataset including contracts, valuations, and proprietary performance metrics</li>
+              <li>Integrated backend AI workflows for natural language player lookup and report synthesis</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="timeline-item">
+          <div class="timeline-accent"></div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <h3 class="timeline-title">Founder / Software Engineer</h3>
+              <p class="timeline-meta">Cascade Core Solutions · Aug 2023 – Present</p>
+            </div>
+            <p class="timeline-outcome">Consulting and product development studio delivering custom software and automation for small and mid-sized businesses.</p>
+            <ul>
+              <li>Designed and implemented a custom bike rental POS and inventory management system integrating bookings, deliveries, and real-time availability</li>
+              <li>Built and deployed production web platforms using React, Next.js, AWS Lambda, Stripe, and third-party APIs</li>
+              <li>Owned system architecture, frontend, backend, and deployment workflows end-to-end</li>
+              <li>Delivered high-reliability admin tooling and dashboards used daily by business operators</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </Section>
+
+    <Section id="skills">
+      <Kicker>Technical</Kicker>
+      <h2 class="section-title">Skills</h2>
+
+      <div class="skills">
+        <div class="skill-group">
+          <h3 class="skill-label">Languages</h3>
+          <p>TypeScript, Python</p>
+        </div>
+
+        <div class="skill-group">
+          <h3 class="skill-label">Frontend</h3>
+          <p>React, Next.js, Tailwind CSS, Framer Motion, GSAP</p>
+        </div>
+
+        <div class="skill-group">
+          <h3 class="skill-label">AI & Data</h3>
+          <p>LangChain, LangSmith, Retrieval-Augmented Generation (RAG), Prompt evaluation, Unstructured data synthesis</p>
+        </div>
+
+        <div class="skill-group">
+          <h3 class="skill-label">State & Data</h3>
+          <p>React Query, Zustand</p>
+        </div>
+
+        <div class="skill-group">
+          <h3 class="skill-label">Testing & Tooling</h3>
+          <p>Playwright, Vite, GitHub Actions</p>
+        </div>
+
+        <div class="skill-group">
+          <h3 class="skill-label">Other</h3>
+          <p>Performance optimization, Data-dense dashboards, Admin tooling, REST APIs</p>
+        </div>
+      </div>
+    </Section>
+
+    <Section id="education">
+      <Kicker>Education</Kicker>
+      <h2 class="section-title">Background</h2>
+
+      <div class="education">
+        <article class="edu-item">
+          <div class="edu-accent"></div>
+          <div class="edu-content">
+            <h3 class="edu-title">B.S. Computer Science</h3>
+            <p class="edu-meta">University of Alabama · 2025</p>
+            <p class="edu-desc">Minor in Mathematics</p>
+          </div>
+        </article>
+      </div>
+    </Section>
+  </RailLayout>
+</BaseLayout>
+
+<style>
+  .page-header {
+    max-width: var(--content-max);
+  }
+
+  .page-header h1 {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    margin-top: var(--space-1);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-intro {
+    font-size: var(--text-lg);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+    max-width: 52ch;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+  }
+
+  .contact-info span:not(:last-child)::after {
+    content: '·';
+    margin-left: var(--space-4);
+  }
+
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    margin-top: var(--space-1);
+    margin-bottom: var(--space-8);
+  }
+
+  /* Timeline */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+  }
+
+  .timeline-item {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .timeline-accent {
+    flex-shrink: 0;
+    width: 2px;
+    background-color: var(--rule);
+  }
+
+  .timeline-content {
+    flex: 1;
+    padding: var(--space-1) 0;
+  }
+
+  .timeline-header {
+    margin-bottom: var(--space-2);
+  }
+
+  .timeline-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    margin: 0;
+  }
+
+  .timeline-meta {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+    margin: var(--space-1) 0 0;
+  }
+
+  .timeline-outcome {
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-3);
+  }
+
+  .timeline-content ul {
+    margin: 0;
+    padding-left: var(--space-6);
+  }
+
+  .timeline-content li {
+    margin-bottom: var(--space-1);
+    color: var(--muted);
+    font-size: var(--text-sm);
+  }
+
+  /* Projects */
+  .projects {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .project {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .project-accent {
+    flex-shrink: 0;
+    width: 2px;
+    background-color: var(--rule);
+  }
+
+  .project-content {
+    flex: 1;
+    padding: var(--space-1) 0;
+  }
+
+  .project-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    margin: 0 0 var(--space-1);
+  }
+
+  .project-outcome {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-2);
+  }
+
+  .project-desc {
+    color: var(--muted);
+    font-size: var(--text-sm);
+    margin: 0;
+  }
+
+  /* Skills */
+  .skills {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+
+  @media (max-width: 600px) {
+    .skills {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .skill-group {
+    padding-left: var(--space-4);
+    border-left: 2px solid var(--rule);
+  }
+
+  .skill-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--accent);
+    margin: 0 0 var(--space-2);
+  }
+
+  .skill-group p {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+  }
+
+  /* Education */
+  .education {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .edu-item {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .edu-accent {
+    flex-shrink: 0;
+    width: 2px;
+    background-color: var(--rule);
+  }
+
+  .edu-content {
+    flex: 1;
+    padding: var(--space-1) 0;
+  }
+
+  .edu-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    margin: 0;
+  }
+
+  .edu-meta {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+    margin: var(--space-1) 0 var(--space-2);
+  }
+
+  .edu-desc {
+    margin: 0;
+    color: var(--muted);
+    font-size: var(--text-sm);
+  }
+</style>

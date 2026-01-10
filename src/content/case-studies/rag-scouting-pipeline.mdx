@@ -1,0 +1,136 @@
+---
+title: "OpenAI Assistants Integration for Player Lookup"
+date: "2025-11-01"
+summary: "Built natural language player identification system using OpenAI Assistants API with custom function tools, enabling SMS-based player search across 50,000+ players."
+tags: ["OpenAI", "TypeScript", "NestJS", "AI Systems"]
+status: "Active"
+featured: true
+heroFigure: "/figures/streaming-pipeline.svg"
+heroAlt: "AI pipeline architecture"
+---
+
+## Outcome
+
+**Built natural language player identification system using OpenAI Assistants API, enabling scouts to search 50,000+ players via SMS with conversational queries.** Implemented custom function tools, multi-turn conversation handling, and Zod schema validation for reliable responses.
+
+## Context
+
+Professional soccer scouts needed a way to quickly look up player information while in the field—often via SMS when watching matches. Traditional search interfaces required exact names or filters. The platform needed natural language understanding to handle queries like "the Brazilian midfielder who played for Porto last season."
+
+## Ownership
+
+- Designed and built OpenAI Assistants integration in NestJS backend
+- Implemented custom `search_players` function tool for database queries
+- Built multi-turn conversation handling with thread management
+- Owned response validation with Zod schemas
+- Integrated S3 persistence for assistant configuration
+
+## Constraints
+
+- **Ambiguity handling**: Queries often incomplete—"the tall striker from Argentina" could match dozens of players
+- **Cost efficiency**: GPT-4 too expensive for high-volume SMS queries
+- **Response reliability**: Scouts need accurate player data, not hallucinations
+- **Latency**: SMS workflows require fast turnaround
+- **Stateful conversations**: Must handle clarification requests across multiple messages
+
+## Architecture
+
+### OpenAI Assistants Setup
+
+```typescript
+// Assistant configuration with custom tools
+const assistant = await openai.beta.assistants.create({
+  model: "gpt-4o-mini",  // Cost-efficient for high volume
+  instructions: `You help scouts identify professional soccer players.
+    When a query is ambiguous, ask clarifying questions.
+    Always use the search_players tool to find matches.`,
+  tools: [{
+    type: "function",
+    function: {
+      name: "search_players",
+      description: "Search the player database by name, team, position, nationality, or other attributes",
+      parameters: {
+        type: "object",
+        properties: {
+          name: { type: "string" },
+          team: { type: "string" },
+          position: { type: "string" },
+          nationality: { type: "string" },
+          league: { type: "string" }
+        }
+      }
+    }
+  }]
+});
+```
+
+### Conversation Flow
+
+1. **SMS received** → SQS queue for async processing
+2. **Thread lookup** → Retrieve or create conversation thread
+3. **Message added** → Append user query to thread
+4. **Run created** → Execute assistant with tools
+5. **Tool calls handled** → Execute `search_players` against PostgreSQL
+6. **Response validated** → Zod schema ensures structured output
+7. **SMS sent** → Return formatted player information
+
+### Key Implementation Details
+
+**Thread Management**: Each phone number maps to a persistent thread ID stored in the database. Enables multi-turn conversations:
+
+```
+Scout: "Brazilian striker at Porto"
+AI: "I found 3 Brazilian strikers at Porto. Did you mean:
+     1. Evanilson (26, 18 goals this season)
+     2. Galeno (25, winger who also plays striker)
+     3. Pepê (27, forward)"
+Scout: "The first one"
+AI: "Evanilson - Full details: ..."
+```
+
+**Function Tool Execution**: When the assistant calls `search_players`, the backend executes a GraphQL query against the player database and returns structured results.
+
+**Response Validation**: Zod schemas ensure the assistant returns properly formatted player data:
+
+```typescript
+const PlayerResponseSchema = z.object({
+  found: z.boolean(),
+  players: z.array(z.object({
+    id: z.string(),
+    name: z.string(),
+    team: z.string(),
+    position: z.string(),
+    nationality: z.string()
+  })),
+  clarification: z.string().optional()
+});
+```
+
+**S3 Persistence**: Assistant IDs stored in S3 per organization, enabling org-specific customizations and easy updates without database migrations.
+
+### Backend Stack
+
+| Component | Technology |
+|-----------|------------|
+| Runtime | NestJS on AWS Lambda |
+| AI Model | GPT-4o-mini (OpenAI Assistants API) |
+| Queue | SQS for async SMS processing |
+| Database | PostgreSQL (player data) |
+| Storage | S3 (assistant configs, vector stores) |
+| Validation | Zod for response schemas |
+
+## Results
+
+- Natural language player lookup via SMS in production
+- Multi-turn conversations with clarification handling
+- Sub-3-second response times for most queries
+- Cost-efficient: GPT-4o-mini at ~$0.15/1M input tokens
+- Full conversation traceability for debugging
+
+## What I'd Do Differently
+
+**Streaming responses**: Current implementation waits for full response. Streaming would improve perceived latency for longer answers.
+
+**Evaluation dataset earlier**: Building a test suite of ambiguous queries would have accelerated prompt tuning. Currently relies on production monitoring.
+
+**Caching frequent queries**: Common player lookups (Messi, Mbappé) could be cached to reduce API costs and latency.

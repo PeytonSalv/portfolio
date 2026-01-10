@@ -1,0 +1,174 @@
+---
+title: "AI-Native UI Design"
+date: "2025-10-01"
+summary: "System design principles and interface patterns for AI-native products—RAG interfaces, LLM evaluation displays, and guardrail feedback."
+tags: ["AI/ML", "UI Design", "LLM", "RAG"]
+status: "Published"
+featured: true
+heroFigure: "/figures/attention-mechanism.svg"
+heroAlt: "AI interface patterns diagram"
+---
+
+## TL;DR
+
+- **Problem**: AI-powered products require new interface patterns that communicate uncertainty, show provenance, and handle non-deterministic outputs.
+- **Solution**: Design system built around confidence visualization, source attribution, and graceful degradation.
+- **Result**: Patterns applied to RAG-powered scouting interfaces where scouts trust AI-synthesized insights for roster decisions.
+
+## Context
+
+Traditional UI design assumes deterministic outputs: click a button, get a predictable result. AI-native products break this assumption. Outputs vary between invocations, sources matter for trust, and the system can be confidently wrong.
+
+This note documents patterns developed while building AI interfaces at Gemini Sports AI—specifically, RAG pipelines for scouting report synthesis where scouts rely on AI outputs for high-stakes roster decisions.
+
+## Problem
+
+AI interfaces face challenges that standard UI patterns don't address:
+
+1. **Non-deterministic outputs**: Same input, different outputs—users need to understand this
+2. **Source attribution**: Users need to verify where information came from
+3. **Confidence communication**: Not all outputs have equal reliability
+4. **Failure modes**: AI can be confidently wrong; interfaces must handle this gracefully
+5. **Latency patterns**: LLM inference takes seconds, not milliseconds
+
+## Patterns
+
+### Source Attribution
+
+Every AI-generated claim should trace to sources. In RAG interfaces, this means:
+
+```typescript
+interface AIResponse {
+  content: string;
+  sources: Array<{
+    document: string;
+    excerpt: string;
+    relevanceScore: number;
+  }>;
+  confidence: number;
+}
+
+// Display with inline citations
+const ResponseWithSources = ({ response }) => (
+  <div>
+    <p>{response.content}</p>
+    <details>
+      <summary>Sources ({response.sources.length})</summary>
+      {response.sources.map(source => (
+        <SourceCard key={source.document} {...source} />
+      ))}
+    </details>
+  </div>
+);
+```
+
+### Confidence Visualization
+
+Communicate uncertainty explicitly. Don't hide it:
+
+```typescript
+// Visual confidence indicator
+const ConfidenceBadge = ({ score }) => {
+  const level = score > 0.8 ? 'high' : score > 0.5 ? 'medium' : 'low';
+  return (
+    <span className={`confidence confidence-${level}`}>
+      {level === 'high' ? 'High confidence' :
+       level === 'medium' ? 'Review sources' :
+       'Low confidence—verify independently'}
+    </span>
+  );
+};
+```
+
+### Streaming Response Display
+
+LLM outputs should stream. Users tolerate latency better when they see progress:
+
+```typescript
+const StreamingResponse = ({ stream }) => {
+  const [content, setContent] = useState('');
+  const [status, setStatus] = useState<'loading' | 'streaming' | 'complete'>('loading');
+
+  useEffect(() => {
+    stream.on('start', () => setStatus('streaming'));
+    stream.on('token', token => setContent(c => c + token));
+    stream.on('end', () => setStatus('complete'));
+  }, [stream]);
+
+  return (
+    <div className={`response response-${status}`}>
+      {status === 'loading' && <Skeleton />}
+      {content}
+      {status === 'streaming' && <Cursor />}
+    </div>
+  );
+};
+```
+
+### Guardrail Feedback
+
+When guardrails block or modify responses, communicate transparently:
+
+```typescript
+const GuardrailedResponse = ({ response }) => (
+  <div>
+    {response.filtered && (
+      <Notice type="warning">
+        This response was modified by safety filters.
+        Original may have contained unverified claims.
+      </Notice>
+    )}
+    <ResponseContent content={response.content} />
+  </div>
+);
+```
+
+### Retry and Regenerate
+
+AI outputs are non-deterministic. Let users regenerate:
+
+```typescript
+const AIOutput = ({ prompt, response, onRegenerate }) => (
+  <div>
+    <ResponseContent content={response.content} />
+    <footer>
+      <button onClick={onRegenerate}>
+        Regenerate response
+      </button>
+      <span className="hint">
+        AI outputs may vary between generations
+      </span>
+    </footer>
+  </div>
+);
+```
+
+## Anti-Patterns
+
+**Hiding uncertainty**: Displaying AI outputs as facts erodes trust when errors surface. Always communicate confidence levels.
+
+**Black-box responses**: Users can't trust what they can't verify. Source attribution is mandatory for high-stakes decisions.
+
+**Synchronous loading**: LLM inference takes seconds. Blocking UI while waiting degrades experience. Always stream.
+
+**Overpromising accuracy**: AI is probabilistic. Interfaces should set appropriate expectations.
+
+## Results
+
+Applied to RAG-powered scouting interfaces at Gemini Sports AI:
+
+- **Trust calibration**: Scouts learned which confidence levels to verify independently
+- **Source verification**: Click-through rates on source citations indicated active verification
+- **Error recovery**: Regenerate functionality caught cases where first response was off-target
+- **Decision support**: AI synthesis accelerated scouting workflows while maintaining decision quality
+
+## When to Apply
+
+Use AI-native patterns when:
+
+- Outputs are non-deterministic (LLM-generated content)
+- Users make high-stakes decisions based on AI outputs
+- Source provenance matters for trust
+- Latency exceeds typical web expectations (> 1 second)
+
+For deterministic AI (classification, prediction with fixed outputs), standard patterns may suffice.

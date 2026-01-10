@@ -1,0 +1,162 @@
+---
+title: "Event-Driven NLP for Earnings Call Analysis"
+date: "2024-05-01"
+summary: "Experimental prototype combining SEC ingestion, real-time transcription, and streaming NLP analysis for earnings calls."
+tags: ["NLP", "Python", "Streaming", "Prototype"]
+status: "Deprecated"
+featured: true
+heroFigure: "/figures/earnings-pipeline.svg"
+heroAlt: "Event-driven earnings call NLP pipeline"
+---
+
+## TL;DR
+
+- **Problem**: Earnings calls are time-sensitive, unstructured, and difficult to analyze in real time.
+- **Solution**: Built an event-driven NLP pipeline that ingests SEC filings, joins live calls, and performs streaming sentiment analysis aligned with historical market reactions.
+- **Result**: Demonstrated feasibility of treating earnings calls as structured, analyzable events rather than static transcripts.
+
+**Note**: This was an experimental prototype, later deprecated. Documented here for architectural and NLP insights.
+
+## Context
+
+Earnings calls present unique challenges for automated analysis:
+
+- **Timing is opaque**: Call schedules are announced via unstructured SEC filings (8-K forms), often with inconsistent formats
+- **Signals are embedded in speech**: Critical information—guidance changes, margin warnings, tone shifts—lives in spoken language
+- **Market reactions are immediate**: Price movements often occur during the call, before transcripts are published
+- **Existing analysis is post-hoc**: Most tools analyze calls after they end, missing real-time signals
+
+The goal was to explore whether earnings calls could be treated as structured, time-bound events with a full lifecycle from discovery to post-event analysis.
+
+## System Overview
+
+The system treats earnings calls as scheduled, time-bound events with a full lifecycle from discovery to post-event analysis.
+
+Rather than building an "app," I designed an event-driven pipeline where each stage operates independently, connected by message queues and scheduled triggers.
+
+![Event-driven earnings call NLP pipeline](/figures/earnings-pipeline.svg)
+*FIG 1 — Event-driven architecture from SEC filing to signal storage.*
+
+## Pipeline Breakdown
+
+### 1. Event Discovery (SEC Ingestion)
+
+The pipeline begins with SEC EDGAR, where companies file 8-K forms announcing earnings calls.
+
+- Scraped SEC EDGAR filings on a scheduled basis
+- Parsed PDF disclosures to extract earnings call dates, times, dial-in numbers, and webcast URLs
+- Normalized inconsistent filing formats across different companies and law firms
+- Stored structured event records with confidence scores for extracted fields
+
+**Challenge**: SEC filings lack standardization. Date formats, section headers, and URL structures vary widely. Required extensive regex patterns and fallback heuristics.
+
+### 2. Document Processing
+
+Beyond call scheduling, the 8-K filings contain valuable context.
+
+- Extracted financial language, risk disclosures, and forward-looking statements
+- Indexed documents for later contextual alignment during live analysis
+- Built company-specific baselines for typical disclosure language
+
+### 3. Event Scheduling
+
+Detected events triggered downstream actions automatically.
+
+- Scheduled system actions (bot join, recording start) based on parsed call times
+- Coordinated document ingestion with live call timing
+- Handled timezone normalization and edge cases (rescheduled calls, cancellations)
+
+### 4. Live Event Capture
+
+A bot joined each earnings call to capture the live audio stream.
+
+- Automated bot joined Zoom calls or webcast streams at scheduled times
+- Captured raw audio for real-time processing
+- Maintained buffer for handling network interruptions
+
+**Challenge**: Webcast platforms vary significantly. Some use Flash (deprecated), others require authentication. Built adapters for common platforms.
+
+### 5. Streaming Transcription
+
+Audio was converted to text incrementally, not after the call ended.
+
+- Streaming speech-to-text processing with sub-second latency
+- Preserved timestamps for each transcript segment
+- Attempted speaker diarization (CEO vs. CFO vs. analyst questions)
+
+**Challenge**: Financial terminology and company names often transcribed incorrectly. Required domain-specific vocabulary hints.
+
+### 6. Real-Time NLP Analysis
+
+This is where the experimental value lived—analyzing language as it was spoken.
+
+![Streaming NLP analysis flow](/figures/nlp-analysis-flow.svg)
+*FIG 2 — Streaming NLP analysis with sentiment curve and historical comparison.*
+
+- Applied sentiment and topic classification to transcript segments in sliding windows
+- Scored language as positive, neutral, or negative with confidence intervals
+- Detected topic shifts (revenue → margins → guidance)
+- Emitted time-aligned sentiment signals during the call
+- Tracked sentiment trajectory, not just aggregate score
+
+**Key insight**: Sentiment *changes* mid-call matter more than overall sentiment. A shift from positive to negative during guidance discussion is more significant than uniformly neutral language.
+
+### 7. Historical Alignment
+
+Live signals were compared against historical data to assess significance.
+
+- Backdated live transcript segments against prior earnings calls from the same company
+- Compared language patterns to sector baselines
+- Analyzed correlations between historical language shifts and subsequent market movements
+- Flagged when current call language diverged significantly from historical patterns
+
+## What Made This Hard
+
+Building this system surfaced several non-obvious challenges:
+
+**SEC filings lack standardization**: Every law firm formats 8-Ks differently. Dates appear as "January 15, 2024", "1/15/24", "15th of January", etc.
+
+**Earnings calls are noisy**: Speakers interrupt each other, audio quality varies, and filler words dominate.
+
+**Mid-call sentiment shifts matter most**: Aggregate sentiment is nearly useless. The trajectory—and especially inflection points—carries the signal.
+
+**Streaming NLP requires low latency**: Analysis must complete before the next segment arrives. Batching defeats the purpose.
+
+**Language-market alignment is non-trivial**: Correlation doesn't imply causation. Many confounding factors affect price movement.
+
+## Results & Learnings
+
+The prototype demonstrated several things:
+
+- **Feasibility**: Real-time earnings call analysis is technically possible with current tools
+- **Event-driven architecture works**: Treating calls as scheduled events simplifies orchestration
+- **Latency is achievable**: Sub-second transcription and analysis is feasible
+- **Signal quality is the bottleneck**: The hard problem isn't engineering—it's knowing what language patterns actually matter
+
+Primary constraints identified:
+- Transcription accuracy for financial terminology
+- Noise in sentiment classification for nuanced business language
+- Lack of ground truth for evaluating signal usefulness
+
+## Why It Was Deprecated
+
+The prototype achieved its learning goals but was deprecated for several reasons:
+
+- **High operational complexity**: Maintaining scrapers, bots, and streaming infrastructure required constant attention
+- **Data quality challenges**: Transcription errors and sentiment misclassification introduced noise that was difficult to filter
+- **Evaluation difficulty**: No clear ground truth for whether detected signals were useful
+- **Scope mismatch**: Further progress required significant domain-specific modeling beyond a solo prototype
+
+## What I'd Do Next
+
+If revisiting this problem:
+
+- **Speaker-level sentiment tracking**: Separate CEO vs. CFO vs. analyst language patterns
+- **Sector-normalized baselines**: "Margin pressure" means different things in SaaS vs. manufacturing
+- **Better evaluation metrics**: Define what "useful signal" means before building more features
+- **Tighter volatility alignment**: Focus on implied volatility rather than price movement
+- **Fine-tuned language models**: Domain-specific models for financial transcript analysis
+
+## Framing
+
+This project was an exploration of event-driven NLP system design, focused on data ingestion, streaming analysis, and architectural feasibility. It was never intended as a production trading strategy—the value was in learning how to treat unstructured, time-sensitive events as structured data pipelines.

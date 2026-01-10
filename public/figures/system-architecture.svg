@@ -1,0 +1,126 @@
+<svg viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <style>
+    .box { fill: #FAFAFA; stroke: #E6E8EB; stroke-width: 1.5; }
+    .box-accent { fill: rgba(31, 58, 138, 0.06); stroke: #1F3A8A; stroke-width: 1.5; stroke-dasharray: 4 2; }
+    .box-text { font-family: Inter, sans-serif; font-size: 12px; fill: #111111; font-weight: 500; }
+    .box-text-sm { font-family: Inter, sans-serif; font-size: 10px; fill: #5F6368; }
+    .arrow { stroke: #1F3A8A; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+    .arrow-dashed { stroke: #5F6368; stroke-width: 1; stroke-dasharray: 4 3; fill: none; marker-end: url(#arrowhead-gray); }
+    .label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #1F3A8A; }
+    .group-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; fill: #1F3A8A; font-weight: 500; letter-spacing: 0.05em; }
+    .muted { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #5F6368; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1F3A8A"/>
+    </marker>
+    <marker id="arrowhead-gray" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#5F6368"/>
+    </marker>
+  </defs>
+
+  <!-- Frontend Layer -->
+  <rect x="30" y="30" width="180" height="160" rx="4" class="box-accent"/>
+  <text x="45" y="50" class="group-label">FRONTEND</text>
+
+  <rect x="50" y="65" width="60" height="35" rx="3" class="box"/>
+  <text x="80" y="87" text-anchor="middle" class="box-text">Web</text>
+
+  <rect x="130" y="65" width="60" height="35" rx="3" class="box"/>
+  <text x="160" y="87" text-anchor="middle" class="box-text">iOS</text>
+
+  <rect x="90" y="110" width="60" height="35" rx="3" class="box"/>
+  <text x="120" y="132" text-anchor="middle" class="box-text">Android</text>
+
+  <text x="120" y="170" text-anchor="middle" class="muted">React Native + Expo</text>
+
+  <!-- State Management -->
+  <rect x="30" y="210" width="180" height="80" rx="4" class="box-accent"/>
+  <text x="45" y="230" class="group-label">STATE</text>
+
+  <rect x="50" y="245" width="70" height="30" rx="3" class="box"/>
+  <text x="85" y="264" text-anchor="middle" class="box-text-sm">Apollo</text>
+
+  <rect x="130" y="245" width="70" height="30" rx="3" class="box"/>
+  <text x="165" y="264" text-anchor="middle" class="box-text-sm">Zustand</text>
+
+  <!-- API Layer -->
+  <rect x="260" y="30" width="140" height="130" rx="4" class="box-accent"/>
+  <text x="275" y="50" class="group-label">API GATEWAY</text>
+
+  <rect x="280" y="65" width="100" height="40" rx="3" class="box"/>
+  <text x="330" y="85" text-anchor="middle" class="box-text">GraphQL</text>
+  <text x="330" y="97" text-anchor="middle" class="box-text-sm">Apollo Server</text>
+
+  <rect x="280" y="115" width="100" height="30" rx="3" class="box"/>
+  <text x="330" y="134" text-anchor="middle" class="box-text-sm">Cognito Auth</text>
+
+  <!-- Backend Services -->
+  <rect x="450" y="30" width="170" height="200" rx="4" class="box-accent"/>
+  <text x="465" y="50" class="group-label">NESTJS SERVICES</text>
+
+  <rect x="470" y="65" width="60" height="30" rx="3" class="box"/>
+  <text x="500" y="84" text-anchor="middle" class="box-text-sm">Players</text>
+
+  <rect x="540" y="65" width="60" height="30" rx="3" class="box"/>
+  <text x="570" y="84" text-anchor="middle" class="box-text-sm">Search</text>
+
+  <rect x="470" y="105" width="60" height="30" rx="3" class="box"/>
+  <text x="500" y="124" text-anchor="middle" class="box-text-sm">Watchlist</text>
+
+  <rect x="540" y="105" width="60" height="30" rx="3" class="box"/>
+  <text x="570" y="124" text-anchor="middle" class="box-text-sm">Reports</text>
+
+  <rect x="470" y="145" width="60" height="30" rx="3" class="box"/>
+  <text x="500" y="164" text-anchor="middle" class="box-text-sm">Teams</text>
+
+  <rect x="540" y="145" width="60" height="30" rx="3" class="box"/>
+  <text x="570" y="164" text-anchor="middle" class="box-text-sm">Kanban</text>
+
+  <text x="535" y="205" text-anchor="middle" class="muted">AWS Lambda</text>
+
+  <!-- Data Layer -->
+  <rect x="670" y="30" width="100" height="130" rx="4" class="box-accent"/>
+  <text x="685" y="50" class="group-label">DATA</text>
+
+  <rect x="685" y="65" width="70" height="30" rx="3" class="box"/>
+  <text x="720" y="84" text-anchor="middle" class="box-text-sm">Aurora</text>
+
+  <rect x="685" y="105" width="70" height="30" rx="3" class="box"/>
+  <text x="720" y="124" text-anchor="middle" class="box-text-sm">Redis</text>
+
+  <!-- AI Layer -->
+  <rect x="260" y="180" width="140" height="110" rx="4" class="box-accent"/>
+  <text x="275" y="200" class="group-label">AI / ML</text>
+
+  <rect x="280" y="215" width="100" height="30" rx="3" class="box"/>
+  <text x="330" y="234" text-anchor="middle" class="box-text-sm">OpenAI</text>
+
+  <rect x="280" y="255" width="100" height="25" rx="3" class="box"/>
+  <text x="330" y="272" text-anchor="middle" class="box-text-sm">Assistants API</text>
+
+  <!-- External Data -->
+  <rect x="670" y="180" width="100" height="110" rx="4" class="box-accent"/>
+  <text x="685" y="200" class="group-label">EXTERNAL</text>
+
+  <rect x="685" y="215" width="70" height="30" rx="3" class="box"/>
+  <text x="720" y="234" text-anchor="middle" class="box-text-sm">Snowflake</text>
+
+  <rect x="685" y="255" width="70" height="30" rx="3" class="box"/>
+  <text x="720" y="274" text-anchor="middle" class="box-text-sm">S3</text>
+
+  <!-- Arrows -->
+  <path d="M 210 110 L 252 110 L 252 85 L 272 85" class="arrow"/>
+  <path d="M 380 85 L 442 85" class="arrow"/>
+  <path d="M 620 95 L 677 95" class="arrow"/>
+  <path d="M 380 230 L 442 145" class="arrow-dashed"/>
+  <path d="M 620 170 L 677 230" class="arrow-dashed"/>
+
+  <!-- Labels -->
+  <text x="415" y="75" class="label">GraphQL</text>
+  <text x="648" y="85" class="label">SQL</text>
+
+  <!-- Footer -->
+  <text x="400" y="330" text-anchor="middle" class="muted">50,000+ players · 120+ teams · Cross-platform delivery</text>
+</svg>
