@@ -1,0 +1,151 @@
+<svg viewBox="0 0 800 380" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <style>
+    .box { fill: #FAFAFA; stroke: #E6E8EB; stroke-width: 1.5; }
+    .box-accent { fill: rgba(31, 58, 138, 0.06); stroke: #1F3A8A; stroke-width: 1.5; stroke-dasharray: 4 2; }
+    .box-highlight { fill: rgba(31, 58, 138, 0.1); stroke: #1F3A8A; stroke-width: 2; }
+    .box-dark { fill: #1F3A8A; stroke: #1F3A8A; stroke-width: 1.5; }
+    .box-text { font-family: Inter, sans-serif; font-size: 10px; fill: #111111; font-weight: 500; }
+    .box-text-light { font-family: Inter, sans-serif; font-size: 10px; fill: #FFFFFF; font-weight: 500; }
+    .box-text-sm { font-family: Inter, sans-serif; font-size: 8px; fill: #5F6368; }
+    .arrow { stroke: #1F3A8A; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+    .arrow-dashed { stroke: #5F6368; stroke-width: 1; fill: none; stroke-dasharray: 4 3; marker-end: url(#arrowhead-gray); }
+    .label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; fill: #1F3A8A; font-weight: 500; }
+    .group-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #1F3A8A; font-weight: 600; letter-spacing: 0.08em; }
+    .muted { font-family: 'IBM Plex Mono', monospace; font-size: 8px; fill: #5F6368; }
+    .fig-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; fill: #5F6368; font-weight: 500; }
+    .budget-bar { fill: rgba(31, 58, 138, 0.2); }
+    .budget-fill { fill: #1F3A8A; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1F3A8A"/>
+    </marker>
+    <marker id="arrowhead-gray" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#5F6368"/>
+    </marker>
+  </defs>
+
+  <!-- Figure label -->
+  <text x="400" y="25" text-anchor="middle" class="fig-label">FIG 2 — SKILL INVOCATION + CONTEXT BUDGET MODEL</text>
+
+  <!-- Input constraints -->
+  <rect x="30" y="50" width="140" height="180" rx="4" class="box-accent"/>
+  <text x="50" y="70" class="group-label">INPUTS</text>
+
+  <rect x="45" y="85" width="110" height="30" rx="3" class="box"/>
+  <text x="100" y="104" text-anchor="middle" class="box-text-sm">File Paths</text>
+
+  <rect x="45" y="120" width="110" height="30" rx="3" class="box"/>
+  <text x="100" y="139" text-anchor="middle" class="box-text-sm">Spec + Constraints</text>
+
+  <rect x="45" y="155" width="110" height="30" rx="3" class="box"/>
+  <text x="100" y="174" text-anchor="middle" class="box-text-sm">Code Snippets</text>
+
+  <rect x="45" y="190" width="110" height="30" rx="3" class="box-highlight"/>
+  <text x="100" y="209" text-anchor="middle" class="box-text-sm">Session State</text>
+
+  <!-- Skill execution box -->
+  <rect x="200" y="50" width="240" height="180" rx="4" class="box-highlight"/>
+  <text x="220" y="70" class="group-label">SKILL EXECUTION</text>
+
+  <rect x="215" y="85" width="100" height="35" rx="3" class="box-dark"/>
+  <text x="265" y="107" text-anchor="middle" class="box-text-light">GeneratePatch.v2</text>
+
+  <!-- Token budget visualization -->
+  <text x="330" y="95" class="muted">TOKEN BUDGET</text>
+  <rect x="330" y="100" width="95" height="12" rx="2" class="budget-bar"/>
+  <rect x="330" y="100" width="57" height="12" rx="2" class="budget-fill"/>
+  <text x="390" y="125" class="muted">60% used</text>
+
+  <!-- Working set -->
+  <text x="215" y="145" class="muted">WORKING SET</text>
+  <rect x="215" y="150" width="60" height="22" rx="2" class="box"/>
+  <text x="245" y="165" text-anchor="middle" class="box-text-sm">api.ts</text>
+  <rect x="280" y="150" width="60" height="22" rx="2" class="box"/>
+  <text x="310" y="165" text-anchor="middle" class="box-text-sm">types.ts</text>
+  <rect x="345" y="150" width="60" height="22" rx="2" class="box"/>
+  <text x="375" y="165" text-anchor="middle" class="box-text-sm">test.ts</text>
+
+  <!-- Tool boundary -->
+  <text x="215" y="195" class="muted">TOOL BOUNDARY</text>
+  <rect x="215" y="200" width="90" height="20" rx="2" class="box"/>
+  <text x="260" y="214" text-anchor="middle" class="box-text-sm">READ: any</text>
+  <rect x="315" y="200" width="110" height="20" rx="2" class="box-dark"/>
+  <text x="370" y="214" text-anchor="middle" class="box-text-light">WRITE: patch only</text>
+
+  <!-- Output artifacts -->
+  <rect x="470" y="50" width="140" height="180" rx="4" class="box-accent"/>
+  <text x="490" y="70" class="group-label">OUTPUTS</text>
+
+  <rect x="485" y="85" width="110" height="30" rx="3" class="box-dark"/>
+  <text x="540" y="104" text-anchor="middle" class="box-text-light">Unified Diff</text>
+
+  <rect x="485" y="120" width="110" height="30" rx="3" class="box"/>
+  <text x="540" y="139" text-anchor="middle" class="box-text-sm">Rationale</text>
+
+  <rect x="485" y="155" width="110" height="30" rx="3" class="box"/>
+  <text x="540" y="174" text-anchor="middle" class="box-text-sm">Risk Notes</text>
+
+  <rect x="485" y="190" width="110" height="30" rx="3" class="box-highlight"/>
+  <text x="540" y="209" text-anchor="middle" class="box-text-sm">Test Commands</text>
+
+  <!-- Evaluation hooks -->
+  <rect x="640" y="50" width="130" height="180" rx="4" class="box-accent"/>
+  <text x="660" y="70" class="group-label">EVAL HOOKS</text>
+
+  <rect x="655" y="85" width="100" height="25" rx="3" class="box"/>
+  <text x="705" y="102" text-anchor="middle" class="box-text-sm">npm test</text>
+
+  <rect x="655" y="115" width="100" height="25" rx="3" class="box"/>
+  <text x="705" y="132" text-anchor="middle" class="box-text-sm">npm run lint</text>
+
+  <rect x="655" y="145" width="100" height="25" rx="3" class="box"/>
+  <text x="705" y="162" text-anchor="middle" class="box-text-sm">tsc --noEmit</text>
+
+  <rect x="655" y="180" width="100" height="40" rx="3" class="box-highlight"/>
+  <text x="705" y="197" text-anchor="middle" class="box-text">Scorecard</text>
+  <text x="705" y="210" text-anchor="middle" class="box-text-sm">pass/fail metrics</text>
+
+  <!-- Arrows -->
+  <path d="M 170 140 L 192 140" class="arrow"/>
+  <path d="M 440 140 L 462 140" class="arrow"/>
+  <path d="M 610 140 L 632 140" class="arrow"/>
+
+  <!-- Labels -->
+  <text x="180" y="130" class="label">constrain</text>
+  <text x="450" y="130" class="label">artifact</text>
+  <text x="620" y="130" class="label">verify</text>
+
+  <!-- Feedback loop -->
+  <rect x="30" y="260" width="740" height="80" rx="4" class="box"/>
+  <text x="50" y="280" class="group-label">CONTEXT HYGIENE</text>
+
+  <rect x="50" y="295" width="130" height="35" rx="3" class="box"/>
+  <text x="115" y="310" text-anchor="middle" class="box-text">Ephemeral</text>
+  <text x="115" y="322" text-anchor="middle" class="box-text-sm">code, chat, diffs</text>
+
+  <rect x="200" y="295" width="130" height="35" rx="3" class="box-highlight"/>
+  <text x="265" y="310" text-anchor="middle" class="box-text">Persistent</text>
+  <text x="265" y="322" text-anchor="middle" class="box-text-sm">glossary, contracts</text>
+
+  <rect x="350" y="295" width="130" height="35" rx="3" class="box"/>
+  <text x="415" y="310" text-anchor="middle" class="box-text">Session State</text>
+  <text x="415" y="322" text-anchor="middle" class="box-text-sm">10-20 lines max</text>
+
+  <rect x="500" y="295" width="130" height="35" rx="3" class="box"/>
+  <text x="565" y="310" text-anchor="middle" class="box-text">Cold Restart</text>
+  <text x="565" y="322" text-anchor="middle" class="box-text-sm">when scope changes</text>
+
+  <rect x="650" y="295" width="100" height="35" rx="3" class="box-dark"/>
+  <text x="700" y="317" text-anchor="middle" class="box-text-light">Stable Cost</text>
+
+  <!-- Arrows in hygiene -->
+  <path d="M 180 312 L 192 312" class="arrow"/>
+  <path d="M 330 312 L 342 312" class="arrow"/>
+  <path d="M 480 312 L 492 312" class="arrow"/>
+  <path d="M 630 312 L 642 312" class="arrow"/>
+
+  <!-- Footer -->
+  <text x="400" y="365" text-anchor="middle" class="muted">Skills declare inputs and outputs — context is budgeted, not unbounded</text>
+</svg>

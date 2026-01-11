@@ -1,0 +1,227 @@
+---
+title: "Token Optimization for AI Pair Programming"
+date: "2026-01-01"
+summary: "A skills-first system for context management, two-loop workflows, and measurable agent outputs in AI-assisted development."
+tags: ["AI Systems", "Claude Code", "Workflow", "Engineering"]
+status: "Published"
+featured: true
+heroFigure: "/figures/two-loop-workflow.svg"
+heroAlt: "Two-loop agent workflow diagram"
+---
+
+## TL;DR
+
+- **Problem**: Most AI coding workflows fail through context bloat—dumping files, sprawling requirements, no evaluation signals.
+- **Solution**: Skills-first system with explicit context budgets, two-loop workflows, and artifact-driven outputs.
+- **Result**: Faster iterations, stable costs, reviewable outputs that scale beyond a single developer.
+
+## The Core Insight: Treat Context as a Budget, Not a Convenience
+
+Most "AI coding" workflows die by a thousand cuts:
+
+- Dumping entire files repeatedly
+- Asking the model to remember sprawling requirements
+- Iterating without stable evaluation signals
+- Letting tools run without guardrails
+
+A skills-first system makes context management explicit:
+
+- Each skill declares what it needs and what it returns
+- The agent never gets to "free roam" the repository
+- Outputs are testable artifacts (patch, tests, ADR, report)
+
+## The Correct Process: Two-Loop Workflow
+
+This is the workflow that stays fast, correct, and cost-stable.
+
+![Two-loop agent workflow](/figures/two-loop-workflow.svg)
+*FIG 1 — Two-loop workflow: interactive pair loop and autonomous agent loop converging at verification.*
+
+### Loop A: Interactive Pair Loop
+
+Use this loop when you're still shaping the solution. Fast, human-in-the-loop.
+
+**Steps:**
+
+1. **Define the task in constraints**
+   - What is the smallest shippable increment?
+   - What must not change?
+   - What is the acceptance test?
+
+2. **Create a short-lived working set**
+   - 1–3 files max in active context
+   - A single "working spec" under 20 lines
+   - A lightweight glossary for domain terms
+
+3. **Call skills, don't freestyle**
+   - `RepoSurfaceScan` (narrow scope)
+   - `PlanPatch` (constrained plan)
+   - `GeneratePatch` (diff only)
+   - `WriteTests`
+   - `RunAndInterpretTests`
+
+4. **Validate every iteration**
+   - Compile / lint / unit tests
+   - Minimal integration check
+   - Confirm acceptance criteria
+
+**Rule**: If it can't be validated quickly, it does not belong in Loop A.
+
+### Loop B: Background Agent Loop
+
+Use this loop when the work is heavy. Slow, autonomous, artifact-driven.
+
+- Refactors across multiple modules
+- Long test migrations
+- Documentation generation
+- Performance profiling
+- Multi-file code generation
+
+**Steps:**
+
+1. **Emit an "Agent Contract"**
+   - Inputs (links, files, constraints)
+   - Deliverables (PR-ready patch, tests, ADR, perf notes)
+   - Non-goals
+   - Timebox + fallback plan
+
+2. **Run skills in a pipeline**
+   - `RepoMap` → `ChangePlan` → `PatchBatch` → `TestSuiteUpdate` → `VerificationReport`
+
+3. **Return a single review bundle**
+   - Patch + tests + notes
+   - "What changed" summary
+   - Risk list
+   - Rollback instructions
+
+**Rule**: If the agent can't produce a review bundle, it's not done.
+
+## Skill Design: What a "Good Skill" Looks Like
+
+Skills should be versioned, small, and observable.
+
+### Skill Template
+
+```
+Name: GeneratePatch.v2
+Inputs: file paths + spec + constraints + existing code snippets
+Outputs: unified diff + rationale + risk notes
+Budget: max tokens or max files
+Validation: must pass target test command(s)
+```
+
+### High-Leverage Skills
+
+| Skill | Purpose |
+|-------|---------|
+| `RepoSurfaceScan` | Identify likely touchpoints without reading everything |
+| `DependencyTrace` | Map call chain from entrypoint to leaf |
+| `PlanPatch` | Produce a plan with file list + risk order |
+| `GeneratePatch` | Output a diff (no prose) |
+| `WriteTests` | Add/adjust tests only |
+| `ExplainFailure` | Interpret failing tests + propose fix |
+| `ADRWriteup` | Decision record with tradeoffs |
+| `PerfCheck` | Instructions + measurement points |
+
+![Skill invocation model](/figures/skill-context-model.svg)
+*FIG 2 — Skill invocation with context budget constraints and artifact outputs.*
+
+## Guardrails That Make Agents Useful
+
+### Tool Boundaries
+
+- Agents can read anything, but write only via patches
+- Patches must be diff-based, never "here's the whole file"
+- All changes must have a verification command
+
+### Context Hygiene
+
+Limit long-lived memory to:
+- Glossary
+- API contracts
+- Acceptance criteria
+
+Everything else is ephemeral per task.
+
+### Safety Checks
+
+- Require tests for behavior changes
+- Require typed boundaries (schemas, interfaces)
+- Require rollback plan for risky migrations
+
+## Token Optimization That Actually Matters
+
+Token optimization is not "be shorter." It's designing the conversation as a system.
+
+### Practices That Reduce Cost and Improve Correctness
+
+- **Diff-first workflow**: Send/receive patches, not full files
+- **Working set discipline**: Keep active context to a few files
+- **Context snapshots**: Replace long chat history with a 10–20 line "session state"
+- **Cold start vs warm start**: Restart sessions deliberately once scope changes
+- **Summaries are lossy**: Only summarize stable facts; never summarize code behavior without tests
+- **Artifact > conversation**: Treat ADRs, plans, and reports as the memory
+
+### Session State Format
+
+```
+Goal: [single sentence]
+Constraints: [what must not change]
+Files in scope: [1-3 files]
+Acceptance tests: [commands that must pass]
+Current hypothesis: [what you're trying]
+Next action: [immediate next step]
+```
+
+This becomes your single source of truth instead of chat scrollback.
+
+## Evaluation: The Missing Layer
+
+Three levels of eval for AI pair programming:
+
+### 1. Local Correctness
+- Tests pass
+- Lint passes
+- Types pass
+
+### 2. Behavioral Correctness
+- Acceptance criteria met
+- Edge cases verified
+- No regression in critical flows
+
+### 3. Process Quality
+- Time-to-merge
+- Revert rate
+- PR review churn
+- "Agent helpfulness" score (human-rated)
+
+### Agent Scorecard
+
+- Was the diff minimal?
+- Did tests cover the change?
+- Did it introduce new complexity?
+- Were risk and rollback described?
+- Was any assumption unverified?
+
+This is how you keep "agent output" from becoming unreviewable noise.
+
+## What I'd Do Next
+
+To push this from notes to a real systems contribution:
+
+- Build a skills registry (versioned prompts + contracts)
+- Add automatic eval collection (latency, cost, pass/fail)
+- Create a PR review assistant skill that summarizes diffs and risks
+- Add team-level conventions (naming, budgets, required checks)
+
+## Final Take
+
+The correct way to use skills and agents for pair programming is:
+
+- Constrain the agent
+- Version the skills
+- Budget the context
+- Measure the outcomes
+- Ship artifacts, not conversation
+
+That's what scales beyond a single developer and stops "agentic" work from becoming an unreviewable mess.
