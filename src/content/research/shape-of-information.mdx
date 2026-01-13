@@ -1,0 +1,148 @@
+---
+title: "The Shape of Information"
+date: "2025-07-01"
+summary: "How data density changes comprehension. An exploration of how different presentation models affect speed of understanding, perceived clarity, and decision confidence."
+tags: ["Data Visualization", "UX", "Information Design", "Cognition"]
+status: "Published"
+featured: true
+heroFigure: "/figures/shape-of-information.svg"
+heroAlt: "Four data presentation forms: table, cards, graph, and layered overlay"
+---
+
+## TL;DR
+
+- **Premise**: The same dataset can feel obvious or overwhelming depending entirely on how it is shaped.
+- **Method**: Keep the dataset constant, change only the structure used to display it.
+- **Finding**: Data density is not the enemy. Unstructured density is.
+
+## Premise
+
+The same dataset can feel obvious or overwhelming depending entirely on how it is shaped.
+
+This exploration looks at how different presentation models affect speed of understanding, perceived clarity, and decision confidence.
+
+Rather than changing the data, I kept the dataset constant and changed only the structure used to display it.
+
+## Dataset
+
+A fixed, moderately dense dataset representing entities with multiple quantitative attributes.
+
+Example dimensions:
+
+- Performance metrics
+- Categorical attributes
+- Relative rankings
+- Deltas vs baseline
+
+The goal was not realism, but repeatability. Every view renders the exact same information.
+
+## Experiment
+
+The dataset is rendered in four different visual forms.
+
+### 1. Table
+
+A traditional dense table optimized for precision.
+
+**Characteristics:**
+
+- Maximal information per square inch
+- Fastest for exact comparisons
+- Highest cognitive load for first-time readers
+
+**Observations:**
+
+- Power users perform well
+- New users struggle to identify what matters
+- Visual hierarchy collapses under density
+
+### 2. Cards
+
+Data grouped into individual entity cards.
+
+**Characteristics:**
+
+- Strong local context
+- Clear separation of concerns
+- Reduced scan efficiency at scale
+
+**Observations:**
+
+- Easier to read initially
+- Harder to compare across entities
+- Encourages narrative thinking over analysis
+
+### 3. Graph
+
+Metrics mapped into a visual encoding.
+
+**Characteristics:**
+
+- Immediate pattern recognition
+- Relative performance becomes obvious
+- Exact values become secondary
+
+**Observations:**
+
+- Trends are understood quickly
+- Outliers stand out naturally
+- Precision requires secondary interaction
+
+### 4. Layered Overlay
+
+A hybrid view combining multiple representations.
+
+**Characteristics:**
+
+- Primary signal shown visually
+- Secondary data layered on demand
+- Progressive disclosure of complexity
+
+**Observations:**
+
+- Best balance of speed and depth
+- Users naturally focus on meaningful differences
+- Complexity becomes optional rather than mandatory
+
+## Visual Interaction
+
+Users can toggle between representations while preserving:
+
+- Selection state
+- Hovered entities
+- Highlighted attributes
+
+This makes differences in comprehension immediately apparent rather than theoretical.
+
+## Attention Mapping
+
+An optional heatmap overlay approximates eye-tracking behavior based on interaction patterns:
+
+- Hover dwell time
+- Cursor velocity
+- Focus changes
+
+This highlights where users actually look, not where designers assume they do.
+
+**Key insight:** Visual emphasis often diverges from data importance.
+
+## What Changed My Thinking
+
+Data density is not the enemy. Unstructured density is.
+
+The most effective interfaces do not remove information. They shape it so users encounter complexity only when they are ready.
+
+Good design is not about making things simpler. It is about making complexity legible.
+
+## Why This Matters
+
+Most product decisions fail not because the data is wrong, but because the interface hides the signal.
+
+Understanding the shape of information is a prerequisite for building trustworthy, high-stakes systems.
+
+## Implementation Notes
+
+- Single source of truth for data
+- View adapters map data into each representation
+- Shared interaction state across views
+- Heatmap derived from interaction telemetry, not real eye tracking

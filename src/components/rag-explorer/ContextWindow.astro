@@ -1,0 +1,220 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class:list={['context-window', className]} data-context-window>
+  <div class="context-header">
+    <span class="context-label">Context Window</span>
+    <span class="context-usage" data-context-usage>2.4k / 4k tokens</span>
+  </div>
+
+  <div class="context-bar">
+    <div class="context-fill" data-context-fill style="width: 60%;">
+      <div class="context-segments" data-context-segments>
+        <!-- Segments rendered by JS -->
+      </div>
+    </div>
+    <div class="context-limit"></div>
+  </div>
+
+  <div class="context-breakdown" data-context-breakdown>
+    <div class="breakdown-item">
+      <span class="breakdown-color system"></span>
+      <span class="breakdown-label">System</span>
+      <span class="breakdown-value" data-breakdown-system>400</span>
+    </div>
+    <div class="breakdown-item">
+      <span class="breakdown-color context"></span>
+      <span class="breakdown-label">Context</span>
+      <span class="breakdown-value" data-breakdown-context>1600</span>
+    </div>
+    <div class="breakdown-item">
+      <span class="breakdown-color query"></span>
+      <span class="breakdown-label">Query</span>
+      <span class="breakdown-value" data-breakdown-query>200</span>
+    </div>
+    <div class="breakdown-item">
+      <span class="breakdown-color buffer"></span>
+      <span class="breakdown-label">Buffer</span>
+      <span class="breakdown-value" data-breakdown-buffer>200</span>
+    </div>
+  </div>
+
+  <div class="context-status" data-context-status>
+    <span class="status-indicator healthy"></span>
+    <span class="status-text">Healthy context composition</span>
+  </div>
+</div>
+
+<style>
+  .context-window {
+    padding: var(--space-4);
+    background: var(--bg-figure);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+
+  .context-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-3);
+  }
+
+  .context-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .context-usage {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+  }
+
+  .context-bar {
+    position: relative;
+    height: 24px;
+    background: var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .context-fill {
+    height: 100%;
+    background: var(--accent-soft);
+    border-radius: 4px 0 0 4px;
+    transition: width 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .context-fill.overflow {
+    background: rgba(220, 38, 38, 0.15);
+  }
+
+  .context-segments {
+    display: flex;
+    height: 100%;
+  }
+
+  :global(.context-segment) {
+    height: 100%;
+    transition: width 0.3s ease;
+  }
+
+  :global(.context-segment.system) {
+    background: var(--muted);
+    opacity: 0.4;
+  }
+
+  :global(.context-segment.context) {
+    background: var(--accent);
+    opacity: 0.7;
+  }
+
+  :global(.context-segment.query) {
+    background: var(--accent);
+    opacity: 0.9;
+  }
+
+  :global(.context-segment.buffer) {
+    background: transparent;
+  }
+
+  .context-limit {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--text);
+  }
+
+  .context-breakdown {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+  }
+
+  .breakdown-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .breakdown-color {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  .breakdown-color.system {
+    background: var(--muted);
+    opacity: 0.4;
+  }
+
+  .breakdown-color.context {
+    background: var(--accent);
+    opacity: 0.7;
+  }
+
+  .breakdown-color.query {
+    background: var(--accent);
+    opacity: 0.9;
+  }
+
+  .breakdown-color.buffer {
+    background: var(--rule);
+  }
+
+  .breakdown-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--muted);
+  }
+
+  .breakdown-value {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-secondary);
+  }
+
+  .context-status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--rule);
+  }
+
+  .status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--positive);
+  }
+
+  .status-indicator.warning {
+    background: #eab308;
+  }
+
+  .status-indicator.error {
+    background: var(--negative);
+  }
+
+  .status-text {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+  }
+</style>

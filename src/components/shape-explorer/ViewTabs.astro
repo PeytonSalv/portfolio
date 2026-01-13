@@ -1,0 +1,78 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const tabs = [
+  { id: 'table', label: 'Table' },
+  { id: 'cards', label: 'Cards' },
+  { id: 'graph', label: 'Graph' },
+  { id: 'overlay', label: 'Overlay' },
+];
+---
+
+<nav class:list={['view-tabs', className]} role="tablist" aria-label="Data view selector">
+  {tabs.map((tab, index) => (
+    <button
+      class:list={['tab', { active: index === 0 }]}
+      role="tab"
+      aria-selected={index === 0 ? 'true' : 'false'}
+      data-view={tab.id}
+    >
+      {tab.label}
+    </button>
+  ))}
+  <div class="tab-indicator" aria-hidden="true"></div>
+</nav>
+
+<style>
+  .view-tabs {
+    display: flex;
+    gap: var(--space-1);
+    position: relative;
+  }
+
+  .tab {
+    padding: var(--space-2) var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+    z-index: 1;
+  }
+
+  .tab:hover {
+    color: var(--text);
+    background: var(--state-hover);
+  }
+
+  .tab:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .tab.active {
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-color: var(--accent);
+  }
+
+  .tab-indicator {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: transform var(--transition-smooth), width var(--transition-smooth);
+    pointer-events: none;
+  }
+</style>

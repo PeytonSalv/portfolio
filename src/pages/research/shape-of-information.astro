@@ -1,0 +1,339 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RailLayout from '../../components/RailLayout.astro';
+import Section from '../../components/Section.astro';
+import Kicker from '../../components/Kicker.astro';
+import ShapeExplorer from '../../components/shape-explorer/ShapeExplorer.astro';
+import MicroSummary from '../../components/shape-explorer/MicroSummary.astro';
+import CalloutBlock from '../../components/shape-explorer/CalloutBlock.astro';
+
+const title = "The Shape of Information";
+const summary = "How data density changes comprehension. An exploration of how different presentation models affect speed of understanding, perceived clarity, and decision confidence.";
+
+const railItems = [
+  { id: 'header', label: 'Research 03', sublabel: 'Published' },
+  { id: 'explore', label: 'Explore' },
+  { id: 'transform', label: 'Transform' },
+  { id: 'findings', label: 'Findings' },
+];
+
+// View summaries data
+const tableSummary = [
+  { label: 'Precision', score: 5 },
+  { label: 'Scan Speed', score: 2 },
+  { label: 'First-Use', score: 1 },
+];
+
+const cardsSummary = [
+  { label: 'Precision', score: 3 },
+  { label: 'Scan Speed', score: 3 },
+  { label: 'First-Use', score: 4 },
+];
+
+const graphSummary = [
+  { label: 'Precision', score: 2 },
+  { label: 'Scan Speed', score: 5 },
+  { label: 'First-Use', score: 4 },
+];
+
+const overlaySummary = [
+  { label: 'Precision', score: 4 },
+  { label: 'Scan Speed', score: 4 },
+  { label: 'First-Use', score: 5 },
+];
+---
+
+<BaseLayout title={`${title} – Peyton Salvant`} description={summary}>
+  <RailLayout items={railItems}>
+    <article class="article">
+      <!-- Header -->
+      <Section id="header">
+        <header class="article-header">
+          <div class="mobile-meta">
+            <Kicker number="03">Research</Kicker>
+            <span class="mobile-status">July 2025</span>
+          </div>
+          <h1>{title}</h1>
+          <p class="article-tags">Data Visualization · UX · Information Design · Cognition</p>
+        </header>
+
+        <p class="premise">
+          The same dataset can feel obvious or overwhelming depending entirely on how it is shaped.
+        </p>
+      </Section>
+
+      <!-- Interactive Explorer -->
+      <Section id="explore">
+        <p class="section-intro">
+          Switch between views. The data stays constant. Only the shape changes.
+        </p>
+
+        <ShapeExplorer />
+
+        <div class="view-summaries">
+          <div class="summary-group">
+            <h3>Table</h3>
+            <MicroSummary items={tableSummary} />
+            <p class="summary-note">Dense, precise, high cognitive load</p>
+          </div>
+
+          <div class="summary-group">
+            <h3>Cards</h3>
+            <MicroSummary items={cardsSummary} />
+            <p class="summary-note">Grouped, narrative-friendly</p>
+          </div>
+
+          <div class="summary-group">
+            <h3>Graph</h3>
+            <MicroSummary items={graphSummary} />
+            <p class="summary-note">Patterns first, precision second</p>
+          </div>
+
+          <div class="summary-group">
+            <h3>Overlay</h3>
+            <MicroSummary items={overlaySummary} />
+            <p class="summary-note">Progressive disclosure</p>
+          </div>
+        </div>
+      </Section>
+
+      <!-- Scroll Transform Zone -->
+      <Section id="transform">
+        <p class="transform-intro">Scroll to watch the same data transform between representations.</p>
+        <div class="scroll-transform-container" data-transform-zone>
+          <div class="sticky-explorer">
+            <ShapeExplorer class="scroll-driven" />
+          </div>
+          <div class="scroll-track-area">
+            <div class="scroll-marker" data-marker="table"><span>Table</span></div>
+            <div class="scroll-marker" data-marker="cards"><span>Cards</span></div>
+            <div class="scroll-marker" data-marker="graph"><span>Graph</span></div>
+            <div class="scroll-marker" data-marker="overlay"><span>Overlay</span></div>
+          </div>
+        </div>
+      </Section>
+
+      <!-- Centered Callout -->
+      <CalloutBlock>
+        The data never changed. Only the shape did.
+      </CalloutBlock>
+
+      <!-- Findings -->
+      <Section id="findings">
+        <h2>What Changed My Thinking</h2>
+        <p>
+          Data density is not the enemy. Unstructured density is.
+        </p>
+        <p>
+          The most effective interfaces do not remove information. They shape it so users encounter complexity only when they are ready.
+        </p>
+        <p>
+          Good design is not about making things simpler. It is about making complexity legible.
+        </p>
+
+        <h2>Why This Matters</h2>
+        <p>
+          Most product decisions fail not because the data is wrong, but because the interface hides the signal.
+        </p>
+        <p>
+          Understanding the shape of information is a prerequisite for building trustworthy, high-stakes systems.
+        </p>
+      </Section>
+
+      <footer class="article-footer">
+        <a href="/research" class="back-link">← All research</a>
+      </footer>
+    </article>
+  </RailLayout>
+</BaseLayout>
+
+<style>
+  .article {
+    max-width: var(--content-max);
+  }
+
+  .article-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .mobile-meta {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-meta {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: var(--space-3);
+    }
+
+    .mobile-status {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--muted);
+    }
+  }
+
+  .article-header h1 {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-3);
+  }
+
+  .article-tags {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    margin: 0;
+  }
+
+  .premise {
+    font-size: var(--text-lg);
+    color: var(--text);
+    line-height: var(--leading-relaxed);
+    margin-top: var(--space-8);
+  }
+
+  .section-intro {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-6);
+  }
+
+  /* View summaries grid */
+  .view-summaries {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+  }
+
+  @media (max-width: 640px) {
+    .view-summaries {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .summary-group h3 {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--text);
+    margin-bottom: var(--space-2);
+  }
+
+  .summary-note {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+    margin-top: var(--space-2);
+    margin-bottom: 0;
+  }
+
+  /* Transform zone for scroll-driven changes */
+  .transform-intro {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-6);
+  }
+
+  .scroll-transform-container {
+    position: relative;
+    min-height: 300vh;
+  }
+
+  .sticky-explorer {
+    position: sticky;
+    top: var(--space-4);
+    z-index: 5;
+  }
+
+  .scroll-track-area {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .scroll-marker {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: var(--space-2);
+  }
+
+  .scroll-marker span {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    opacity: 0.4;
+    transition: opacity var(--transition-fast), color var(--transition-fast);
+  }
+
+  .scroll-marker.active span {
+    opacity: 1;
+    color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .scroll-transform-container {
+      display: none;
+    }
+
+    .transform-intro {
+      display: none;
+    }
+  }
+
+  /* Findings section */
+  h2 {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-tight);
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-4);
+  }
+
+  h2:first-of-type {
+    margin-top: var(--space-8);
+  }
+
+  p {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-4);
+  }
+
+  .article-footer {
+    margin-top: var(--space-20);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--rule);
+  }
+
+  .back-link {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .back-link:hover {
+    color: var(--accent);
+  }
+</style>

@@ -1,0 +1,569 @@
+---
+import RAGPipeline from './RAGPipeline.astro';
+import RAGControls from './RAGControls.astro';
+import DocumentChunks from './DocumentChunks.astro';
+import ContextWindow from './ContextWindow.astro';
+import EvaluationPanel from './EvaluationPanel.astro';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class:list={['rag-explorer', className]} data-rag-explorer>
+  <!-- Pipeline visualization -->
+  <RAGPipeline />
+
+  <!-- Controls -->
+  <div class="explorer-controls">
+    <RAGControls />
+    <div class="failure-toggle">
+      <button class="failure-btn" data-failure-toggle aria-pressed="false">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M7 1L13 12H1L7 1Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <line x1="7" y1="5" x2="7" y2="8" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="7" cy="10" r="0.75" fill="currentColor"/>
+        </svg>
+        <span>Failure Modes</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main visualization grid -->
+  <div class="explorer-grid">
+    <div class="grid-left">
+      <DocumentChunks />
+    </div>
+    <div class="grid-right">
+      <ContextWindow />
+      <EvaluationPanel />
+    </div>
+  </div>
+
+  <!-- Generation output preview -->
+  <div class="generation-preview" data-generation-preview>
+    <div class="preview-header">
+      <span class="preview-label">Generation Output</span>
+      <span class="preview-confidence" data-confidence>Confidence: Moderate</span>
+    </div>
+    <div class="preview-content" data-preview-content>
+      <p class="preview-text">Based on the retrieved context, the deployment process requires...</p>
+    </div>
+    <div class="preview-grounding" data-preview-grounding>
+      <span class="grounding-label">Grounded in:</span>
+      <span class="grounding-sources" data-grounding-sources>3 of 5 chunks</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .rag-explorer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .explorer-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .failure-toggle {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .failure-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .failure-btn:hover {
+    border-color: var(--negative);
+    color: var(--negative);
+  }
+
+  .failure-btn[aria-pressed="true"] {
+    background: rgba(220, 38, 38, 0.1);
+    border-color: var(--negative);
+    color: var(--negative);
+  }
+
+  .explorer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 768px) {
+    .explorer-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .grid-left,
+  .grid-right {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  /* Generation preview */
+  .generation-preview {
+    padding: var(--space-4);
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+
+  .preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-3);
+  }
+
+  .preview-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .preview-confidence {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+  }
+
+  .preview-confidence.high {
+    color: var(--positive);
+  }
+
+  .preview-confidence.low {
+    color: var(--negative);
+  }
+
+  .preview-content {
+    padding: var(--space-3);
+    background: var(--bg-figure);
+    border-radius: 4px;
+    margin-bottom: var(--space-3);
+  }
+
+  .preview-text {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+
+  .preview-grounding {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .grounding-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--muted);
+  }
+
+  .grounding-sources {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-secondary);
+  }
+</style>
+
+<script>
+  // Document corpus (single source of truth)
+  const DOCUMENTS = [
+    { id: 'doc-1', title: 'Deployment Guide', category: 'technical', date: '2024-11', relevance: 0.92, tokens: 450, stale: false },
+    { id: 'doc-2', title: 'API Reference v2', category: 'technical', date: '2024-10', relevance: 0.88, tokens: 380, stale: false },
+    { id: 'doc-3', title: 'Security Policy', category: 'policy', date: '2024-09', relevance: 0.75, tokens: 520, stale: false },
+    { id: 'doc-4', title: 'Architecture Overview', category: 'technical', date: '2024-08', relevance: 0.82, tokens: 410, stale: false },
+    { id: 'doc-5', title: 'Troubleshooting FAQ', category: 'support', date: '2024-07', relevance: 0.68, tokens: 290, stale: false },
+    { id: 'doc-6', title: 'Legacy Migration', category: 'technical', date: '2023-06', relevance: 0.45, tokens: 350, stale: true },
+    { id: 'doc-7', title: 'Compliance Report', category: 'policy', date: '2024-11', relevance: 0.55, tokens: 480, stale: false },
+    { id: 'doc-8', title: 'Performance Tuning', category: 'technical', date: '2024-05', relevance: 0.71, tokens: 320, stale: false },
+    { id: 'doc-9', title: 'User Permissions', category: 'policy', date: '2024-04', relevance: 0.62, tokens: 260, stale: false },
+    { id: 'doc-10', title: 'Old Config Guide', category: 'technical', date: '2022-12', relevance: 0.35, tokens: 400, stale: true },
+    { id: 'doc-11', title: 'Internal Draft', category: 'internal', date: '2024-10', relevance: 0.78, tokens: 340, violation: true },
+    { id: 'doc-12', title: 'Release Notes', category: 'technical', date: '2024-11', relevance: 0.85, tokens: 280, stale: false },
+  ];
+
+  // Stage information
+  const STAGE_INFO = {
+    query: {
+      label: 'Query Processing',
+      inputs: 'User question, conversation history',
+      outputs: 'Parsed query, search terms, intent',
+      failures: 'Ambiguous queries, missing context, wrong intent detection'
+    },
+    retrieval: {
+      label: 'Retrieval',
+      inputs: 'Search query, vector embeddings',
+      outputs: 'Candidate documents, similarity scores',
+      failures: 'Semantic mismatch, embedding drift, cold start on new terms'
+    },
+    filtering: {
+      label: 'Filtering',
+      inputs: 'Candidate docs, metadata, permissions',
+      outputs: 'Filtered document set',
+      failures: 'Overly aggressive filters, stale metadata, permission errors'
+    },
+    context: {
+      label: 'Context Assembly',
+      inputs: 'Filtered docs, token budget',
+      outputs: 'Assembled context window',
+      failures: 'Token overflow, poor ordering, missing key information'
+    },
+    generation: {
+      label: 'Generation',
+      inputs: 'Prompt, context, model params',
+      outputs: 'Generated response',
+      failures: 'Hallucination, ignoring context, format errors'
+    },
+    evaluation: {
+      label: 'Evaluation',
+      inputs: 'Response, source docs, ground truth',
+      outputs: 'Quality scores, citations',
+      failures: 'False confidence, missed errors, citation gaps'
+    }
+  };
+
+  // State
+  let state = {
+    chunkSize: 'small',
+    topK: 5,
+    metadataFilters: false,
+    reranking: false,
+    failureMode: false,
+    activeStage: null
+  };
+
+  function initRAGExplorer() {
+    const explorer = document.querySelector('[data-rag-explorer]');
+    if (!explorer || explorer.dataset.initialized) return;
+    explorer.dataset.initialized = 'true';
+
+    // Elements
+    const pipeline = explorer.querySelector('[data-rag-pipeline]');
+    const stages = pipeline?.querySelectorAll('[data-stage]');
+    const detailLabel = pipeline?.querySelector('[data-detail-label]');
+    const detailInputs = pipeline?.querySelector('[data-detail-inputs]');
+    const detailOutputs = pipeline?.querySelector('[data-detail-outputs]');
+    const detailFailures = pipeline?.querySelector('[data-detail-failures]');
+    const chunksContainer = explorer.querySelector('[data-chunks-container]');
+    const chunksCount = explorer.querySelector('[data-chunks-count]');
+    const contextFill = explorer.querySelector('[data-context-fill]');
+    const contextUsage = explorer.querySelector('[data-context-usage]');
+    const contextStatus = explorer.querySelector('[data-context-status]');
+    const failureToggle = explorer.querySelector('[data-failure-toggle]');
+
+    // Control handlers
+    const controlOptions = explorer.querySelectorAll('[data-control] .control-option');
+    controlOptions.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const control = btn.closest('[data-control]');
+        const controlName = control?.dataset.control;
+        const value = btn.dataset.value;
+
+        control?.querySelectorAll('.control-option').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (controlName === 'chunkSize') state.chunkSize = value;
+        if (controlName === 'topK') state.topK = parseInt(value);
+
+        updateVisualization();
+      });
+    });
+
+    // Toggle handlers
+    const toggleBtns = explorer.querySelectorAll('.toggle-btn');
+    toggleBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const isPressed = btn.getAttribute('aria-pressed') === 'true';
+        btn.setAttribute('aria-pressed', !isPressed ? 'true' : 'false');
+        btn.querySelector('.toggle-label').textContent = !isPressed ? 'On' : 'Off';
+
+        const controlName = btn.dataset.control;
+        if (controlName === 'metadataFilters') state.metadataFilters = !isPressed;
+        if (controlName === 'reranking') state.reranking = !isPressed;
+
+        updateVisualization();
+      });
+    });
+
+    // Failure mode toggle
+    if (failureToggle) {
+      failureToggle.addEventListener('click', () => {
+        const isPressed = failureToggle.getAttribute('aria-pressed') === 'true';
+        failureToggle.setAttribute('aria-pressed', !isPressed ? 'true' : 'false');
+        state.failureMode = !isPressed;
+        explorer.dataset.failureMode = !isPressed ? 'true' : 'false';
+        updateVisualization();
+      });
+    }
+
+    // Pipeline stage selection
+    stages?.forEach(stage => {
+      stage.addEventListener('click', () => selectStage(stage.dataset.stage));
+      stage.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          selectStage(stage.dataset.stage);
+        }
+      });
+    });
+
+    function selectStage(stageId) {
+      state.activeStage = stageId;
+      const info = STAGE_INFO[stageId];
+
+      stages?.forEach(s => s.classList.toggle('active', s.dataset.stage === stageId));
+
+      if (detailLabel) detailLabel.textContent = info.label;
+      if (detailInputs) detailInputs.textContent = info.inputs;
+      if (detailOutputs) detailOutputs.textContent = info.outputs;
+      if (detailFailures) detailFailures.textContent = info.failures;
+
+      // Highlight relevant connections
+      const connections = pipeline?.querySelectorAll('.pipeline-connection');
+      connections?.forEach(conn => {
+        const from = conn.dataset.from;
+        const to = conn.dataset.to;
+        conn.classList.toggle('active', from === stageId || to === stageId);
+      });
+    }
+
+    function getRetrievedDocs() {
+      let docs = [...DOCUMENTS];
+
+      // Apply metadata filters
+      if (state.metadataFilters) {
+        docs = docs.filter(d => d.category === 'technical' && !d.violation);
+      }
+
+      // Sort by relevance (simulating reranking improvement)
+      if (state.reranking) {
+        docs.sort((a, b) => b.relevance - a.relevance);
+      }
+
+      // Apply top K
+      return docs.slice(0, state.topK);
+    }
+
+    function getChunkTokens(doc) {
+      const multiplier = { small: 0.5, medium: 1, large: 1.5 }[state.chunkSize];
+      return Math.round(doc.tokens * multiplier);
+    }
+
+    function updateVisualization() {
+      const retrieved = getRetrievedDocs();
+      const totalDocs = DOCUMENTS.length;
+
+      // Update chunks display
+      if (chunksContainer) {
+        const existingChunks = chunksContainer.querySelectorAll('.chunk');
+        existingChunks.forEach(chunk => {
+          chunk.classList.add('exiting');
+          setTimeout(() => chunk.remove(), 250);
+        });
+
+        setTimeout(() => {
+          chunksContainer.innerHTML = '';
+          retrieved.forEach((doc, i) => {
+            const chunk = document.createElement('div');
+            chunk.className = 'chunk entering';
+
+            // Apply visual states
+            if (doc.relevance >= 0.8) chunk.classList.add('high-relevance');
+            else if (doc.relevance < 0.5) chunk.classList.add('low-relevance');
+
+            if (state.failureMode) {
+              if (doc.stale) chunk.classList.add('stale');
+              if (doc.violation) chunk.classList.add('violation');
+            }
+
+            chunk.innerHTML = `
+              <span class="chunk-title">${doc.title}</span>
+              <span class="chunk-tokens">${getChunkTokens(doc)}t</span>
+            `;
+            chunk.style.cssText = `
+              display: flex;
+              justify-content: space-between;
+              gap: var(--space-2);
+            `;
+
+            chunksContainer.appendChild(chunk);
+            requestAnimationFrame(() => chunk.classList.remove('entering'));
+          });
+        }, 260);
+      }
+
+      // Update chunks count
+      if (chunksCount) {
+        chunksCount.textContent = `${retrieved.length} of ${totalDocs}`;
+      }
+
+      // Update context window
+      const totalTokens = retrieved.reduce((sum, doc) => sum + getChunkTokens(doc), 0);
+      const systemTokens = 400;
+      const queryTokens = 200;
+      const bufferTokens = 200;
+      const maxTokens = 4000;
+      const usedTokens = totalTokens + systemTokens + queryTokens;
+
+      if (contextFill) {
+        const percentage = Math.min((usedTokens / maxTokens) * 100, 100);
+        contextFill.style.width = `${percentage}%`;
+        contextFill.classList.toggle('overflow', usedTokens > maxTokens - bufferTokens);
+      }
+
+      if (contextUsage) {
+        contextUsage.textContent = `${(usedTokens / 1000).toFixed(1)}k / ${maxTokens / 1000}k tokens`;
+      }
+
+      // Update context status
+      if (contextStatus) {
+        const indicator = contextStatus.querySelector('.status-indicator');
+        const text = contextStatus.querySelector('.status-text');
+
+        if (usedTokens > maxTokens - bufferTokens) {
+          indicator?.classList.add('error');
+          indicator?.classList.remove('warning', 'healthy');
+          if (text) text.textContent = 'Context overflow - chunks will be truncated';
+        } else if (usedTokens > maxTokens * 0.75) {
+          indicator?.classList.add('warning');
+          indicator?.classList.remove('error', 'healthy');
+          if (text) text.textContent = 'Context approaching limit';
+        } else {
+          indicator?.classList.add('healthy');
+          indicator?.classList.remove('warning', 'error');
+          if (text) text.textContent = 'Healthy context composition';
+        }
+      }
+
+      // Update evaluation metrics
+      updateEvaluation(retrieved);
+
+      // Update generation preview
+      updateGenerationPreview(retrieved);
+    }
+
+    function updateEvaluation(retrieved) {
+      const avgRelevance = retrieved.reduce((sum, d) => sum + d.relevance, 0) / retrieved.length;
+      const hasStale = retrieved.some(d => d.stale);
+      const hasViolation = retrieved.some(d => d.violation);
+
+      const metrics = [
+        { id: 'retrievalRecall', value: state.reranking ? 0.85 : 0.65 },
+        { id: 'contextRelevance', value: avgRelevance },
+        { id: 'answerGrounding', value: state.metadataFilters ? 0.8 : 0.55 },
+        { id: 'confidence', value: hasStale || hasViolation ? 0.4 : 0.7 }
+      ];
+
+      metrics.forEach(metric => {
+        const el = explorer.querySelector(`[data-metric="${metric.id}"]`);
+        if (!el) return;
+
+        const fill = el.querySelector('[data-fill]');
+        const indicator = el.querySelector('[data-indicator]');
+
+        if (fill) fill.style.width = `${metric.value * 100}%`;
+
+        if (indicator) {
+          if (metric.value >= 0.7) indicator.dataset.indicator = 'good';
+          else if (metric.value >= 0.5) indicator.dataset.indicator = 'medium';
+          else indicator.dataset.indicator = 'poor';
+        }
+      });
+
+      // Update summary
+      const summary = explorer.querySelector('[data-eval-summary]');
+      if (summary) {
+        const text = summary.querySelector('.summary-text');
+        if (hasViolation) {
+          text.textContent = 'Warning: Scope violations detected in retrieved context';
+          text.className = 'summary-text error';
+        } else if (hasStale) {
+          text.textContent = 'Caution: Stale documents may affect accuracy';
+          text.className = 'summary-text warning';
+        } else if (avgRelevance < 0.6) {
+          text.textContent = 'Low relevance scores - consider adjusting retrieval';
+          text.className = 'summary-text warning';
+        } else {
+          text.textContent = 'System performing within expected parameters';
+          text.className = 'summary-text';
+        }
+      }
+    }
+
+    function updateGenerationPreview(retrieved) {
+      const preview = explorer.querySelector('[data-generation-preview]');
+      if (!preview) return;
+
+      const confidence = preview.querySelector('[data-confidence]');
+      const groundingSources = preview.querySelector('[data-grounding-sources]');
+      const previewText = preview.querySelector('.preview-text');
+
+      const highRelevance = retrieved.filter(d => d.relevance >= 0.7).length;
+      const hasIssues = retrieved.some(d => d.stale || d.violation);
+
+      if (confidence) {
+        if (state.reranking && state.metadataFilters && !hasIssues) {
+          confidence.textContent = 'Confidence: High';
+          confidence.className = 'preview-confidence high';
+        } else if (hasIssues) {
+          confidence.textContent = 'Confidence: Low';
+          confidence.className = 'preview-confidence low';
+        } else {
+          confidence.textContent = 'Confidence: Moderate';
+          confidence.className = 'preview-confidence';
+        }
+      }
+
+      if (groundingSources) {
+        groundingSources.textContent = `${highRelevance} of ${retrieved.length} chunks`;
+      }
+
+      if (previewText) {
+        if (hasIssues && state.failureMode) {
+          previewText.textContent = 'Based on the retrieved context, the deployment process requires... [warning: response may include outdated or restricted information]';
+        } else if (state.reranking && state.metadataFilters) {
+          previewText.textContent = 'Based on the retrieved context, the deployment process requires proper configuration of environment variables, followed by the standard CI/CD pipeline execution as documented in the Architecture Overview.';
+        } else {
+          previewText.textContent = 'Based on the retrieved context, the deployment process requires configuration steps that may vary depending on your environment setup...';
+        }
+      }
+    }
+
+    // Initial render
+    updateVisualization();
+    selectStage('query');
+  }
+
+  // Initialize
+  initRAGExplorer();
+  document.addEventListener('astro:after-swap', initRAGExplorer);
+</script>

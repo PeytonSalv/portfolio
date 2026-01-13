@@ -29,6 +29,7 @@ Personal portfolio site built with Astro and MDX. Visual extension of resume for
 
 | Title | Date | Status |
 |-------|------|--------|
+| The Shape of Information | Jul 2025 | Published |
 | Streaming UI Architecture for Data-Intensive Products | Sep 2025 | Published |
 | AI-Native UI Design | Oct 2025 | Published |
 

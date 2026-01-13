@@ -70,6 +70,18 @@
   /* Transitions */
   --transition-fast: 100ms ease-out;
   --transition-base: 180ms ease-out;
+  --transition-smooth: 250ms ease-out;
+
+  /* Interactive states */
+  --state-hover: rgba(31, 58, 138, 0.08);
+
+  /* Data visualization */
+  --positive: #16a34a;
+  --negative: #dc2626;
+
+  /* Attention heatmap */
+  --heat-color: rgba(239, 68, 68, 0.25);
+  --heat-blur: 20px;
 }
 
 @media (max-width: 1024px) {

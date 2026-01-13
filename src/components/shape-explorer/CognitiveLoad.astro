@@ -1,0 +1,60 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class:list={['cognitive-load', className]} data-cognitive-load>
+  <span class="load-label">Cognitive Load</span>
+  <div class="load-track">
+    <div class="load-fill" data-load-fill></div>
+  </div>
+  <span class="load-value" data-load-value>High density</span>
+</div>
+
+<style>
+  .cognitive-load {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .load-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .load-track {
+    width: 60px;
+    height: 6px;
+    background: var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .load-fill {
+    height: 100%;
+    width: 85%;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width 400ms ease-out;
+  }
+
+  .load-value {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--accent);
+    min-width: 85px;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 640px) {
+    .load-label {
+      display: none;
+    }
+  }
+</style>

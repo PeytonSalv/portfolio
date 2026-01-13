@@ -1,0 +1,387 @@
+---
+import ViewTabs from './ViewTabs.astro';
+import CognitiveLoad from './CognitiveLoad.astro';
+import DatasetView from './DatasetView.astro';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class:list={['shape-explorer', className]} data-shape-explorer>
+  <!-- Sticky header with controls -->
+  <header class="explorer-header">
+    <ViewTabs />
+    <CognitiveLoad />
+  </header>
+
+  <!-- Main visualization area -->
+  <div class="explorer-viewport">
+    <DatasetView />
+
+    <!-- Attention overlay container -->
+    <div class="attention-layer" data-attention-layer>
+      <svg viewBox="0 0 400 180" class="heatmap-svg" aria-hidden="true">
+        <defs>
+          <filter id="heatBlur">
+            <feGaussianBlur stdDeviation="15"/>
+          </filter>
+        </defs>
+        <g filter="url(#heatBlur)" class="heatmap-zones">
+          <!-- Heat zones populated by JS based on simulated attention -->
+          <ellipse cx="100" cy="60" rx="50" ry="40" fill="var(--heat-color)" opacity="0.6"/>
+          <ellipse cx="200" cy="90" rx="40" ry="35" fill="var(--heat-color)" opacity="0.8"/>
+          <ellipse cx="320" cy="70" rx="45" ry="30" fill="var(--heat-color)" opacity="0.4"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Attention toggle -->
+    <button class="attention-toggle" data-attention-toggle aria-pressed="false">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="7" cy="7" r="2" fill="currentColor"/>
+      </svg>
+      <span>Attention</span>
+    </button>
+  </div>
+
+  <!-- Scroll progress indicator (desktop only) -->
+  <div class="scroll-indicator" data-scroll-indicator>
+    <div class="scroll-track">
+      <div class="scroll-thumb" data-scroll-thumb></div>
+    </div>
+    <div class="scroll-labels">
+      <span>Table</span>
+      <span>Cards</span>
+      <span>Graph</span>
+      <span>Overlay</span>
+    </div>
+  </div>
+
+  <!-- Note about attention approximation -->
+  <p class="attention-note" data-attention-note>
+    Attention map is an approximation based on interaction patterns, not real eye tracking.
+  </p>
+</div>
+
+<style>
+  .shape-explorer {
+    position: relative;
+    margin: var(--space-8) 0;
+  }
+
+  .explorer-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+  }
+
+  .explorer-viewport {
+    position: relative;
+    background: var(--bg-figure);
+    border: 1px solid var(--rule);
+    border-radius: 0 0 4px 4px;
+    padding: var(--space-6);
+    min-height: 220px;
+    overflow: hidden;
+  }
+
+  /* Attention overlay */
+  .attention-layer {
+    position: absolute;
+    inset: var(--space-6);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .attention-layer.visible {
+    opacity: 1;
+  }
+
+  .heatmap-svg {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+  }
+
+  /* Attention toggle button */
+  .attention-toggle {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .attention-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .attention-toggle[aria-pressed="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+
+  .attention-toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* Scroll indicator */
+  .scroll-indicator {
+    margin-top: var(--space-4);
+    opacity: 0;
+    transition: opacity var(--transition-smooth);
+  }
+
+  .scroll-indicator.visible {
+    opacity: 1;
+  }
+
+  .scroll-track {
+    height: 4px;
+    background: var(--rule);
+    border-radius: 2px;
+    position: relative;
+  }
+
+  .scroll-thumb {
+    position: absolute;
+    top: -2px;
+    left: 0;
+    width: 25%;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 4px;
+    transition: left var(--transition-base);
+  }
+
+  .scroll-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+  }
+
+  /* Attention note */
+  .attention-note {
+    margin-top: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+    text-align: center;
+    opacity: 0;
+    transition: opacity var(--transition-smooth);
+  }
+
+  .attention-note.visible {
+    opacity: 1;
+  }
+
+  /* Mobile: hide scroll indicator */
+  @media (max-width: 768px) {
+    .scroll-indicator {
+      display: none;
+    }
+
+    .explorer-header {
+      flex-wrap: wrap;
+    }
+  }
+</style>
+
+<script>
+  // View configuration with cognitive load values
+  const VIEW_CONFIG = {
+    table: { load: 85, label: 'High density' },
+    cards: { load: 45, label: 'Local context' },
+    graph: { load: 35, label: 'Pattern focus' },
+    overlay: { load: 55, label: 'Progressive' },
+  };
+
+  function initShapeExplorers() {
+    const explorers = document.querySelectorAll('[data-shape-explorer]');
+    explorers.forEach(initSingleExplorer);
+  }
+
+  function initSingleExplorer(explorer) {
+    if (explorer.dataset.initialized) return;
+    explorer.dataset.initialized = 'true';
+
+    // Elements
+    const tabs = explorer.querySelectorAll('[data-view]');
+    const panels = explorer.querySelectorAll('[data-view-panel]');
+    const loadFill = explorer.querySelector('[data-load-fill]');
+    const loadValue = explorer.querySelector('[data-load-value]');
+    const attentionToggle = explorer.querySelector('[data-attention-toggle]');
+    const attentionLayer = explorer.querySelector('[data-attention-layer]');
+    const attentionNote = explorer.querySelector('[data-attention-note]');
+    const scrollIndicator = explorer.querySelector('[data-scroll-indicator]');
+    const scrollThumb = explorer.querySelector('[data-scroll-thumb]');
+
+    // Check if this explorer is inside a transform zone (scroll-driven)
+    const transformZone = explorer.closest('[data-transform-zone]');
+    const isScrollDrivenExplorer = transformZone !== null;
+    const scrollMarkers = transformZone?.querySelectorAll('[data-marker]');
+
+    let currentView = 'table';
+    let isInViewport = false;
+
+    // Switch view
+    function switchView(viewId) {
+      if (viewId === currentView) return;
+      currentView = viewId;
+
+      // Update tabs
+      tabs.forEach(tab => {
+        const isActive = tab.dataset.view === viewId;
+        tab.classList.toggle('active', isActive);
+        tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      // Update panels
+      panels.forEach(panel => {
+        panel.classList.toggle('active', panel.dataset.viewPanel === viewId);
+      });
+
+      // Update cognitive load meter
+      const config = VIEW_CONFIG[viewId];
+      if (loadFill) loadFill.style.width = `${config.load}%`;
+      if (loadValue) loadValue.textContent = config.label;
+
+      // Update scroll thumb position
+      const viewIndex = Object.keys(VIEW_CONFIG).indexOf(viewId);
+      if (scrollThumb) {
+        scrollThumb.style.left = `${viewIndex * 25}%`;
+      }
+
+      // Update scroll markers if present
+      if (scrollMarkers) {
+        scrollMarkers.forEach(marker => {
+          marker.classList.toggle('active', marker.dataset.marker === viewId);
+        });
+      }
+    }
+
+    // Tab click handlers
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        switchView(tab.dataset.view);
+      });
+    });
+
+    // Keyboard navigation for tabs
+    explorer.addEventListener('keydown', (e) => {
+      if (!e.target.matches('[data-view]')) return;
+
+      const viewIds = Object.keys(VIEW_CONFIG);
+      const currentIndex = viewIds.indexOf(currentView);
+      let nextIndex;
+
+      if (e.key === 'ArrowRight') {
+        nextIndex = (currentIndex + 1) % viewIds.length;
+      } else if (e.key === 'ArrowLeft') {
+        nextIndex = (currentIndex - 1 + viewIds.length) % viewIds.length;
+      } else {
+        return;
+      }
+
+      e.preventDefault();
+      const nextTab = explorer.querySelector(`[data-view="${viewIds[nextIndex]}"]`);
+      nextTab?.focus();
+      switchView(viewIds[nextIndex]);
+    });
+
+    // Attention toggle
+    if (attentionToggle && attentionLayer && attentionNote) {
+      attentionToggle.addEventListener('click', () => {
+        const isPressed = attentionToggle.getAttribute('aria-pressed') === 'true';
+        attentionToggle.setAttribute('aria-pressed', !isPressed ? 'true' : 'false');
+        attentionLayer.classList.toggle('visible', !isPressed);
+        attentionNote.classList.toggle('visible', !isPressed);
+      });
+    }
+
+    // Scroll-driven transformation for explorers inside transform zones
+    if (isScrollDrivenExplorer && window.innerWidth >= 768) {
+      // Show scroll indicator for this explorer
+      if (scrollIndicator) {
+        scrollIndicator.classList.add('visible');
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            isInViewport = entry.isIntersecting;
+          });
+        },
+        { threshold: [0, 0.1] }
+      );
+
+      observer.observe(transformZone);
+
+      // Scroll handler
+      const viewIds = Object.keys(VIEW_CONFIG);
+      let ticking = false;
+
+      window.addEventListener('scroll', () => {
+        if (!isInViewport || ticking) return;
+
+        ticking = true;
+        requestAnimationFrame(() => {
+          const rect = transformZone.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+          const zoneHeight = rect.height;
+
+          // Progress: 0 when top of zone at bottom of viewport, 1 when bottom of zone at top
+          const scrolled = viewportHeight - rect.top;
+          const totalScroll = zoneHeight + viewportHeight;
+          const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
+
+          // Map progress to view (4 views, so 0-0.25 = table, 0.25-0.5 = cards, etc.)
+          const viewIndex = Math.min(
+            Math.floor(progress * 4),
+            viewIds.length - 1
+          );
+
+          switchView(viewIds[viewIndex]);
+          ticking = false;
+        });
+      }, { passive: true });
+    }
+  }
+
+  // Initialize
+  initShapeExplorers();
+  document.addEventListener('astro:after-swap', initShapeExplorers);
+</script>

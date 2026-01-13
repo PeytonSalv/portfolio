@@ -1,0 +1,68 @@
+---
+interface Props {
+  items: Array<{
+    label: string;
+    score: number; // 1-5
+  }>;
+  class?: string;
+}
+
+const { items, class: className = '' } = Astro.props;
+---
+
+<div class:list={['micro-summary', className]}>
+  {items.map(item => (
+    <div class="summary-row">
+      <span class="summary-label">{item.label}</span>
+      <div class="summary-dots">
+        {[1, 2, 3, 4, 5].map(i => (
+          <span class:list={['dot', { filled: i <= item.score }]} />
+        ))}
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .micro-summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-figure);
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+  }
+
+  .summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .summary-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .summary-dots {
+    display: flex;
+    gap: 4px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--rule);
+    transition: background var(--transition-fast);
+  }
+
+  .dot.filled {
+    background: var(--accent);
+  }
+</style>

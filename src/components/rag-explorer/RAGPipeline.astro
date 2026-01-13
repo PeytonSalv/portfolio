@@ -1,0 +1,233 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const stages = [
+  { id: 'query', label: 'Query', x: 30 },
+  { id: 'retrieval', label: 'Retrieval', x: 150 },
+  { id: 'filtering', label: 'Filtering', x: 270 },
+  { id: 'context', label: 'Context', x: 390 },
+  { id: 'generation', label: 'Generation', x: 510 },
+  { id: 'evaluation', label: 'Evaluation', x: 630 },
+];
+---
+
+<div class:list={['rag-pipeline', className]} data-rag-pipeline>
+  <svg viewBox="0 0 720 120" class="pipeline-svg" role="img" aria-label="RAG Pipeline stages">
+    <defs>
+      <marker id="pipeline-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="var(--muted)"/>
+      </marker>
+      <marker id="pipeline-arrow-active" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="var(--accent)"/>
+      </marker>
+    </defs>
+
+    <!-- Connection lines -->
+    {stages.slice(0, -1).map((stage, i) => (
+      <line
+        x1={stage.x + 55}
+        y1="50"
+        x2={stages[i + 1].x - 5}
+        y2="50"
+        stroke="var(--rule)"
+        stroke-width="2"
+        marker-end="url(#pipeline-arrow)"
+        class="pipeline-connection"
+        data-from={stage.id}
+        data-to={stages[i + 1].id}
+      />
+    ))}
+
+    <!-- Stage nodes -->
+    {stages.map((stage, i) => (
+      <g class="pipeline-stage" data-stage={stage.id} tabindex="0" role="button" aria-label={`${stage.label} stage`}>
+        <rect
+          x={stage.x}
+          y="25"
+          width="60"
+          height="50"
+          rx="4"
+          class="stage-box"
+        />
+        <text x={stage.x + 30} y="55" text-anchor="middle" class="stage-label">
+          {stage.label}
+        </text>
+        <text x={stage.x + 30} y="95" text-anchor="middle" class="stage-number">
+          {String(i + 1).padStart(2, '0')}
+        </text>
+      </g>
+    ))}
+
+    <!-- Data flow indicator -->
+    <circle cx="0" cy="50" r="4" class="flow-dot" data-flow-dot/>
+  </svg>
+
+  <!-- Stage detail panel -->
+  <div class="stage-detail" data-stage-detail>
+    <div class="detail-header">
+      <span class="detail-label" data-detail-label>Select a stage</span>
+    </div>
+    <div class="detail-content">
+      <div class="detail-section">
+        <span class="section-label">Inputs</span>
+        <div class="section-content" data-detail-inputs>—</div>
+      </div>
+      <div class="detail-section">
+        <span class="section-label">Outputs</span>
+        <div class="section-content" data-detail-outputs>—</div>
+      </div>
+      <div class="detail-section">
+        <span class="section-label">Failure Modes</span>
+        <div class="section-content failure-modes" data-detail-failures>—</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .rag-pipeline {
+    margin: var(--space-6) 0;
+  }
+
+  .pipeline-svg {
+    width: 100%;
+    max-width: 720px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .pipeline-connection {
+    transition: stroke 0.2s ease;
+  }
+
+  .pipeline-connection.active {
+    stroke: var(--accent);
+    marker-end: url(#pipeline-arrow-active);
+  }
+
+  .pipeline-stage {
+    cursor: pointer;
+    outline: none;
+  }
+
+  .stage-box {
+    fill: var(--bg);
+    stroke: var(--rule);
+    stroke-width: 1.5;
+    transition: all 0.15s ease;
+  }
+
+  .pipeline-stage:hover .stage-box,
+  .pipeline-stage:focus .stage-box {
+    stroke: var(--accent);
+    fill: var(--accent-soft);
+  }
+
+  .pipeline-stage.active .stage-box {
+    stroke: var(--accent);
+    stroke-width: 2;
+    fill: var(--accent-soft);
+  }
+
+  .stage-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    fill: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    pointer-events: none;
+  }
+
+  .pipeline-stage.active .stage-label {
+    fill: var(--accent);
+    font-weight: 500;
+  }
+
+  .stage-number {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    fill: var(--muted);
+    pointer-events: none;
+  }
+
+  .flow-dot {
+    fill: var(--accent);
+    opacity: 0;
+  }
+
+  .flow-dot.animating {
+    opacity: 1;
+    animation: flowPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes flowPulse {
+    0% { cx: 30; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { cx: 690; opacity: 0; }
+  }
+
+  /* Stage detail panel */
+  .stage-detail {
+    margin-top: var(--space-4);
+    padding: var(--space-4);
+    background: var(--bg-figure);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    min-height: 120px;
+  }
+
+  .detail-header {
+    margin-bottom: var(--space-3);
+  }
+
+  .detail-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .detail-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 640px) {
+    .detail-content {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .detail-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .section-content {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: var(--leading-normal);
+  }
+
+  .failure-modes {
+    color: var(--negative);
+  }
+</style>

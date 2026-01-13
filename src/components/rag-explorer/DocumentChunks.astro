@@ -1,0 +1,179 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class:list={['document-chunks', className]} data-document-chunks>
+  <div class="chunks-header">
+    <span class="chunks-label">Retrieved Chunks</span>
+    <span class="chunks-count" data-chunks-count>5 of 12</span>
+  </div>
+
+  <div class="chunks-container" data-chunks-container>
+    <!-- Chunks will be rendered by JS -->
+  </div>
+
+  <div class="chunks-legend">
+    <div class="legend-item">
+      <span class="legend-indicator high-relevance"></span>
+      <span class="legend-text">High relevance</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-indicator low-relevance"></span>
+      <span class="legend-text">Low relevance</span>
+    </div>
+    <div class="legend-item failure-only">
+      <span class="legend-indicator stale"></span>
+      <span class="legend-text">Stale</span>
+    </div>
+    <div class="legend-item failure-only">
+      <span class="legend-indicator violation"></span>
+      <span class="legend-text">Scope violation</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .document-chunks {
+    padding: var(--space-4);
+    background: var(--bg-figure);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+
+  .chunks-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-3);
+  }
+
+  .chunks-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .chunks-count {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+  }
+
+  .chunks-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    min-height: 80px;
+  }
+
+  /* Chunk styles - applied via JS */
+  :global(.chunk) {
+    padding: var(--space-2) var(--space-3);
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-secondary);
+    transition: all 0.25s ease;
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  :global(.chunk.entering) {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  :global(.chunk.exiting) {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  :global(.chunk.high-relevance) {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  :global(.chunk.low-relevance) {
+    opacity: 0.5;
+  }
+
+  :global(.chunk.stale) {
+    border-style: dashed;
+    border-color: var(--muted);
+    opacity: 0.6;
+  }
+
+  :global(.chunk.violation) {
+    border-color: var(--negative);
+    background: rgba(220, 38, 38, 0.05);
+  }
+
+  :global(.chunk.overlapping) {
+    box-shadow: inset 0 0 0 2px rgba(234, 179, 8, 0.3);
+  }
+
+  .chunks-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--rule);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .legend-item.failure-only {
+    opacity: 0;
+    transition: opacity var(--transition-smooth);
+  }
+
+  :global([data-failure-mode="true"]) .legend-item.failure-only {
+    opacity: 1;
+  }
+
+  .legend-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    border: 1px solid var(--rule);
+    background: var(--bg);
+  }
+
+  .legend-indicator.high-relevance {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  .legend-indicator.low-relevance {
+    opacity: 0.5;
+  }
+
+  .legend-indicator.stale {
+    border-style: dashed;
+    border-color: var(--muted);
+  }
+
+  .legend-indicator.violation {
+    border-color: var(--negative);
+    background: rgba(220, 38, 38, 0.1);
+  }
+
+  .legend-text {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--muted);
+  }
+</style>

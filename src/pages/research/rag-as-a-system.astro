@@ -1,0 +1,463 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RailLayout from '../../components/RailLayout.astro';
+import Section from '../../components/Section.astro';
+import Kicker from '../../components/Kicker.astro';
+import RAGExplorer from '../../components/rag-explorer/RAGExplorer.astro';
+import CalloutBlock from '../../components/shape-explorer/CalloutBlock.astro';
+import MicroSummary from '../../components/shape-explorer/MicroSummary.astro';
+
+const title = "RAG as a System";
+const summary = "How retrieval, context, and generation actually interact. Most failures happen before the model generates a single token.";
+
+const railItems = [
+  { id: 'header', label: 'Research 04', sublabel: 'Published' },
+  { id: 'explore', label: 'Explore' },
+  { id: 'stages', label: 'Stages' },
+  { id: 'failures', label: 'Failures' },
+  { id: 'principles', label: 'Principles' },
+];
+
+// Stage summaries
+const querySummary = [
+  { label: 'Complexity', score: 2 },
+  { label: 'Failure Risk', score: 3 },
+  { label: 'Observability', score: 4 },
+];
+
+const retrievalSummary = [
+  { label: 'Complexity', score: 4 },
+  { label: 'Failure Risk', score: 5 },
+  { label: 'Observability', score: 2 },
+];
+
+const contextSummary = [
+  { label: 'Complexity', score: 3 },
+  { label: 'Failure Risk', score: 4 },
+  { label: 'Observability', score: 3 },
+];
+
+const generationSummary = [
+  { label: 'Complexity', score: 3 },
+  { label: 'Failure Risk', score: 2 },
+  { label: 'Observability', score: 5 },
+];
+---
+
+<BaseLayout title={`${title} – Peyton Salvant`} description={summary}>
+  <RailLayout items={railItems}>
+    <article class="article">
+      <!-- Header -->
+      <Section id="header">
+        <header class="article-header">
+          <div class="mobile-meta">
+            <Kicker number="04">Research</Kicker>
+            <span class="mobile-status">January 2025</span>
+          </div>
+          <h1>{title}</h1>
+          <p class="article-tags">RAG · Systems Design · AI Infrastructure · Observability</p>
+        </header>
+
+        <p class="premise">
+          RAG is not a prompt trick or a vector database problem. It is a multi-stage system where most failures happen before the model generates a single token.
+        </p>
+      </Section>
+
+      <!-- Interactive Explorer -->
+      <Section id="explore">
+        <p class="section-intro">
+          Adjust the parameters. Watch how small changes in retrieval and context shaping affect everything downstream.
+        </p>
+
+        <RAGExplorer />
+      </Section>
+
+      <!-- Stage Breakdown -->
+      <Section id="stages">
+        <h2>The Six Stages</h2>
+        <p>Every RAG system is a pipeline. Each stage has distinct inputs, outputs, and failure modes.</p>
+
+        <div class="stage-grid">
+          <div class="stage-card">
+            <span class="stage-number">01</span>
+            <h3>Query</h3>
+            <MicroSummary items={querySummary} />
+            <p class="stage-desc">Parse intent, extract entities, expand terms. Garbage in, garbage out.</p>
+          </div>
+
+          <div class="stage-card">
+            <span class="stage-number">02</span>
+            <h3>Retrieval</h3>
+            <MicroSummary items={retrievalSummary} />
+            <p class="stage-desc">Vector search, BM25, hybrid. The hardest stage to debug.</p>
+          </div>
+
+          <div class="stage-card">
+            <span class="stage-number">03</span>
+            <h3>Filtering</h3>
+            <MicroSummary items={[{ label: 'Complexity', score: 2 }, { label: 'Failure Risk', score: 3 }, { label: 'Observability', score: 4 }]} />
+            <p class="stage-desc">Permissions, recency, metadata. Silent failures are common.</p>
+          </div>
+
+          <div class="stage-card">
+            <span class="stage-number">04</span>
+            <h3>Context</h3>
+            <MicroSummary items={contextSummary} />
+            <p class="stage-desc">Token budget, ordering, overlap. The invisible bottleneck.</p>
+          </div>
+
+          <div class="stage-card">
+            <span class="stage-number">05</span>
+            <h3>Generation</h3>
+            <MicroSummary items={generationSummary} />
+            <p class="stage-desc">Prompt engineering, model selection. Actually the easy part.</p>
+          </div>
+
+          <div class="stage-card">
+            <span class="stage-number">06</span>
+            <h3>Evaluation</h3>
+            <MicroSummary items={[{ label: 'Complexity', score: 4 }, { label: 'Failure Risk', score: 3 }, { label: 'Observability', score: 3 }]} />
+            <p class="stage-desc">Grounding, citations, confidence. Close the feedback loop.</p>
+          </div>
+        </div>
+      </Section>
+
+      <!-- First Callout -->
+      <CalloutBlock>
+        Most RAG failures are retrieval failures.
+      </CalloutBlock>
+
+      <!-- Failure Modes -->
+      <Section id="failures">
+        <h2>Where Things Break</h2>
+        <p>Enable "Failure Modes" above to see how issues propagate through the system.</p>
+
+        <div class="failure-list">
+          <div class="failure-item">
+            <span class="failure-indicator stale"></span>
+            <div class="failure-content">
+              <h4>Stale Documents</h4>
+              <p>Outdated content that should have been deprecated. The model doesn't know the difference.</p>
+            </div>
+          </div>
+
+          <div class="failure-item">
+            <span class="failure-indicator violation"></span>
+            <div class="failure-content">
+              <h4>Scope Violations</h4>
+              <p>Documents retrieved that shouldn't be accessible. Permissions applied too late.</p>
+            </div>
+          </div>
+
+          <div class="failure-item">
+            <span class="failure-indicator low-relevance"></span>
+            <div class="failure-content">
+              <h4>Low Relevance</h4>
+              <p>Semantic mismatch between query and content. Embedding models have blind spots.</p>
+            </div>
+          </div>
+
+          <div class="failure-item">
+            <span class="failure-indicator overflow"></span>
+            <div class="failure-content">
+              <h4>Context Overflow</h4>
+              <p>Too much retrieved, too little budget. Critical information gets truncated.</p>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <!-- Second Callout -->
+      <CalloutBlock>
+        Generation is the last step, not the hard one.
+      </CalloutBlock>
+
+      <!-- Principles -->
+      <Section id="principles">
+        <h2>Building Disciplined Systems</h2>
+        <p>The difference between a prototype and a production system:</p>
+
+        <div class="principle-list">
+          <div class="principle">
+            <span class="principle-number">1</span>
+            <div class="principle-content">
+              <h4>Observe Every Stage</h4>
+              <p>Log what was retrieved, what was filtered, what was sent. You can't fix what you can't see.</p>
+            </div>
+          </div>
+
+          <div class="principle">
+            <span class="principle-number">2</span>
+            <div class="principle-content">
+              <h4>Fail Upstream</h4>
+              <p>Reject bad queries early. Don't let garbage propagate through six stages.</p>
+            </div>
+          </div>
+
+          <div class="principle">
+            <span class="principle-number">3</span>
+            <div class="principle-content">
+              <h4>Budget Context</h4>
+              <p>Know your token limits. Reserve space for system prompts and generation.</p>
+            </div>
+          </div>
+
+          <div class="principle">
+            <span class="principle-number">4</span>
+            <div class="principle-content">
+              <h4>Ground Responses</h4>
+              <p>Cite sources. Track which chunks informed which claims.</p>
+            </div>
+          </div>
+
+          <div class="principle">
+            <span class="principle-number">5</span>
+            <div class="principle-content">
+              <h4>Measure Retrieval</h4>
+              <p>Recall and precision matter more than generation quality. Fix retrieval first.</p>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <footer class="article-footer">
+        <a href="/research" class="back-link">← All research</a>
+      </footer>
+    </article>
+  </RailLayout>
+</BaseLayout>
+
+<style>
+  .article {
+    max-width: var(--content-max);
+  }
+
+  .article-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .mobile-meta {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-meta {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: var(--space-3);
+    }
+
+    .mobile-status {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--muted);
+    }
+  }
+
+  .article-header h1 {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-3);
+  }
+
+  .article-tags {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    margin: 0;
+  }
+
+  .premise {
+    font-size: var(--text-lg);
+    color: var(--text);
+    line-height: var(--leading-relaxed);
+    margin-top: var(--space-8);
+  }
+
+  .section-intro {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-6);
+  }
+
+  h2 {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-tight);
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-4);
+  }
+
+  h2:first-of-type {
+    margin-top: var(--space-8);
+  }
+
+  p {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-4);
+  }
+
+  /* Stage grid */
+  .stage-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  @media (max-width: 640px) {
+    .stage-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .stage-card {
+    padding: var(--space-4);
+    background: var(--bg-figure);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+
+  .stage-number {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--accent);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .stage-card h3 {
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: var(--weight-semibold);
+    margin: var(--space-2) 0 var(--space-3);
+  }
+
+  .stage-desc {
+    font-size: var(--text-sm);
+    color: var(--muted);
+    margin: var(--space-3) 0 0;
+  }
+
+  /* Failure list */
+  .failure-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  .failure-item {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: var(--bg-figure);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+
+  .failure-indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .failure-indicator.stale {
+    border: 2px dashed var(--muted);
+    background: transparent;
+  }
+
+  .failure-indicator.violation {
+    background: rgba(220, 38, 38, 0.2);
+    border: 2px solid var(--negative);
+  }
+
+  .failure-indicator.low-relevance {
+    background: var(--rule);
+    opacity: 0.5;
+  }
+
+  .failure-indicator.overflow {
+    background: rgba(234, 179, 8, 0.2);
+    border: 2px solid #eab308;
+  }
+
+  .failure-content h4 {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    margin-bottom: var(--space-1);
+  }
+
+  .failure-content p {
+    font-size: var(--text-sm);
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* Principle list */
+  .principle-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  .principle {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: var(--bg-figure);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+
+  .principle-number {
+    font-family: var(--font-mono);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-semibold);
+    color: var(--accent);
+    flex-shrink: 0;
+    width: 24px;
+  }
+
+  .principle-content h4 {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    margin-bottom: var(--space-1);
+  }
+
+  .principle-content p {
+    font-size: var(--text-sm);
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .article-footer {
+    margin-top: var(--space-20);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--rule);
+  }
+
+  .back-link {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .back-link:hover {
+    color: var(--accent);
+  }
+</style>

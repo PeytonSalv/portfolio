@@ -1,0 +1,167 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class:list={['rag-controls', className]} data-rag-controls>
+  <div class="control-group">
+    <label class="control-label">Chunk Size</label>
+    <div class="control-options" data-control="chunkSize">
+      <button class="control-option active" data-value="small">Small</button>
+      <button class="control-option" data-value="medium">Medium</button>
+      <button class="control-option" data-value="large">Large</button>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Top K</label>
+    <div class="control-options" data-control="topK">
+      <button class="control-option" data-value="3">3</button>
+      <button class="control-option active" data-value="5">5</button>
+      <button class="control-option" data-value="10">10</button>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Metadata Filters</label>
+    <div class="control-toggle">
+      <button class="toggle-btn" data-control="metadataFilters" data-value="false" aria-pressed="false">
+        <span class="toggle-track">
+          <span class="toggle-thumb"></span>
+        </span>
+        <span class="toggle-label">Off</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Reranking</label>
+    <div class="control-toggle">
+      <button class="toggle-btn" data-control="reranking" data-value="false" aria-pressed="false">
+        <span class="toggle-track">
+          <span class="toggle-thumb"></span>
+        </span>
+        <span class="toggle-label">Off</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .rag-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .control-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .control-options {
+    display: flex;
+    gap: 2px;
+    background: var(--rule);
+    border-radius: 3px;
+    padding: 2px;
+  }
+
+  .control-option {
+    padding: var(--space-1) var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+    background: transparent;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .control-option:hover {
+    color: var(--text);
+  }
+
+  .control-option.active {
+    background: var(--bg);
+    color: var(--accent);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .control-toggle {
+    display: flex;
+  }
+
+  .toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .toggle-track {
+    position: relative;
+    width: 36px;
+    height: 20px;
+    background: var(--rule);
+    border-radius: 10px;
+    transition: background var(--transition-fast);
+  }
+
+  .toggle-btn[aria-pressed="true"] .toggle-track {
+    background: var(--accent);
+  }
+
+  .toggle-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    background: var(--bg);
+    border-radius: 50%;
+    transition: transform var(--transition-fast);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .toggle-btn[aria-pressed="true"] .toggle-thumb {
+    transform: translateX(16px);
+  }
+
+  .toggle-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--muted);
+    min-width: 24px;
+  }
+
+  .toggle-btn[aria-pressed="true"] .toggle-label {
+    color: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    .rag-controls {
+      flex-direction: column;
+    }
+  }
+</style>

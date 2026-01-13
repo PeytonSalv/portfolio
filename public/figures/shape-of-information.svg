@@ -1,0 +1,148 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <style>
+    .box { fill: #FAFAFA; stroke: #E6E8EB; stroke-width: 1.5; }
+    .box-accent { fill: rgba(31, 58, 138, 0.06); stroke: #1F3A8A; stroke-width: 1.5; stroke-dasharray: 4 2; }
+    .box-highlight { fill: rgba(31, 58, 138, 0.1); stroke: #1F3A8A; stroke-width: 2; }
+    .box-dark { fill: #1F3A8A; stroke: #1F3A8A; stroke-width: 1.5; }
+    .box-text { font-family: Inter, sans-serif; font-size: 11px; fill: #111111; font-weight: 500; }
+    .box-text-light { font-family: Inter, sans-serif; font-size: 11px; fill: #FFFFFF; font-weight: 500; }
+    .box-text-sm { font-family: Inter, sans-serif; font-size: 9px; fill: #5F6368; }
+    .arrow { stroke: #1F3A8A; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+    .arrow-thin { stroke: #5F6368; stroke-width: 1; fill: none; }
+    .label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #1F3A8A; font-weight: 500; }
+    .group-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; fill: #1F3A8A; font-weight: 600; letter-spacing: 0.08em; }
+    .muted { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #5F6368; }
+    .metric { font-family: 'IBM Plex Mono', monospace; font-size: 14px; fill: #1F3A8A; font-weight: 600; }
+    .metric-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; fill: #5F6368; }
+    .data-bar { fill: #1F3A8A; }
+    .data-bar-light { fill: rgba(31, 58, 138, 0.3); }
+    .card-fill { fill: #FFFFFF; stroke: #E6E8EB; stroke-width: 1; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#1F3A8A"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" class="group-label" style="font-size: 12px;">THE SHAPE OF INFORMATION</text>
+  <text x="400" y="48" text-anchor="middle" class="muted">Same data, four representations</text>
+
+  <!-- Central Data Source -->
+  <rect x="350" y="200" width="100" height="80" rx="4" class="box-dark"/>
+  <text x="400" y="235" text-anchor="middle" class="box-text-light">Single</text>
+  <text x="400" y="252" text-anchor="middle" class="box-text-light">Dataset</text>
+  <text x="400" y="295" text-anchor="middle" class="muted" style="fill: rgba(255,255,255,0.7)">source of truth</text>
+
+  <!-- Arrows from center -->
+  <path d="M 350 220 L 200 130" class="arrow"/>
+  <path d="M 450 220 L 600 130" class="arrow"/>
+  <path d="M 350 260 L 200 350" class="arrow"/>
+  <path d="M 450 260 L 600 350" class="arrow"/>
+
+  <!-- 1. TABLE (top left) -->
+  <rect x="30" y="70" width="170" height="120" rx="4" class="box-accent"/>
+  <text x="115" y="90" text-anchor="middle" class="group-label">TABLE</text>
+
+  <!-- Table grid -->
+  <rect x="45" y="100" width="140" height="75" rx="2" class="box"/>
+  <!-- Header row -->
+  <line x1="45" y1="118" x2="185" y2="118" stroke="#E6E8EB" stroke-width="1"/>
+  <text x="60" y="113" class="box-text-sm">A</text>
+  <text x="95" y="113" class="box-text-sm">B</text>
+  <text x="130" y="113" class="box-text-sm">C</text>
+  <text x="165" y="113" class="box-text-sm">D</text>
+  <!-- Data rows -->
+  <line x1="45" y1="133" x2="185" y2="133" stroke="#E6E8EB" stroke-width="0.5"/>
+  <line x1="45" y1="148" x2="185" y2="148" stroke="#E6E8EB" stroke-width="0.5"/>
+  <line x1="45" y1="163" x2="185" y2="163" stroke="#E6E8EB" stroke-width="0.5"/>
+  <!-- Column dividers -->
+  <line x1="85" y1="100" x2="85" y2="175" stroke="#E6E8EB" stroke-width="0.5"/>
+  <line x1="120" y1="100" x2="120" y2="175" stroke="#E6E8EB" stroke-width="0.5"/>
+  <line x1="155" y1="100" x2="155" y2="175" stroke="#E6E8EB" stroke-width="0.5"/>
+
+  <text x="115" y="205" text-anchor="middle" class="metric">High</text>
+  <text x="115" y="218" text-anchor="middle" class="metric-label">DENSITY</text>
+
+  <!-- 2. CARDS (top right) -->
+  <rect x="600" y="70" width="170" height="120" rx="4" class="box-accent"/>
+  <text x="685" y="90" text-anchor="middle" class="group-label">CARDS</text>
+
+  <!-- Individual cards -->
+  <rect x="615" y="100" width="55" height="40" rx="3" class="card-fill"/>
+  <rect x="620" y="108" width="20" height="3" rx="1" class="data-bar"/>
+  <rect x="620" y="115" width="40" height="2" rx="1" class="data-bar-light"/>
+  <rect x="620" y="121" width="35" height="2" rx="1" class="data-bar-light"/>
+  <rect x="620" y="127" width="25" height="2" rx="1" class="data-bar-light"/>
+
+  <rect x="680" y="100" width="55" height="40" rx="3" class="card-fill"/>
+  <rect x="685" y="108" width="20" height="3" rx="1" class="data-bar"/>
+  <rect x="685" y="115" width="38" height="2" rx="1" class="data-bar-light"/>
+  <rect x="685" y="121" width="42" height="2" rx="1" class="data-bar-light"/>
+  <rect x="685" y="127" width="30" height="2" rx="1" class="data-bar-light"/>
+
+  <rect x="615" y="145" width="55" height="40" rx="3" class="card-fill"/>
+  <rect x="620" y="153" width="20" height="3" rx="1" class="data-bar"/>
+  <rect x="620" y="160" width="32" height="2" rx="1" class="data-bar-light"/>
+  <rect x="620" y="166" width="28" height="2" rx="1" class="data-bar-light"/>
+  <rect x="620" y="172" width="45" height="2" rx="1" class="data-bar-light"/>
+
+  <rect x="680" y="145" width="55" height="40" rx="3" class="card-fill"/>
+  <rect x="685" y="153" width="20" height="3" rx="1" class="data-bar"/>
+  <rect x="685" y="160" width="44" height="2" rx="1" class="data-bar-light"/>
+  <rect x="685" y="166" width="36" height="2" rx="1" class="data-bar-light"/>
+  <rect x="685" y="172" width="40" height="2" rx="1" class="data-bar-light"/>
+
+  <text x="685" y="205" text-anchor="middle" class="metric">Local</text>
+  <text x="685" y="218" text-anchor="middle" class="metric-label">CONTEXT</text>
+
+  <!-- 3. GRAPH (bottom left) -->
+  <rect x="30" y="310" width="170" height="120" rx="4" class="box-accent"/>
+  <text x="115" y="330" text-anchor="middle" class="group-label">GRAPH</text>
+
+  <!-- Chart area -->
+  <rect x="50" y="340" width="130" height="70" rx="2" class="box"/>
+  <!-- Axis -->
+  <line x1="60" y1="400" x2="170" y2="400" stroke="#E6E8EB" stroke-width="1"/>
+  <line x1="60" y1="350" x2="60" y2="400" stroke="#E6E8EB" stroke-width="1"/>
+  <!-- Bars -->
+  <rect x="70" y="370" width="15" height="30" rx="1" class="data-bar"/>
+  <rect x="95" y="355" width="15" height="45" rx="1" class="data-bar"/>
+  <rect x="120" y="380" width="15" height="20" rx="1" class="data-bar"/>
+  <rect x="145" y="360" width="15" height="40" rx="1" class="data-bar"/>
+
+  <text x="115" y="445" text-anchor="middle" class="metric">Pattern</text>
+  <text x="115" y="458" text-anchor="middle" class="metric-label">RECOGNITION</text>
+
+  <!-- 4. LAYERED (bottom right) -->
+  <rect x="600" y="310" width="170" height="120" rx="4" class="box-accent"/>
+  <text x="685" y="330" text-anchor="middle" class="group-label">LAYERED</text>
+
+  <!-- Base visual layer -->
+  <rect x="620" y="345" width="130" height="55" rx="2" class="box"/>
+  <!-- Sparkline -->
+  <polyline points="630,375 650,365 670,380 690,355 710,370 730,360 740,365"
+            stroke="#1F3A8A" stroke-width="2" fill="none"/>
+  <!-- Data points -->
+  <circle cx="650" cy="365" r="3" class="data-bar"/>
+  <circle cx="690" cy="355" r="3" class="data-bar"/>
+  <circle cx="730" cy="360" r="3" class="data-bar"/>
+
+  <!-- Overlay tooltip -->
+  <rect x="680" y="342" width="50" height="25" rx="2" class="box-highlight"/>
+  <text x="705" y="354" text-anchor="middle" class="box-text-sm">+12.4%</text>
+  <text x="705" y="363" text-anchor="middle" style="font-size: 7px; fill: #5F6368;">on demand</text>
+
+  <!-- Secondary detail layer hint -->
+  <rect x="620" y="405" width="130" height="18" rx="2" class="box" style="stroke-dasharray: 2 2;"/>
+  <text x="685" y="417" text-anchor="middle" class="muted">detail layer (toggle)</text>
+
+  <text x="685" y="445" text-anchor="middle" class="metric">Progressive</text>
+  <text x="685" y="458" text-anchor="middle" class="metric-label">DISCLOSURE</text>
+
+  <!-- Bottom insight bar -->
+  <rect x="30" y="480" width="740" height="35" rx="4" class="box"/>
+  <text x="400" y="502" text-anchor="middle" class="muted">Unstructured density overwhelms. Shaped information guides comprehension.</text>
+
+</svg>
