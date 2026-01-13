@@ -15,15 +15,15 @@
   <!-- Logo mark -->
   <g transform="translate(80, 80)">
     <rect width="64" height="64" rx="12" fill="#1F3A8A"/>
-    <path d="M16 16 L32 16 L32 32 L24 32 L24 48 L16 48 Z" fill="#FFFFFF"/>
-    <path d="M36 16 L52 16 L52 24 L44 24 L44 28 L52 28 L52 36 L44 36 L44 48 L36 48 Z" fill="#FFFFFF" opacity="0.7"/>
+    <path d="M14 16 L30 16 L30 30 L22 30 L22 48 L14 48 Z" fill="#FFFFFF"/>
+    <path d="M50 16 L34 16 L34 24 L42 24 L42 28 L34 28 L34 36 L42 36 L42 40 L34 40 L34 48 L50 48 L50 40 L42 40 L42 36 L50 36 L50 28 L42 28 L42 24 L50 24 Z" fill="#FFFFFF" opacity="0.7"/>
   </g>
 
   <!-- Name -->
   <text x="80" y="220" font-family="Inter, system-ui, sans-serif" font-size="72" font-weight="600" fill="#111111">Peyton Salvant</text>
 
   <!-- Role -->
-  <text x="80" y="280" font-family="Inter, system-ui, sans-serif" font-size="32" font-weight="500" fill="#5F6368">Frontend Engineer</text>
+  <text x="80" y="280" font-family="Inter, system-ui, sans-serif" font-size="32" font-weight="500" fill="#5F6368">Full Stack Engineer</text>
 
   <!-- Divider -->
   <line x1="80" y1="320" x2="400" y2="320" stroke="#E6E8EB" stroke-width="2"/>
@@ -36,8 +36,8 @@
   <text x="490" y="380" font-family="IBM Plex Mono, monospace" font-size="20" fill="#1F3A8A" letter-spacing="0.1em">AI SYSTEMS</text>
 
   <!-- Description -->
-  <text x="80" y="440" font-family="Source Serif Pro, Georgia, serif" font-size="24" fill="#5F6368">Case studies in frontend architecture,</text>
-  <text x="80" y="475" font-family="Source Serif Pro, Georgia, serif" font-size="24" fill="#5F6368">AI integration, and data-intensive interfaces.</text>
+  <text x="80" y="440" font-family="Source Serif Pro, Georgia, serif" font-size="24" fill="#5F6368">Case studies in full stack architecture,</text>
+  <text x="80" y="475" font-family="Source Serif Pro, Georgia, serif" font-size="24" fill="#5F6368">AI systems, and production platforms.</text>
 
   <!-- URL -->
   <text x="80" y="560" font-family="IBM Plex Mono, monospace" font-size="18" fill="#5F6368" letter-spacing="0.05em">peytonsalvant.vercel.app</text>
