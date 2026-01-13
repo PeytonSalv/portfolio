@@ -18,6 +18,9 @@ export async function getStaticPaths() {
 const { post, number } = Astro.props;
 const { Content } = await render(post);
 
+// Derive OG image path from slug
+const ogImage = `/og/${post.id}.png`;
+
 function formatDate(dateString: string): string {
   const d = new Date(dateString);
   return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
@@ -28,7 +31,7 @@ const railItems = [
 ];
 ---
 
-<BaseLayout title={`${post.data.title} – Peyton Salvant`} description={post.data.summary}>
+<BaseLayout title={`${post.data.title} – Peyton Salvant`} description={post.data.summary} ogImage={ogImage}>
   <RailLayout items={railItems}>
     <article class="article">
       <Section id="header">

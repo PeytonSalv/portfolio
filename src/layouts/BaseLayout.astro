@@ -6,9 +6,11 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
 }
 
-const { title, description = 'Personal portfolio and research' } = Astro.props;
+const { title, description = 'Personal portfolio and research', ogImage } = Astro.props;
+const resolvedOgImage = ogImage ? `https://peytonsalvant.vercel.app${ogImage}` : 'https://peytonsalvant.vercel.app/og-image.png';
 ---
 
 <!DOCTYPE html>
@@ -23,12 +25,12 @@ const { title, description = 'Personal portfolio and research' } = Astro.props;
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="https://peytonsalvant.vercel.app/og-image.png" />
+    <meta property="og:image" content={resolvedOgImage} />
     <meta property="og:url" content="https://peytonsalvant.vercel.app" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="https://peytonsalvant.vercel.app/og-image.png" />
+    <meta name="twitter:image" content={resolvedOgImage} />
 
     <!-- Fonts: Inter (headings), Source Serif 4 (body), IBM Plex Mono (captions) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

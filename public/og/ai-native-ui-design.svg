@@ -1,0 +1,81 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#FFFFFF"/>
+
+  <!-- Subtle grid -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#E6E8EB" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.5"/>
+
+  <!-- Accent bar -->
+  <rect x="0" y="0" width="6" height="630" fill="#1F3A8A"/>
+
+  <!-- AI Confidence visualization -->
+  <g transform="translate(680, 80)">
+    <!-- Confidence meter -->
+    <rect x="0" y="0" width="440" height="80" rx="4" fill="none" stroke="#E6E8EB" stroke-width="2"/>
+    <rect x="0" y="0" width="440" height="28" rx="4" fill="#1F3A8A" opacity="0.08"/>
+    <text x="16" y="18" font-family="IBM Plex Mono, monospace" font-size="11" fill="#1F3A8A" letter-spacing="0.05em">CONFIDENCE SCORE</text>
+    <rect x="16" y="44" width="408" height="20" rx="4" fill="#E6E8EB"/>
+    <rect x="16" y="44" width="326" height="20" rx="4" fill="#1F3A8A"/>
+    <text x="360" y="58" font-family="IBM Plex Mono, monospace" font-size="12" fill="#1F3A8A">0.82</text>
+
+    <!-- Source attribution -->
+    <rect x="0" y="100" width="440" height="140" rx="4" fill="none" stroke="#E6E8EB" stroke-width="2"/>
+    <rect x="0" y="100" width="440" height="28" rx="4" fill="#1F3A8A" opacity="0.08"/>
+    <text x="16" y="118" font-family="IBM Plex Mono, monospace" font-size="11" fill="#1F3A8A" letter-spacing="0.05em">SOURCE ATTRIBUTION</text>
+
+    <g transform="translate(16, 140)">
+      <rect x="0" y="0" width="200" height="36" rx="3" fill="#1F3A8A" opacity="0.1"/>
+      <circle cx="16" cy="18" r="4" fill="#16a34a"/>
+      <text x="28" y="22" font-family="IBM Plex Mono, monospace" font-size="10" fill="#111111">doc_deployment.md</text>
+
+      <rect x="210" y="0" width="200" height="36" rx="3" fill="#1F3A8A" opacity="0.1"/>
+      <circle cx="226" cy="18" r="4" fill="#16a34a"/>
+      <text x="238" y="22" font-family="IBM Plex Mono, monospace" font-size="10" fill="#111111">api_reference.json</text>
+
+      <rect x="0" y="46" width="200" height="36" rx="3" fill="#1F3A8A" opacity="0.06"/>
+      <circle cx="16" cy="18" r="4" fill="#eab308" transform="translate(0, 46)"/>
+      <text x="28" y="68" font-family="IBM Plex Mono, monospace" font-size="10" fill="#5F6368">config_legacy.yml</text>
+    </g>
+
+    <!-- Guardrail indicator -->
+    <rect x="0" y="260" width="440" height="60" rx="4" fill="none" stroke="#16a34a" stroke-width="2"/>
+    <rect x="0" y="260" width="440" height="28" rx="4" fill="#16a34a" opacity="0.1"/>
+    <text x="16" y="278" font-family="IBM Plex Mono, monospace" font-size="11" fill="#16a34a" letter-spacing="0.05em">GUARDRAILS PASSED</text>
+    <text x="16" y="304" font-family="IBM Plex Mono, monospace" font-size="12" fill="#5F6368">Factual consistency: PASS | Tone: PASS | PII: PASS</text>
+
+    <!-- Uncertainty callout -->
+    <rect x="0" y="340" width="440" height="50" rx="4" fill="#eab308" opacity="0.1" stroke="#eab308" stroke-width="1"/>
+    <text x="16" y="370" font-family="IBM Plex Mono, monospace" font-size="11" fill="#5F6368">Low confidence on deployment timeline—verify with team.</text>
+  </g>
+
+  <!-- Kicker -->
+  <text x="60" y="100" font-family="IBM Plex Mono, monospace" font-size="14" fill="#1F3A8A" letter-spacing="0.15em">RESEARCH</text>
+
+  <!-- Title -->
+  <text x="60" y="180" font-family="Inter, system-ui, sans-serif" font-size="56" font-weight="600" fill="#111111">AI-Native</text>
+  <text x="60" y="250" font-family="Inter, system-ui, sans-serif" font-size="56" font-weight="600" fill="#111111">UI Design</text>
+
+  <!-- Subtitle -->
+  <text x="60" y="310" font-family="Source Serif Pro, Georgia, serif" font-size="22" fill="#5F6368">Interface patterns for uncertainty,</text>
+  <text x="60" y="340" font-family="Source Serif Pro, Georgia, serif" font-size="22" fill="#5F6368">provenance, and non-determinism.</text>
+
+  <!-- Tags -->
+  <g transform="translate(60, 400)">
+    <rect x="0" y="0" width="60" height="28" rx="4" fill="#1F3A8A" opacity="0.1"/>
+    <text x="30" y="18" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="#1F3A8A">LLM</text>
+
+    <rect x="72" y="0" width="60" height="28" rx="4" fill="#1F3A8A" opacity="0.1"/>
+    <text x="102" y="18" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="#1F3A8A">RAG</text>
+
+    <rect x="144" y="0" width="100" height="28" rx="4" fill="#1F3A8A" opacity="0.1"/>
+    <text x="194" y="18" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="#1F3A8A">UI DESIGN</text>
+  </g>
+
+  <!-- Author -->
+  <text x="60" y="560" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="500" fill="#111111">Peyton Salvant</text>
+  <text x="60" y="585" font-family="IBM Plex Mono, monospace" font-size="14" fill="#5F6368">Full Stack Engineer</text>
+</svg>

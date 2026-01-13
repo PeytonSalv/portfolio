@@ -1,0 +1,139 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#FFFFFF"/>
+
+  <!-- Subtle grid -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#E6E8EB" stroke-width="1"/>
+    </pattern>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1F3A8A"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.5"/>
+
+  <!-- Accent bar -->
+  <rect x="0" y="0" width="6" height="630" fill="#1F3A8A"/>
+
+  <!-- RAG Pipeline visualization -->
+  <g transform="translate(580, 50)">
+    <!-- Pipeline stages -->
+    <g transform="translate(0, 0)">
+      <!-- Stage 1: Query -->
+      <rect x="0" y="0" width="90" height="50" rx="4" fill="#1F3A8A"/>
+      <text x="45" y="22" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#FFFFFF" letter-spacing="0.05em">QUERY</text>
+      <text x="45" y="38" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8" fill="#FFFFFF" opacity="0.7">Parse intent</text>
+
+      <!-- Arrow -->
+      <line x1="95" y1="25" x2="115" y2="25" stroke="#1F3A8A" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Stage 2: Retrieval -->
+      <rect x="120" y="0" width="90" height="50" rx="4" fill="none" stroke="#1F3A8A" stroke-width="2"/>
+      <text x="165" y="22" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#1F3A8A" letter-spacing="0.05em">RETRIEVAL</text>
+      <text x="165" y="38" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8" fill="#5F6368">Vector search</text>
+
+      <!-- Arrow -->
+      <line x1="215" y1="25" x2="235" y2="25" stroke="#1F3A8A" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Stage 3: Filter -->
+      <rect x="240" y="0" width="90" height="50" rx="4" fill="none" stroke="#1F3A8A" stroke-width="2"/>
+      <text x="285" y="22" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#1F3A8A" letter-spacing="0.05em">FILTER</text>
+      <text x="285" y="38" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8" fill="#5F6368">Permissions</text>
+
+      <!-- Arrow -->
+      <line x1="335" y1="25" x2="355" y2="25" stroke="#1F3A8A" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Stage 4: Context -->
+      <rect x="360" y="0" width="90" height="50" rx="4" fill="none" stroke="#1F3A8A" stroke-width="2"/>
+      <text x="405" y="22" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#1F3A8A" letter-spacing="0.05em">CONTEXT</text>
+      <text x="405" y="38" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8" fill="#5F6368">Assembly</text>
+
+      <!-- Arrow -->
+      <line x1="455" y1="25" x2="475" y2="25" stroke="#1F3A8A" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Stage 5: Generate -->
+      <rect x="480" y="0" width="90" height="50" rx="4" fill="#1F3A8A"/>
+      <text x="525" y="22" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#FFFFFF" letter-spacing="0.05em">GENERATE</text>
+      <text x="525" y="38" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8" fill="#FFFFFF" opacity="0.7">LLM output</text>
+    </g>
+
+    <!-- Document chunks visualization -->
+    <g transform="translate(0, 80)">
+      <rect x="0" y="0" width="280" height="150" rx="4" fill="none" stroke="#E6E8EB" stroke-width="2"/>
+      <rect x="0" y="0" width="280" height="28" rx="4" fill="#1F3A8A" opacity="0.08"/>
+      <text x="16" y="18" font-family="IBM Plex Mono, monospace" font-size="10" fill="#1F3A8A" letter-spacing="0.05em">RETRIEVED CHUNKS</text>
+
+      <!-- Chunks with relevance -->
+      <rect x="12" y="38" width="256" height="28" rx="3" fill="#1F3A8A" opacity="0.2"/>
+      <circle cx="26" cy="52" r="4" fill="#16a34a"/>
+      <text x="38" y="56" font-family="IBM Plex Mono, monospace" font-size="9" fill="#111111">deployment_guide.md</text>
+      <text x="230" y="56" font-family="IBM Plex Mono, monospace" font-size="9" fill="#1F3A8A">0.92</text>
+
+      <rect x="12" y="72" width="256" height="28" rx="3" fill="#1F3A8A" opacity="0.15"/>
+      <circle cx="26" cy="86" r="4" fill="#16a34a"/>
+      <text x="38" y="90" font-family="IBM Plex Mono, monospace" font-size="9" fill="#111111">api_reference.json</text>
+      <text x="230" y="90" font-family="IBM Plex Mono, monospace" font-size="9" fill="#1F3A8A">0.88</text>
+
+      <rect x="12" y="106" width="256" height="28" rx="3" fill="#eab308" opacity="0.15"/>
+      <circle cx="26" cy="120" r="4" fill="#eab308"/>
+      <text x="38" y="124" font-family="IBM Plex Mono, monospace" font-size="9" fill="#5F6368">legacy_config.yml</text>
+      <text x="230" y="124" font-family="IBM Plex Mono, monospace" font-size="9" fill="#eab308">0.45</text>
+    </g>
+
+    <!-- Context window -->
+    <g transform="translate(300, 80)">
+      <rect x="0" y="0" width="270" height="150" rx="4" fill="none" stroke="#E6E8EB" stroke-width="2"/>
+      <rect x="0" y="0" width="270" height="28" rx="4" fill="#1F3A8A" opacity="0.08"/>
+      <text x="16" y="18" font-family="IBM Plex Mono, monospace" font-size="10" fill="#1F3A8A" letter-spacing="0.05em">CONTEXT WINDOW</text>
+
+      <!-- Token budget bar -->
+      <rect x="12" y="40" width="246" height="16" rx="3" fill="#E6E8EB"/>
+      <rect x="12" y="40" width="180" height="16" rx="3" fill="#1F3A8A"/>
+      <text x="200" y="52" font-family="IBM Plex Mono, monospace" font-size="9" fill="#1F3A8A">2.8k / 4k</text>
+
+      <!-- Composition breakdown -->
+      <text x="12" y="80" font-family="IBM Plex Mono, monospace" font-size="9" fill="#5F6368">System prompt</text>
+      <rect x="100" y="70" width="60" height="14" rx="2" fill="#1F3A8A" opacity="0.3"/>
+
+      <text x="12" y="100" font-family="IBM Plex Mono, monospace" font-size="9" fill="#5F6368">Retrieved docs</text>
+      <rect x="100" y="90" width="120" height="14" rx="2" fill="#1F3A8A" opacity="0.5"/>
+
+      <text x="12" y="120" font-family="IBM Plex Mono, monospace" font-size="9" fill="#5F6368">Query + buffer</text>
+      <rect x="100" y="110" width="40" height="14" rx="2" fill="#1F3A8A" opacity="0.2"/>
+    </g>
+
+    <!-- Failure mode callout -->
+    <g transform="translate(0, 250)">
+      <rect x="0" y="0" width="570" height="45" rx="4" fill="#dc2626" opacity="0.08" stroke="#dc2626" stroke-width="1"/>
+      <text x="16" y="18" font-family="IBM Plex Mono, monospace" font-size="10" fill="#dc2626" letter-spacing="0.05em">FAILURE MODE</text>
+      <text x="16" y="35" font-family="IBM Plex Mono, monospace" font-size="11" fill="#5F6368">Most RAG failures happen before the model generates a single token.</text>
+    </g>
+  </g>
+
+  <!-- Kicker -->
+  <text x="60" y="100" font-family="IBM Plex Mono, monospace" font-size="14" fill="#1F3A8A" letter-spacing="0.15em">RESEARCH</text>
+
+  <!-- Title -->
+  <text x="60" y="180" font-family="Inter, system-ui, sans-serif" font-size="56" font-weight="600" fill="#111111">RAG as</text>
+  <text x="60" y="250" font-family="Inter, system-ui, sans-serif" font-size="56" font-weight="600" fill="#111111">a System</text>
+
+  <!-- Subtitle -->
+  <text x="60" y="310" font-family="Source Serif Pro, Georgia, serif" font-size="22" fill="#5F6368">How retrieval, context, and</text>
+  <text x="60" y="340" font-family="Source Serif Pro, Georgia, serif" font-size="22" fill="#5F6368">generation actually interact.</text>
+
+  <!-- Tags -->
+  <g transform="translate(60, 400)">
+    <rect x="0" y="0" width="60" height="28" rx="4" fill="#1F3A8A" opacity="0.1"/>
+    <text x="30" y="18" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="#1F3A8A">RAG</text>
+
+    <rect x="72" y="0" width="130" height="28" rx="4" fill="#1F3A8A" opacity="0.1"/>
+    <text x="137" y="18" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="#1F3A8A">SYSTEMS DESIGN</text>
+
+    <rect x="214" y="0" width="120" height="28" rx="4" fill="#1F3A8A" opacity="0.1"/>
+    <text x="274" y="18" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="#1F3A8A">OBSERVABILITY</text>
+  </g>
+
+  <!-- Author -->
+  <text x="60" y="560" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="500" fill="#111111">Peyton Salvant</text>
+  <text x="60" y="585" font-family="IBM Plex Mono, monospace" font-size="14" fill="#5F6368">Full Stack Engineer</text>
+</svg>
