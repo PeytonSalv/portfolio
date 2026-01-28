@@ -1,0 +1,145 @@
+<svg viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <style>
+    .box { fill: #FAFAFA; stroke: #E6E8EB; stroke-width: 1.5; }
+    .box-accent { fill: rgba(31, 58, 138, 0.06); stroke: #1F3A8A; stroke-width: 1.5; stroke-dasharray: 4 2; }
+    .box-solid { fill: rgba(31, 58, 138, 0.06); stroke: #1F3A8A; stroke-width: 1.5; }
+    .box-dark { fill: #1F3A8A; stroke: #1F3A8A; stroke-width: 1.5; }
+    .box-text { font-family: Inter, sans-serif; font-size: 11px; fill: #111111; font-weight: 500; }
+    .box-text-light { font-family: Inter, sans-serif; font-size: 11px; fill: #FFFFFF; font-weight: 500; }
+    .box-text-sm { font-family: Inter, sans-serif; font-size: 9px; fill: #5F6368; }
+    .arrow { stroke: #1F3A8A; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+    .arrow-thin { stroke: #5F6368; stroke-width: 1; fill: none; marker-end: url(#arrowhead-gray); }
+    .label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #1F3A8A; font-weight: 500; }
+    .group-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; fill: #1F3A8A; font-weight: 600; letter-spacing: 0.08em; }
+    .muted { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #5F6368; }
+    .phase-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; fill: #71767B; letter-spacing: 0.1em; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1F3A8A"/>
+    </marker>
+    <marker id="arrowhead-gray" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#5F6368"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="28" text-anchor="middle" class="group-label" style="font-size: 11px;">EVENT-DRIVEN LEADERBOARD SYSTEM</text>
+  <text x="400" y="44" text-anchor="middle" class="muted">SNS/SQS fan-out with Lambda consumers and PostgreSQL read models</text>
+
+  <!-- Event Flow (top row) -->
+  <text x="30" y="78" class="phase-label">EVENT FLOW</text>
+
+  <!-- API -->
+  <rect x="30" y="90" width="100" height="50" rx="4" class="box-dark"/>
+  <text x="80" y="112" text-anchor="middle" class="box-text-light">API</text>
+  <text x="80" y="126" text-anchor="middle" class="box-text-sm" style="fill: rgba(255,255,255,0.7)">Event Emission</text>
+
+  <!-- SNS Topic -->
+  <rect x="170" y="90" width="100" height="50" rx="4" class="box-solid"/>
+  <text x="220" y="112" text-anchor="middle" class="box-text">SNS Topic</text>
+  <text x="220" y="126" text-anchor="middle" class="box-text-sm">user-actions</text>
+
+  <!-- SQS Fan-out group -->
+  <rect x="310" y="75" width="140" height="155" rx="4" class="box-accent"/>
+  <text x="325" y="95" class="group-label">SQS QUEUES</text>
+
+  <rect x="325" y="105" width="110" height="32" rx="3" class="box"/>
+  <text x="380" y="125" text-anchor="middle" class="box-text-sm">leaderboard-queue</text>
+
+  <rect x="325" y="145" width="110" height="32" rx="3" class="box"/>
+  <text x="380" y="165" text-anchor="middle" class="box-text-sm">badge-queue</text>
+
+  <rect x="325" y="185" width="110" height="32" rx="3" class="box"/>
+  <text x="380" y="205" text-anchor="middle" class="box-text-sm">analytics-queue</text>
+
+  <!-- Lambda group -->
+  <rect x="490" y="75" width="130" height="155" rx="4" class="box-accent"/>
+  <text x="505" y="95" class="group-label">LAMBDA</text>
+
+  <rect x="505" y="105" width="100" height="32" rx="3" class="box"/>
+  <text x="555" y="125" text-anchor="middle" class="box-text-sm">leaderboard-fn</text>
+
+  <rect x="505" y="145" width="100" height="32" rx="3" class="box"/>
+  <text x="555" y="165" text-anchor="middle" class="box-text-sm">badge-fn</text>
+
+  <rect x="505" y="185" width="100" height="32" rx="3" class="box"/>
+  <text x="555" y="205" text-anchor="middle" class="box-text-sm">analytics-fn</text>
+
+  <!-- PostgreSQL -->
+  <rect x="660" y="90" width="110" height="50" rx="4" class="box-dark"/>
+  <text x="715" y="112" text-anchor="middle" class="box-text-light">PostgreSQL</text>
+  <text x="715" y="126" text-anchor="middle" class="box-text-sm" style="fill: rgba(255,255,255,0.7)">Read Models</text>
+
+  <!-- Main flow arrows -->
+  <path d="M 130 115 L 162 115" class="arrow"/>
+  <path d="M 270 115 L 302 115" class="arrow"/>
+
+  <!-- Fan-out arrows from SNS -->
+  <path d="M 270 115 L 290 115 L 290 121 L 317 121" class="arrow-thin"/>
+  <path d="M 270 115 L 290 115 L 290 161 L 317 161" class="arrow-thin"/>
+  <path d="M 270 115 L 290 115 L 290 201 L 317 201" class="arrow-thin"/>
+
+  <!-- Queue to Lambda arrows -->
+  <path d="M 435 121 L 497 121" class="arrow-thin"/>
+  <path d="M 435 161 L 497 161" class="arrow-thin"/>
+  <path d="M 435 201 L 497 201" class="arrow-thin"/>
+
+  <!-- Lambda to DB arrows -->
+  <path d="M 605 121 L 630 121 L 630 115 L 652 115" class="arrow"/>
+  <path d="M 605 161 L 630 161 L 630 115 L 652 115" class="arrow-thin"/>
+  <path d="M 605 201 L 630 201 L 630 115 L 652 115" class="arrow-thin"/>
+
+  <!-- Reliability section -->
+  <text x="30" y="270" class="phase-label">RELIABILITY PATTERNS</text>
+
+  <!-- Idempotency -->
+  <rect x="30" y="285" width="170" height="100" rx="4" class="box-accent"/>
+  <text x="45" y="305" class="group-label">IDEMPOTENCY</text>
+
+  <rect x="45" y="318" width="140" height="28" rx="3" class="box"/>
+  <text x="115" y="336" text-anchor="middle" class="box-text-sm">processed_events table</text>
+
+  <text x="115" y="368" text-anchor="middle" class="muted">Dedup via idempotency key</text>
+
+  <!-- Retry / DLQ -->
+  <rect x="230" y="285" width="170" height="100" rx="4" class="box-accent"/>
+  <text x="245" y="305" class="group-label">RETRY + DLQ</text>
+
+  <rect x="245" y="318" width="60" height="28" rx="3" class="box"/>
+  <text x="275" y="336" text-anchor="middle" class="box-text-sm">3 retries</text>
+
+  <rect x="315" y="318" width="70" height="28" rx="3" class="box"/>
+  <text x="350" y="336" text-anchor="middle" class="box-text-sm">14d retention</text>
+
+  <text x="315" y="368" text-anchor="middle" class="muted">Partial batch failures</text>
+
+  <!-- Burst Handling -->
+  <rect x="430" y="285" width="170" height="100" rx="4" class="box-accent"/>
+  <text x="445" y="305" class="group-label">BURST HANDLING</text>
+
+  <rect x="445" y="318" width="65" height="28" rx="3" class="box"/>
+  <text x="477" y="336" text-anchor="middle" class="box-text-sm">SQS buffer</text>
+
+  <rect x="520" y="318" width="65" height="28" rx="3" class="box"/>
+  <text x="552" y="336" text-anchor="middle" class="box-text-sm">RDS Proxy</text>
+
+  <text x="515" y="368" text-anchor="middle" class="muted">Reserved concurrency</text>
+
+  <!-- Multi-tenant -->
+  <rect x="630" y="285" width="140" height="100" rx="4" class="box-accent"/>
+  <text x="645" y="305" class="group-label">MULTI-TENANT</text>
+
+  <rect x="645" y="318" width="110" height="28" rx="3" class="box"/>
+  <text x="700" y="336" text-anchor="middle" class="box-text-sm">org_id isolation</text>
+
+  <text x="700" y="368" text-anchor="middle" class="muted">Scoped queries</text>
+
+  <!-- Footer metrics -->
+  <rect x="30" y="400" width="740" height="25" rx="3" class="box"/>
+  <text x="120" y="416" text-anchor="middle" class="muted">p50 latency &lt;2s</text>
+  <text x="300" y="416" text-anchor="middle" class="muted">At-least-once delivery</text>
+  <text x="500" y="416" text-anchor="middle" class="muted">Zero data loss</text>
+  <text x="680" y="416" text-anchor="middle" class="muted">Eventual consistency</text>
+</svg>

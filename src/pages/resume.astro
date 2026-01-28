@@ -48,6 +48,8 @@ const railItems = [
               <li>Led frontend implementation for player comparison, watchlists, and scouting workflows</li>
               <li>Owned the interface layer over a global professional player dataset including contracts, valuations, and proprietary performance metrics</li>
               <li>Integrated backend AI workflows for natural language player lookup and report synthesis</li>
+              <li>Partnered closely with backend engineers to integrate event-driven workflows (async jobs, queued processing), ensuring frontend state consistency and correct behavior under eventual consistency</li>
+              <li>Debugged and shipped features against production AWS services by correlating logs, traces, and error reports across CloudWatch, X-Ray, and Sentry to resolve cross-service issues</li>
             </ul>
           </div>
         </article>
@@ -65,6 +67,8 @@ const railItems = [
               <li>Built and deployed production web platforms using React, Next.js, AWS Lambda, Stripe, and third-party APIs</li>
               <li>Owned system architecture, frontend, backend, and deployment workflows end-to-end</li>
               <li>Delivered high-reliability admin tooling and dashboards used daily by business operators</li>
+              <li>Designed and integrated serverless backend endpoints using AWS Lambda and PostgreSQL to support operational workflows, coordinating async processing, retries, and error handling from the client layer</li>
+              <li>Implemented event-driven patterns using SNS/SQS to decouple user actions from background processing, improving system reliability under burst traffic</li>
             </ul>
           </div>
         </article>
@@ -78,12 +82,22 @@ const railItems = [
       <div class="skills">
         <div class="skill-group">
           <h3 class="skill-label">Languages</h3>
-          <p>TypeScript, Python</p>
+          <p>TypeScript, Python, Go, SQL</p>
+        </div>
+
+        <div class="skill-group">
+          <h3 class="skill-label">Backend & Cloud</h3>
+          <p>AWS (Lambda, SQS, SNS, S3), Event-driven architectures, Serverless microservices, Async processing, PostgreSQL, ORM-based data access</p>
+        </div>
+
+        <div class="skill-group">
+          <h3 class="skill-label">Observability & Reliability</h3>
+          <p>Structured logging, Distributed tracing, Error monitoring, CloudWatch, AWS X-Ray, Sentry</p>
         </div>
 
         <div class="skill-group">
           <h3 class="skill-label">Frontend</h3>
-          <p>React, Next.js, Tailwind CSS, Framer Motion, GSAP</p>
+          <p>React, Next.js, React Native, Tailwind CSS, Framer Motion, GSAP</p>
         </div>
 
         <div class="skill-group">
@@ -93,17 +107,12 @@ const railItems = [
 
         <div class="skill-group">
           <h3 class="skill-label">State & Data</h3>
-          <p>React Query, Zustand</p>
+          <p>React Query, Apollo Client, Zustand</p>
         </div>
 
         <div class="skill-group">
           <h3 class="skill-label">Testing & Tooling</h3>
-          <p>Playwright, Vite, GitHub Actions</p>
-        </div>
-
-        <div class="skill-group">
-          <h3 class="skill-label">Other</h3>
-          <p>Performance optimization, Data-dense dashboards, Admin tooling, REST APIs</p>
+          <p>Playwright (E2E), Jest (Unit & Integration), Vite, GitHub Actions (CI/CD)</p>
         </div>
       </div>
     </Section>

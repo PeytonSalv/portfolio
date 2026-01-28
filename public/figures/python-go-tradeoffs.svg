@@ -1,0 +1,136 @@
+<svg viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <style>
+    .box { fill: #FAFAFA; stroke: #E6E8EB; stroke-width: 1.5; }
+    .box-accent { fill: rgba(31, 58, 138, 0.06); stroke: #1F3A8A; stroke-width: 1.5; stroke-dasharray: 4 2; }
+    .box-solid { fill: rgba(31, 58, 138, 0.06); stroke: #1F3A8A; stroke-width: 1.5; }
+    .box-dark { fill: #1F3A8A; stroke: #1F3A8A; stroke-width: 1.5; }
+    .box-python { fill: rgba(55, 118, 171, 0.08); stroke: #3776AB; stroke-width: 1.5; }
+    .box-go { fill: rgba(0, 173, 216, 0.08); stroke: #00ADD8; stroke-width: 1.5; }
+    .box-text { font-family: Inter, sans-serif; font-size: 11px; fill: #111111; font-weight: 500; }
+    .box-text-light { font-family: Inter, sans-serif; font-size: 11px; fill: #FFFFFF; font-weight: 500; }
+    .box-text-sm { font-family: Inter, sans-serif; font-size: 9px; fill: #5F6368; }
+    .box-text-xs { font-family: Inter, sans-serif; font-size: 8px; fill: #5F6368; }
+    .arrow { stroke: #1F3A8A; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+    .arrow-thin { stroke: #5F6368; stroke-width: 1; fill: none; marker-end: url(#arrowhead-gray); }
+    .label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #1F3A8A; font-weight: 500; }
+    .group-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; fill: #1F3A8A; font-weight: 600; letter-spacing: 0.08em; }
+    .group-label-python { font-family: 'IBM Plex Mono', monospace; font-size: 10px; fill: #3776AB; font-weight: 600; letter-spacing: 0.08em; }
+    .group-label-go { font-family: 'IBM Plex Mono', monospace; font-size: 10px; fill: #00ADD8; font-weight: 600; letter-spacing: 0.08em; }
+    .muted { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: #5F6368; }
+    .phase-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; fill: #71767B; letter-spacing: 0.1em; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1F3A8A"/>
+    </marker>
+    <marker id="arrowhead-gray" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#5F6368"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="28" text-anchor="middle" class="group-label" style="font-size: 11px;">PYTHON VS GO: BACKEND SYSTEM TRADEOFFS</text>
+  <text x="400" y="44" text-anchor="middle" class="muted">Concurrency models, operational characteristics, and decision factors</text>
+
+  <!-- Concurrency Models Section -->
+  <text x="30" y="78" class="phase-label">CONCURRENCY MODELS</text>
+
+  <!-- Python Concurrency -->
+  <rect x="30" y="90" width="360" height="130" rx="4" class="box-python"/>
+  <text x="45" y="110" class="group-label-python">PYTHON</text>
+
+  <rect x="45" y="125" width="100" height="40" rx="3" class="box"/>
+  <text x="95" y="142" text-anchor="middle" class="box-text">asyncio</text>
+  <text x="95" y="156" text-anchor="middle" class="box-text-sm">Event loop</text>
+
+  <rect x="155" y="125" width="100" height="40" rx="3" class="box"/>
+  <text x="205" y="142" text-anchor="middle" class="box-text">Workers</text>
+  <text x="205" y="156" text-anchor="middle" class="box-text-sm">Process-based</text>
+
+  <rect x="265" y="125" width="110" height="40" rx="3" class="box"/>
+  <text x="320" y="142" text-anchor="middle" class="box-text">Threading</text>
+  <text x="320" y="156" text-anchor="middle" class="box-text-sm">GIL-constrained</text>
+
+  <text x="210" y="190" text-anchor="middle" class="muted">Single-threaded async or multiprocess parallelism</text>
+  <text x="210" y="205" text-anchor="middle" class="box-text-xs">Best for I/O-bound workloads, data pipelines</text>
+
+  <!-- Go Concurrency -->
+  <rect x="410" y="90" width="360" height="130" rx="4" class="box-go"/>
+  <text x="425" y="110" class="group-label-go">GO</text>
+
+  <rect x="425" y="125" width="100" height="40" rx="3" class="box"/>
+  <text x="475" y="142" text-anchor="middle" class="box-text">Goroutines</text>
+  <text x="475" y="156" text-anchor="middle" class="box-text-sm">Lightweight</text>
+
+  <rect x="535" y="125" width="100" height="40" rx="3" class="box"/>
+  <text x="585" y="142" text-anchor="middle" class="box-text">Channels</text>
+  <text x="585" y="156" text-anchor="middle" class="box-text-sm">CSP model</text>
+
+  <rect x="645" y="125" width="110" height="40" rx="3" class="box"/>
+  <text x="700" y="142" text-anchor="middle" class="box-text">Runtime</text>
+  <text x="700" y="156" text-anchor="middle" class="box-text-sm">M:N scheduling</text>
+
+  <text x="590" y="190" text-anchor="middle" class="muted">Native parallelism with shared-nothing communication</text>
+  <text x="590" y="205" text-anchor="middle" class="box-text-xs">Best for CPU-bound, high-concurrency services</text>
+
+  <!-- Operational Characteristics Section -->
+  <text x="30" y="250" class="phase-label">OPERATIONAL CHARACTERISTICS</text>
+
+  <!-- Python Ops -->
+  <rect x="30" y="265" width="360" height="105" rx="4" class="box-accent"/>
+  <text x="45" y="285" class="group-label">PYTHON RUNTIME</text>
+
+  <rect x="45" y="298" width="75" height="28" rx="3" class="box"/>
+  <text x="82" y="316" text-anchor="middle" class="box-text-sm">~100ms start</text>
+
+  <rect x="130" y="298" width="75" height="28" rx="3" class="box"/>
+  <text x="167" y="316" text-anchor="middle" class="box-text-sm">~50MB mem</text>
+
+  <rect x="215" y="298" width="75" height="28" rx="3" class="box"/>
+  <text x="252" y="316" text-anchor="middle" class="box-text-sm">Interpreted</text>
+
+  <rect x="300" y="298" width="75" height="28" rx="3" class="box"/>
+  <text x="337" y="316" text-anchor="middle" class="box-text-sm">Rich stdlib</text>
+
+  <text x="210" y="355" text-anchor="middle" class="muted">Slower cold start, larger footprint, faster iteration</text>
+
+  <!-- Go Ops -->
+  <rect x="410" y="265" width="360" height="105" rx="4" class="box-accent"/>
+  <text x="425" y="285" class="group-label">GO RUNTIME</text>
+
+  <rect x="425" y="298" width="75" height="28" rx="3" class="box"/>
+  <text x="462" y="316" text-anchor="middle" class="box-text-sm">~5ms start</text>
+
+  <rect x="510" y="298" width="75" height="28" rx="3" class="box"/>
+  <text x="547" y="316" text-anchor="middle" class="box-text-sm">~10MB mem</text>
+
+  <rect x="595" y="298" width="75" height="28" rx="3" class="box"/>
+  <text x="632" y="316" text-anchor="middle" class="box-text-sm">Compiled</text>
+
+  <rect x="680" y="298" width="75" height="28" rx="3" class="box"/>
+  <text x="717" y="316" text-anchor="middle" class="box-text-sm">Static binary</text>
+
+  <text x="590" y="355" text-anchor="middle" class="muted">Fast cold start, minimal footprint, predictable perf</text>
+
+  <!-- Decision Factors Section -->
+  <text x="30" y="400" class="phase-label">DECISION FACTORS</text>
+
+  <!-- Python Use Cases -->
+  <rect x="30" y="415" width="360" height="75" rx="4" class="box-python"/>
+  <text x="45" y="435" class="group-label-python">PYTHON EXCELS AT</text>
+  <text x="45" y="455" class="box-text-sm">Data pipelines, ML inference, rapid prototyping</text>
+  <text x="45" y="470" class="box-text-sm">Script-heavy automation, API orchestration</text>
+  <text x="45" y="485" class="box-text-xs" style="fill: #71767B;">Tradeoff: Runtime overhead for ecosystem velocity</text>
+
+  <!-- Go Use Cases -->
+  <rect x="410" y="415" width="360" height="75" rx="4" class="box-go"/>
+  <text x="425" y="435" class="group-label-go">GO EXCELS AT</text>
+  <text x="425" y="455" class="box-text-sm">Network services, CLI tools, infrastructure</text>
+  <text x="425" y="470" class="box-text-sm">High-throughput APIs, long-running daemons</text>
+  <text x="425" y="485" class="box-text-xs" style="fill: #71767B;">Tradeoff: Ecosystem depth for runtime predictability</text>
+
+  <!-- Footer -->
+  <rect x="30" y="505" width="740" height="20" rx="3" class="box"/>
+  <text x="400" y="518" text-anchor="middle" class="muted">Neither language is universally better — context determines the right choice</text>
+</svg>

@@ -1,0 +1,188 @@
+---
+title: "Event-Driven Leaderboard and Badge System"
+date: "2025-11-01"
+summary: "Designed and owned an event-driven leaderboard system processing user actions through SNS/SQS with Lambda consumers aggregating into PostgreSQL read models."
+tags: ["AWS Lambda", "SNS", "SQS", "PostgreSQL", "Event-Driven Architecture"]
+status: "Active"
+featured: true
+heroFigure: "/figures/event-driven-leaderboard.svg"
+heroAlt: "Event-driven architecture diagram showing SNS/SQS fan-out pattern"
+---
+
+## Outcome
+
+**Built and owned an event-driven leaderboard and badge system** that processes user actions across a multi-tenant sports analytics platform. The system handles bursty traffic patterns, maintains correctness under at-least-once delivery semantics, and provides organization-scoped leaderboards with seconds-level eventual consistency.
+
+## Context
+
+The platform serves professional sports organizations that track user engagement through various actions: viewing player profiles, creating watchlists, submitting scout reports, and building shadow teams. Product requirements called for organization-scoped leaderboards and achievement badges to drive engagement.
+
+The system needed to:
+- Process events from multiple API endpoints without coupling leaderboard logic to core services
+- Support multi-tenant isolation where each organization sees only their own leaderboard
+- Handle burst traffic during peak usage (e.g., transfer windows, match days)
+- Maintain correctness despite duplicate events and out-of-order delivery
+
+Real-time streaming was explicitly not a requirement. Seconds-level latency was acceptable, but incorrect leaderboard state was not.
+
+## My Role and Ownership
+
+- Designed the event-driven architecture from API event emission through read model aggregation
+- Implemented SNS topic structure, SQS queue configuration, and Lambda consumers
+- Owned the PostgreSQL schema for leaderboard read models and badge state
+- Configured retry policies, dead-letter queues, and alerting
+- Wrote idempotency logic to handle at-least-once delivery
+- Maintained the system in production, including incident response and capacity planning
+
+## Architecture Overview
+
+### Event Flow
+
+1. **Event Emission**: API handlers emit events after successful writes. Events include `user_id`, `organization_id`, `action_type`, `timestamp`, and an idempotency key derived from the source operation.
+
+2. **SNS Fan-out**: A single SNS topic fans out to multiple SQS queues. This decouples consumers and allows independent scaling and failure isolation.
+
+3. **SQS Queues**: Separate queues for leaderboard aggregation, badge evaluation, and analytics. Each queue has its own DLQ and retention policy.
+
+4. **Lambda Consumers**: Each queue triggers a dedicated Lambda function. Consumers process batches of up to 10 messages with partial batch failure reporting enabled.
+
+5. **PostgreSQL Read Models**: Leaderboard state is stored in denormalized tables optimized for read queries. Badge state is stored separately with unlock timestamps.
+
+### Schema Design
+
+```sql
+-- Leaderboard aggregates (one row per user per organization per period)
+CREATE TABLE leaderboard_entries (
+    id UUID PRIMARY KEY,
+    organization_id UUID NOT NULL,
+    user_id UUID NOT NULL,
+    period_start DATE NOT NULL,
+    action_type VARCHAR(50) NOT NULL,
+    count INTEGER NOT NULL DEFAULT 0,
+    last_updated TIMESTAMP NOT NULL,
+    UNIQUE (organization_id, user_id, period_start, action_type)
+);
+
+-- Idempotency tracking
+CREATE TABLE processed_events (
+    idempotency_key VARCHAR(255) PRIMARY KEY,
+    processed_at TIMESTAMP NOT NULL,
+    expires_at TIMESTAMP NOT NULL
+);
+
+-- Index for tenant isolation
+CREATE INDEX idx_leaderboard_org_period
+    ON leaderboard_entries (organization_id, period_start, action_type, count DESC);
+```
+
+## Key Technical Challenges
+
+### At-Least-Once Delivery and Idempotency
+
+SQS provides at-least-once delivery, meaning duplicate messages are possible. The system handles this through:
+
+1. **Idempotency Keys**: Each event carries a key derived from the source operation (e.g., `{user_id}:{action_type}:{source_record_id}`). Before processing, the Lambda checks `processed_events`.
+
+2. **Upsert Logic**: Leaderboard updates use `INSERT ... ON CONFLICT DO UPDATE`, making repeated processing of the same logical event safe.
+
+3. **TTL on Idempotency Records**: The `processed_events` table includes an `expires_at` column. A scheduled job prunes expired records to prevent unbounded growth.
+
+The tradeoff: idempotency checks add a database round-trip per event. For this workload, the latency cost was acceptable given the correctness guarantee.
+
+### Retry Behavior and Dead-Letter Queues
+
+Each SQS queue is configured with:
+- **maxReceiveCount: 3** — Messages retry up to 3 times before moving to DLQ
+- **visibilityTimeout: 30s** — Matches Lambda timeout with buffer
+- **DLQ retention: 14 days** — Provides investigation window without indefinite storage
+
+Lambda consumers use `ReportBatchItemFailures` to return partial successes. Failed messages retry individually rather than replaying the entire batch.
+
+DLQ messages trigger CloudWatch alarms. The runbook involves inspecting message attributes, identifying the failure mode, and either fixing the consumer or manually replaying after data correction.
+
+### Burst Traffic Handling
+
+Peak traffic occurs during transfer windows and match days when users engage heavily with player data. The architecture handles bursts through:
+
+1. **SQS as Buffer**: Queues absorb spikes. Lambda scales based on queue depth, not request rate.
+
+2. **Reserved Concurrency**: Lambda consumers have reserved concurrency to prevent runaway scaling that could overwhelm PostgreSQL connections.
+
+3. **Connection Pooling**: Lambdas use RDS Proxy to manage database connections. This prevents connection exhaustion during high concurrency.
+
+4. **Batch Processing**: Processing messages in batches of 10 amortizes connection overhead and allows bulk inserts.
+
+The tradeoff: buffering introduces latency. During peak load, end-to-end latency can reach 5-10 seconds. This was acceptable per product requirements.
+
+### Multi-Tenant Isolation
+
+Organization-scoped leaderboards require strict tenant isolation:
+
+1. **Event Filtering**: Events include `organization_id`. Consumers validate that the acting user belongs to the organization before processing.
+
+2. **Query Isolation**: All leaderboard queries require `organization_id` in the WHERE clause. The index structure ensures queries only scan relevant rows.
+
+3. **No Cross-Tenant Aggregation**: The schema prevents accidental cross-tenant queries. There is no global leaderboard by design.
+
+### Latency vs. Correctness Tradeoffs
+
+The system explicitly prioritizes correctness over latency:
+
+- **No read-your-writes guarantee**: A user completing an action may not see their updated leaderboard position immediately. The UI displays "last updated" timestamps to set expectations.
+
+- **Ordering is not guaranteed**: Events may arrive out of order. The system handles this by using commutative operations (incrementing counters) rather than relying on event sequence.
+
+- **Consistency window**: Under normal load, events process within 1-3 seconds. Under peak load, this extends to 5-10 seconds. The product accepted this tradeoff.
+
+## Reliability and Observability
+
+### Metrics
+
+- **Queue depth**: CloudWatch metric on `ApproximateNumberOfMessagesVisible`. Alerts if depth exceeds threshold for sustained period.
+- **DLQ message count**: Alerts on any messages in DLQ.
+- **Lambda duration and errors**: Standard Lambda metrics with percentile tracking.
+- **Processing lag**: Custom metric measuring time between event emission and read model update.
+
+### Logging
+
+Lambda consumers log structured JSON with:
+- `idempotency_key`, `organization_id`, `user_id`, `action_type`
+- Processing outcome (success, duplicate, error)
+- Duration breakdowns (idempotency check, database write)
+
+Logs flow to CloudWatch Logs with a 30-day retention policy.
+
+### Alerting
+
+| Condition | Severity | Response |
+|-----------|----------|----------|
+| DLQ message count > 0 | High | Investigate within 1 hour |
+| Queue depth > 1000 for 5 min | Medium | Check Lambda scaling, DB connections |
+| Lambda error rate > 1% | High | Check logs, recent deployments |
+| Processing lag p99 > 30s | Medium | Check downstream dependencies |
+
+### Incident Response
+
+The most common failure modes:
+1. **Database connection exhaustion**: Mitigated by RDS Proxy. If it occurs, reduce Lambda concurrency temporarily.
+2. **Malformed events**: Result in DLQ messages. Fix consumer validation, replay corrected messages.
+3. **Schema drift**: Events reference action types not in enum. Add missing types, replay.
+
+## Results and Impact
+
+- **Event volume**: Processes tens of thousands of events daily across all organizations
+- **Reliability**: No data loss incidents since launch. DLQ messages resolved within SLA.
+- **Latency**: p50 processing lag under 2 seconds, p99 under 10 seconds during peak
+- **Operational burden**: Low. Alerts are infrequent and runbooks cover common scenarios.
+
+The leaderboard feature drove measurable increase in daily active usage within organizations that enabled it. Badge unlocks created engagement loops that product identified in retention analysis.
+
+## What I'd Do Differently
+
+**Schema versioning from day one**: Adding new action types required consumer updates and careful deployment ordering. A schema registry or version field in events would have made evolution smoother.
+
+**Finer-grained queues**: A single leaderboard queue handles all action types. Separate queues per action type would allow independent scaling and easier debugging, at the cost of more infrastructure to manage.
+
+**Backpressure signaling to API**: Currently, the API emits events regardless of downstream queue depth. Adding backpressure would allow the API to degrade gracefully during extreme load, though this adds complexity.
+
+**Replay tooling**: Manual DLQ replay works but is tedious. Building a small admin tool for filtered replay and dry-run validation would reduce operational friction.
